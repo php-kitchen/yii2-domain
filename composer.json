@@ -1,0 +1,39 @@
+{
+    "name": "dekeysoft/yii2-domain",
+    "description": "Implementation of DDD key concepts for Yii2.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "DDD",
+        "Domain Driven Design",
+        "Entity",
+        "Repository",
+        "Strategy",
+        "Finder",
+        "Specification",
+        "Yii2"
+    ],
+    "authors": [
+        {
+            "name": "Dmitry Kolodko",
+            "email": "prowwid@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^5.6|^7.0",
+        "yiisoft/yii2": ">=2.0.10",
+        "dekeysoft/yii2-container": "^0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.7.*",
+        "dekeysoft/pu-tester": "^1.0",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "dekey\\domain\\": "src",
+            "tests\\": "tests"
+        }
+    }
+}

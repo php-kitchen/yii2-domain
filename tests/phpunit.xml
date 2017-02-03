@@ -1,0 +1,19 @@
+<phpunit
+        bootstrap="bootstrap.php"
+        colors="false"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailure="false"
+        strict="false"
+        verbose="true">
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src</directory>
+            <exclude>
+                <directory>../vendor</directory>
+                <directory>../tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
