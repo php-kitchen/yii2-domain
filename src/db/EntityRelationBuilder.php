@@ -12,20 +12,17 @@ use dekey\domain\base\MagicObject;
  */
 class EntityRelationBuilder extends MagicObject {
     public function throughField($fieldName) {
-
     }
 
     public function thatRelatesTo($relationFiled) {
-
     }
 
     public function andHasOneToOneRelation() {
-
     }
+
     public function andHasOneToManyRelation() {
-
     }
-    public function andHasManyToManyRelationThrough($linkRelation) {
 
+    public function andHasManyToManyRelationThrough($linkRelation) {
     }
 }

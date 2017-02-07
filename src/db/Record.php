@@ -2,17 +2,16 @@
 
 namespace dekey\domain\db;
 
-
 use dekey\di\contracts\ContainerAware;
 use dekey\di\contracts\ServiceLocatorAware;
 use dekey\di\mixins\ContainerAccess;
 use dekey\di\mixins\ServiceLocatorAccess;
+use dekey\domain\contracts;
 use dekey\domain\contracts\EntityDataSource;
 use dekey\domain\contracts\LoggerAware;
 use dekey\domain\mixins\LoggerAccess;
 use dekey\domain\mixins\StaticSelfAccess;
 use yii\db\ActiveRecord;
-use \dekey\domain\contracts;
 
 /**
  * Represents
@@ -71,7 +70,6 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
     public function canSetProperty($name, $checkVars = true, $checkBehaviors = true) {
         return $this->hasAttribute($name) || parent::canSetProperty($name, $checkVars, $checkBehaviors);
     }
-
 
     /**
      * Saves the current record.

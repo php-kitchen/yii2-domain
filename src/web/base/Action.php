@@ -12,6 +12,8 @@ use yii\helpers\Inflector;
  * Represents
  *
  * @property \dekey\domain\contracts\EntityCrudController|\yii\web\Controller $controller
+ * @property \yii\web\Request $request
+ * @property \yii\web\Session $session
  *
  * @package dekey\domain\web
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -28,6 +30,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      */
     public $prepareViewParams;
     public $useFlashMessages = true;
+
     /**
      * Checks whether action with specified ID exists in owner controller.
      *
@@ -48,6 +51,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     public function addErrorFlash($message) {
         $this->setFlash(['error' => $message]);
     }
+
     public function addSuccessFlash($message) {
         $this->setFlash(['success' => $message]);
     }
@@ -104,6 +108,9 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
         return $this->controller->render($this->viewFile, $params);
     }
 
+    /**
+     * @return mixed|\yii\console\Request|\yii\web\Request
+     */
     protected function getRequest() {
         return $this->serviceLocator->request;
     }

@@ -56,6 +56,7 @@ interface EntityDataSource {
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function saveWithoutValidation($attributeNames = null);
+
     /**
      * Deletes the table row corresponding to this active record.
      *

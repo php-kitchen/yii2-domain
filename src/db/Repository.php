@@ -2,7 +2,9 @@
 
 namespace dekey\domain\db;
 
+use core\domain\Entity;
 use dekey\domain\base\Component;
+use dekey\domain\base\DataMapper;
 use dekey\domain\base\ModelEvent;
 use dekey\domain\contracts;
 use dekey\domain\contracts\DomainEntity;
@@ -24,18 +26,31 @@ class Repository extends Component implements contracts\Repository {
     private $_defaultFinderClass = Finder::class;
     private $_defaultQueryClass = RecordQuery::class;
 
-
     public function validateAndSave(DomainEntity $entity, $attributes = null) {
-        return $this->saveEntityInternal($entity, $runValidation = true, $attributes);
+        return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = true, $attributes) : $this->saveEntityInternal($entity, $runValidation = true, $attributes);
     }
 
     public function saveWithoutValidation(DomainEntity $entity, $attributes = null) {
-        return $this->saveEntityInternal($entity, $runValidation = false, $attributes);
+        return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = false, $attributes) : $this->saveEntityInternal($entity, $runValidation = false, $attributes);
+    }
+
+    protected function saveEntityUsingTransaction(DomainEntity $entity, $runValidation, $attributes) {
+        $this->beginTransaction();
+        try {
+            $result = $this->saveEntityInternal($entity, $runValidation, $attributes);
+            $result ? $this->commitTransaction() : null;
+        } catch (\Exception $e) {
+            $result = false;
+        }
+        if (!$result) {
+            $this->rollbackTransaction();
+        }
+        return $result;
     }
 
     protected function saveEntityInternal(DomainEntity $entity, $runValidation, $attributes) {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_SAVE, $entity)) {
-            $dataSource = $entity->getDataSource();
+            $dataSource = $entity->getDataMapper()->getDataSource();
             $result = $runValidation ? $dataSource->validateAndSave($attributes) : $dataSource->saveWithoutValidation($attributes);
         } else {
             $result = false;
@@ -53,7 +68,7 @@ class Repository extends Component implements contracts\Repository {
 
     public function delete(DomainEntity $entity) {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
-            $result = $entity->getDataSource()->deleteRecord();
+            $result = $entity->getDataMapper()->getDataSource()->deleteRecord();
         } else {
             $result = false;
         }
@@ -102,9 +117,10 @@ class Repository extends Component implements contracts\Repository {
     }
 
     public function createNewEntity() {
-        return $this->container->create([
+        $container = $this->container;
+        return $container->create([
             'class' => $this->getEntityClass(),
-            'dataSource' => $this->createRecord(),
+            'dataMapper' => $container->create(DataMapper::class, [$this->createRecord()]),
         ]);
     }
 
@@ -113,10 +129,33 @@ class Repository extends Component implements contracts\Repository {
     }
 
     public function createEntityFromRecord(contracts\Record $record) {
-        return $this->container->create([
+        $container = $this->container;
+        return $container->create([
             'class' => $this->getEntityClass(),
-            'dataSource' => $record,
+            'dataMapper' => $container->create(DataMapper::class, [$record]),
         ]);
+    }
+
+    /**
+     * @param mixed $pk primary key of the entity
+     * @return Entity[]
+     */
+    public function findOneWithPk($pk) {
+        return $this->find()->oneWithPk($pk);
+    }
+
+    /**
+     * @return Entity[]
+     */
+    public function findAll() {
+        return $this->find()->all();
+    }
+
+    /**
+     * @return Entity[]
+     */
+    public function each() {
+        return $this->find()->each();
     }
 
     /**

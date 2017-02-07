@@ -2,7 +2,6 @@
 
 namespace dekey\domain\web\base;
 
-
 use dekey\di\contracts\ContainerAware;
 use dekey\di\contracts\ServiceLocatorAware;
 use dekey\di\mixins\ContainerAccess;
@@ -49,7 +48,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         $defaultAttributes = $this->prepareDefaultEntityAttributes();
         $newAttributes = $this->convertToEntityAttributes();
         $entity = $this->getEntity();
-        $entity->load(ArrayHelper::merge($defaultAttributes, $newAttributes), '');
+        $entity->load(ArrayHelper::merge($defaultAttributes, $newAttributes));
         return $entity;
     }
 
@@ -102,18 +101,18 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      * @return array
      */
     protected function convertEntityToSelfAttributes() {
-        $model = $this->getEntity();
+        $entity = $this->getEntity();
         $attributes = [];
         foreach ($this->getEntityAttributesMap() as $modelAttribute => $formValue) {
-            if (is_string($formValue) && $this->canGetProperty($formValue) && $model->hasAttribute($modelAttribute)) {
-                $attributes[$formValue] = $model->getAttribute($modelAttribute);
+            if (is_string($formValue) && $this->canGetProperty($formValue) && $entity->canGetProperty($modelAttribute)) {
+                $attributes[$formValue] = $entity->$modelAttribute;
             }
         }
         return $attributes;
     }
 
     protected function getEntityAttributesMap() {
-        if ( null === $this->_entityAttributesMap) {
+        if (null === $this->_entityAttributesMap) {
             $selfAttributeNames = $this->attributes();
             $this->_entityAttributesMap = array_combine($selfAttributeNames, $selfAttributeNames);
         }
@@ -123,8 +122,6 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     public function setEntityAttributesMap(array $entityAttributesMap) {
         $this->_entityAttributesMap = $entityAttributesMap;
     }
-
-
 
     // -------------------- GETTERS/SETTERS --------------------
 

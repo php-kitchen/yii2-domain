@@ -65,6 +65,7 @@ trait TransactionAccess {
         }
         return $result;
     }
+
     /**
      * Wraps passed callback in transaction.
      *

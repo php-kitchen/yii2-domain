@@ -7,6 +7,8 @@ use dekey\domain\db\Repository;
 /**
  * Represents
  *
+ * @property Repository $repository
+ *
  * @package dekey\domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

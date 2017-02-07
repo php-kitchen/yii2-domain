@@ -53,7 +53,7 @@ class SearchResult extends MagicObject implements \Iterator {
     }
 
     public function rewind() {
-       $this->getQueryResultIterator()->rewind();
+        $this->getQueryResultIterator()->rewind();
     }
 
     protected function getQueryResultIterator() {

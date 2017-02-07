@@ -2,6 +2,7 @@
 
 namespace dekey\domain\web\actions;
 
+use dekey\domain\exceptions\UnableToSaveEntityException;
 use dekey\domain\web\base\Action;
 
 /**
@@ -10,33 +11,43 @@ use dekey\domain\web\base\Action;
  * @package dekey\domain\web
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class ListRecords extends Action {
-    /**
-     * @var callable a PHP callable that will be called to prepare a data provider that
-     * should return a collection of the models. If not set, [[prepareDataProvider()]] will be used instead.
-     * The signature of the callable should be:
-     *
-     * ```php
-     * function ($dataProvider, $action) {
-     *     // $dataProvider the data provider instance
-     *     // $action is the action object currently running
-     * }
-     * ```
-     *
-     * The callable should return an instance of [[\yii\data\DataProviderInterface]].
-     */
-    public $prepareDataProvider;
+class DeleteEntity extends Action {
+    public $failToDeleteErrorFlashMessage = 'Unable to delete entity';
+    public $redirectUrl;
 
     public function init() {
         $this->setViewFileIfNotSetTo('list');
     }
 
-    public function run() {
+    public function run($id) {
         $controller = $this->controller;
-        $dataProvider = $controller->createListingRecordsProvider();
-        if (is_callable($this->prepareDataProvider)) {
-            call_user_function_array($this->prepareDataProvider, [$dataProvider, $this]);
+        $entity = $controller->findEntityByPk($id);
+        $this->tryToDeleteEntity($entity);
+        return $this->redirectToNextPage();
+    }
+
+    protected function tryToDeleteEntity($entity) {
+        $controller = $this->controller;
+        try {
+            $savedSuccessfully = $controller->repository->delete($entity);
+        } catch (UnableToSaveEntityException $e) {
+            $savedSuccessfully = false;
         }
-        return $this->renderViewFile(compact('dataProvider'));
+        if ($savedSuccessfully) {
+            $this->addSuccessFlash($this->failToDeleteErrorFlashMessage);
+        } else {
+            $this->addErrorFlash($this->failToDeleteErrorFlashMessage);
+        }
+    }
+
+    protected function redirectToNextPage() {
+        if (null === $this->redirectUrl) {
+            $redirectUrl = ['list'];
+        } elseif (is_callable($this->redirectUrl)) {
+            $redirectUrl = call_user_func($this->redirectUrl, $this);
+        } else {
+            $redirectUrl = $this->redirectUrl;
+        }
+        return $this->controller->redirect($redirectUrl);
     }
 }

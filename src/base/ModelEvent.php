@@ -17,6 +17,7 @@ class ModelEvent extends Event {
      */
     protected $_entity;
     protected $_valid = true;
+
     public function __construct(DomainEntity $entity, $config = []) {
         $this->_entity = $entity;
         parent::__construct($config);
@@ -30,7 +31,7 @@ class ModelEvent extends Event {
         $this->_valid = false;
     }
 
-    public function getEntiry() {
+    public function getEntity() {
         return $this->_entity;
     }
 }

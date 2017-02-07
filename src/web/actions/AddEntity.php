@@ -3,8 +3,6 @@
 namespace dekey\domain\web\actions;
 
 use dekey\domain\web\base\EntityModificationAction;
-use dekey\domain\web\mixins\ModelSearching;
-use dekey\domain\web\mixins\ViewModelManagement;
 
 /**
  * Represents
@@ -13,8 +11,6 @@ use dekey\domain\web\mixins\ViewModelManagement;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class AddEntity extends EntityModificationAction {
-
-
     public function init() {
         $this->setViewFileIfNotSetTo('add');
     }

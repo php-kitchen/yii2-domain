@@ -19,5 +19,6 @@ interface Repository {
      * @return DomainEntity
      */
     public function createEntityFromRecord(Record $record);
+
     public function createRecordsDataProvider();
 }

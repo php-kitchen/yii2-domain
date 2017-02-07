@@ -25,6 +25,6 @@ trait StaticSelfAccess {
     }
 
     protected static function initializeInstance() {
-        static::$_instances[static::class] =  \Yii::$container->create(static::class);
+        static::$_instances[static::class] = \Yii::$container->create(static::class);
     }
 }

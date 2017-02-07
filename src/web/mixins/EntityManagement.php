@@ -62,5 +62,4 @@ trait EntityManagement {
             throw new InvalidConfigException('Repository should be a valid container config or an instance of ' . Repository::class);
         }
     }
-
 }

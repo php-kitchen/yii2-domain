@@ -31,16 +31,18 @@ abstract class EntityModificationAction extends Action {
     }
 
     protected function loadModelAndSaveOrPrintView() {
+        $isSaved = $this->loadModelAndSave();
         $model = $this->getModel();
+
+        return $isSaved && $this->redirectUrl !== false ? $this->redirectToNextPage() : $this->renderViewFile(compact('model'));
+    }
+
+    protected function loadModelAndSave() {
+        $isSaved = false;
         if ($this->getModel()->load($this->getRequest()->post())) {
-            $result = $this->validateModelAndTryToSaveEntity();
-        } else {
-            $result = false;
+            $isSaved = $this->validateModelAndTryToSaveEntity();
         }
-        if (is_bool($result)) {
-            $result = $this->renderViewFile(compact('model'));
-        }
-        return $result;
+        return $isSaved;
     }
 
     protected function validateModelAndTryToSaveEntity() {
@@ -57,18 +59,16 @@ abstract class EntityModificationAction extends Action {
         $controller = $this->controller;
         $entity = $this->getModel()->convertToEntity();
         try {
-            $savedSuccessfully = $controller->getRepository()->validateAndSave($entity);
-            $result = $this->redirectUrl !== false ? $this->redirectToNextPage(): $savedSuccessfully;
+            $savedSuccessfully = $controller->repository->validateAndSave($entity);
         } catch (UnableToSaveEntityException $e) {
-            $result = false;
             $savedSuccessfully = false;
         }
         if ($savedSuccessfully) {
-            $this->addSuccessFlash($this->failToSaveErrorFlashMessage);
+            $this->addSuccessFlash($this->successFlashMessage);
         } else {
             $this->addErrorFlash($this->failToSaveErrorFlashMessage);
         }
-        return $result;
+        return $savedSuccessfully;
     }
 
     protected function redirectToNextPage() {
