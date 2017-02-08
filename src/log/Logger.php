@@ -10,7 +10,7 @@ use yii\log\Logger as BaseLogger;
  * Such function useful for exception logging as on production trace level is disabled but for exceptions it's very important to include
  * trace level to message.
  *
- * @package core\log
+ * @package dekey\domain\log
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Logger extends BaseLogger {

@@ -7,7 +7,7 @@ namespace dekey\domain\mixins;
  *
  * @see \dekey\domain\contracts\LoggerAware
  *
- * @package core\log\mixins
+ * @package dekey\domain\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait LoggerAccess {

@@ -2,7 +2,7 @@
 
 namespace dekey\domain\web\mixins;
 
-use core\domain\DomainEntity;
+
 use dekey\domain\web\base\ViewModel;
 
 /**
@@ -29,7 +29,7 @@ trait ViewModelManagement {
     }
 
     /**
-     * @param DomainEntity $entity
+     * @param \dekey\domain\base\Entity $entity
      * @return \dekey\domain\web\base\ViewModel
      */
     protected function createViewModel($entity) {

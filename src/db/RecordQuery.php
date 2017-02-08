@@ -2,6 +2,7 @@
 
 namespace dekey\domain\db;
 
+use dekey\domain\contracts\Specification;
 use yii\db\ActiveQuery;
 
 /**
@@ -10,7 +11,7 @@ use yii\db\ActiveQuery;
  * @package dekey\domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class RecordQuery extends ActiveQuery {
+class RecordQuery extends ActiveQuery implements Specification {
     public $primaryKeyName = 'id';
     private $_alias;
     private $_mainTableName;

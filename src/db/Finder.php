@@ -3,8 +3,7 @@
 namespace dekey\domain\db;
 
 use dekey\domain\base\MagicObject;
-use dekey\domain\contracts\Record;
-use dekey\domain\contracts\Repository;
+use dekey\domain\contracts;
 
 /**
  * Represents
@@ -22,7 +21,7 @@ class Finder extends MagicObject {
      */
     private $_repository;
 
-    public function __construct(RecordQuery $query, Repository $repository, $config = []) {
+    public function __construct(contracts\Specification $query, contracts\Repository $repository, $config = []) {
         $this->_query = $query;
         $this->_repository = $repository;
         parent::__construct($config);
@@ -67,7 +66,7 @@ class Finder extends MagicObject {
     }
 
     protected function createEntityFromRecord($record) {
-        if ($record instanceof Record) {
+        if ($record instanceof contracts\Record) {
             $entity = $this->getRepository()->createEntityFromRecord($record);
         } else {
             $entity = $record;

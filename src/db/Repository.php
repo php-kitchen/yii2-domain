@@ -2,10 +2,7 @@
 
 namespace dekey\domain\db;
 
-use core\domain\Entity;
-use dekey\domain\base\Component;
-use dekey\domain\base\DataMapper;
-use dekey\domain\base\ModelEvent;
+use dekey\domain\base;
 use dekey\domain\contracts;
 use dekey\domain\contracts\DomainEntity;
 use dekey\domain\exceptions\UnableToSaveEntityException;
@@ -19,9 +16,11 @@ use yii\data\ActiveDataProvider;
  * @package dekey\domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Repository extends Component implements contracts\Repository {
+class Repository extends base\Component implements contracts\Repository {
     use TransactionAccess;
     public $recordsProviderClassName = ActiveDataProvider::class;
+    public $dataMapperClassName = base\DataMapper::class;
+    public $modelEventClassName = base\ModelEvent::class;
     public $useTransactions = true;
     private $_defaultFinderClass = Finder::class;
     private $_defaultQueryClass = RecordQuery::class;
@@ -105,7 +104,7 @@ class Repository extends Component implements contracts\Repository {
         /**
          * @var ModelEvent $event
          */
-        $event = $this->container->create(ModelEvent::class, [$entity]);
+        $event = $this->container->create($this->modelEventClassName, [$entity]);
         $this->trigger($eventName, $event);
 
         return $event->isValid();
@@ -120,7 +119,7 @@ class Repository extends Component implements contracts\Repository {
         $container = $this->container;
         return $container->create([
             'class' => $this->getEntityClass(),
-            'dataMapper' => $container->create(DataMapper::class, [$this->createRecord()]),
+            'dataMapper' => $container->create($this->dataMapperClassName, [$this->createRecord()]),
         ]);
     }
 
@@ -132,7 +131,7 @@ class Repository extends Component implements contracts\Repository {
         $container = $this->container;
         return $container->create([
             'class' => $this->getEntityClass(),
-            'dataMapper' => $container->create(DataMapper::class, [$record]),
+            'dataMapper' => $container->create($this->dataMapperClassName, [$record]),
         ]);
     }
 

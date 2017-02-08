@@ -5,7 +5,7 @@ namespace dekey\domain\contracts;
 /**
  * Defines interfaces of classes aware of logger.
  *
- * @package core\log\contracts
+ * @package dekey\domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface LoggerAware {
