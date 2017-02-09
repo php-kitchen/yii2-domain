@@ -212,16 +212,6 @@ class EntitiesRepository extends base\Component implements contracts\Repository 
             'repository' => $this,
         ]);
     }
-    /**
-     * @deprecated use {@link getProvider()} or {@link RecordsRepository}
-     * @return ActiveDataProvider
-     */
-    public function createRecordsDataProvider() {
-        return $this->container->create([
-            'class' => $this->recordsProviderClassName,
-            'query' => $this->createQuery(),
-        ]);
-    }
 
     //----------------------- GETTERS FOR DYNAMIC PROPERTIES -----------------------//
 

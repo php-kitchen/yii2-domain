@@ -67,7 +67,7 @@ class Finder extends MagicObject {
 
     protected function createEntityFromRecord($record) {
         if ($record instanceof contracts\Record) {
-            $entity = $this->getRepository()->createEntityFromRecord($record);
+            $entity = $this->getRepository()->createEntityFromSource($record);
         } else {
             $entity = $record;
         }
