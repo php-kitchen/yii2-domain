@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Represents
  *
- * @property \dekey\domain\db\Repository $repository
+ * @property \dekey\domain\db\EntitiesRepository $repository
  *
  * @mixin \dekey\di\mixins\ServiceLocatorAccess
  * @mixin \dekey\di\mixins\ContainerAccess
@@ -23,12 +23,12 @@ trait EntityManagement {
     public $useArraysForListings = true;
     public $prepareListingDataProvider;
     /**
-     * @var \dekey\domain\db\Repository
+     * @var \dekey\domain\db\EntitiesRepository
      */
     private $_repository;
 
-    public function createListingRecordsProvider() {
-        $dataProvider = $this->getRepository()->createRecordsDataProvider();
+    public function createListingDataProvider() {
+        $dataProvider = $this->getRepository()->getEntitiesProvider();
         if ($this->useArraysForListings) {
             $dataProvider->query->asArray();
         }

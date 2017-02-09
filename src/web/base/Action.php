@@ -30,6 +30,8 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      */
     public $prepareViewParams;
     public $useFlashMessages = true;
+    public $successFlashMessageKey = 'success';
+    public $errorFlashMessageKey = 'error';
 
     /**
      * Checks whether action with specified ID exists in owner controller.
@@ -49,11 +51,11 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     }
 
     public function addErrorFlash($message) {
-        $this->setFlash(['error' => $message]);
+        $this->setFlash([$this->errorFlashMessageKey => $message]);
     }
 
     public function addSuccessFlash($message) {
-        $this->setFlash(['success' => $message]);
+        $this->setFlash([$this->successFlashMessageKey => $message]);
     }
 
     protected function setViewFileIfNotSetTo($file) {
@@ -94,7 +96,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
                 $value = call_user_func($value, $params);
             }
             if (is_int($key)) {
-                $session->setFlash('success', $value);
+                $session->setFlash($this->successFlashMessageKey, $value);
             } else {
                 $session->setFlash($key, $value);
             }

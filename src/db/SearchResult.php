@@ -29,10 +29,10 @@ class SearchResult extends MagicObject implements \Iterator {
         $iterator = $this->getQueryResultIterator();
         $value = $iterator->current();
         if ($iterator->each && $value instanceof contracts\Record) {
-            $entity = $this->getRepository()->createEntityFromRecord($value);
+            $entity = $this->getRepository()->createEntityFromSource($value);
         } elseif (!$iterator->each) {
             foreach ($value as $record) {
-                $entity[] = $this->getRepository()->createEntityFromRecord($record);
+                $entity[] = $this->getRepository()->createEntityFromSource($record);
             }
         } else {
             $entity = null;

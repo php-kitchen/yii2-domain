@@ -3,6 +3,9 @@
 namespace dekey\domain\base;
 
 use dekey\domain\contracts\DomainEntity;
+use yii\base\Arrayable;
+use yii\base\ArrayableTrait;
+use yii\base\ArrayAccessTrait;
 
 /**
  * Implements domain entity.
@@ -12,7 +15,9 @@ use dekey\domain\contracts\DomainEntity;
  * @package dekey\domain
  * @author Dmitry Kolodko <dangel@quartsoft.com>
  */
-class Entity extends Component implements DomainEntity {
+class Entity extends Component implements DomainEntity, \IteratorAggregate, \ArrayAccess, Arrayable {
+    use ArrayableTrait;
+    use ArrayAccessTrait;
     /**
      * @var \dekey\domain\base\DataMapper
      */
@@ -169,5 +174,9 @@ class Entity extends Component implements DomainEntity {
 
     public function setDataMapper(DataMapper $source) {
         $this->_dataMapper = $source;
+    }
+
+    protected function getData() {
+        return $this->dataMapper->getAttributes();
     }
 }

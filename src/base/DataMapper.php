@@ -65,4 +65,8 @@ class DataMapper extends Component {
     public function load($data) {
         return $this->dataSource->load($data, '');
     }
+
+    public function getAttributes() {
+        return $this->dataSource->attributes;
+    }
 }

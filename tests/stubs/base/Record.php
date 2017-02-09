@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\stubs;
+namespace tests\stubs\base;
 
 /**
  * Represents
@@ -12,7 +12,13 @@ class Record extends \dekey\domain\db\Record {
     protected $saveResult = true;
     protected $deleteResult = true;
     protected $emulatedErrors = [];
-
+    public function attributes() {
+        return [
+            'id',
+            'fieldOne',
+            'fieldTwo',
+        ];
+    }
     public function save($runValidation = true, $attributes = null) {
         return $this->saveResult;
     }
@@ -45,5 +51,9 @@ class Record extends \dekey\domain\db\Record {
         $this->saveResult = false;
         $this->emulatedErrors = $errors;
         return $this;
+    }
+
+    public static function primaryKey() {
+        return ['id'];
     }
 }

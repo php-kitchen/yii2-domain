@@ -33,7 +33,7 @@ class ListRecords extends Action {
 
     public function run() {
         $controller = $this->controller;
-        $dataProvider = $controller->createListingRecordsProvider();
+        $dataProvider = $controller->createListingDataProvider();
         if (is_callable($this->prepareDataProvider)) {
             call_user_function_array($this->prepareDataProvider, [$dataProvider, $this]);
         }

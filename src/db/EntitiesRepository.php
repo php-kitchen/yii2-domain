@@ -5,24 +5,54 @@ namespace dekey\domain\db;
 use dekey\domain\base;
 use dekey\domain\contracts;
 use dekey\domain\contracts\DomainEntity;
+use dekey\domain\data\EntitiesProvider;
 use dekey\domain\exceptions\UnableToSaveEntityException;
 use dekey\domain\mixins\TransactionAccess;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 
 /**
- * Represents
+ * Represents entities DB repository.
  *
  * @package dekey\domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Repository extends base\Component implements contracts\Repository {
+class EntitiesRepository extends base\Component implements contracts\Repository {
     use TransactionAccess;
+    /**
+     * @var string entities provider class name. Change it in {@link init()} method if you need
+     * custom provider.
+     */
+    public $entitiesProviderClassName = EntitiesProvider::class;
+    /**
+     * @deprecated use {@link recordsProviderClassName}
+     * @var @deprecated use
+     */
     public $recordsProviderClassName = ActiveDataProvider::class;
+    /**
+     * @var string data mapper class name. Required to map data from record to entity. Change it in {@link init()} method
+     * if you need custom mapper. But be aware - data mapper is internal class and it is strongly advised to not
+     * touch this property.
+     */
     public $dataMapperClassName = base\DataMapper::class;
+    /**
+     * @var string class name of an event that being triggered on each important action. Change it in {@link init()} method
+     * if you need custom event.
+     */
     public $modelEventClassName = base\ModelEvent::class;
+    /**
+     * @var bool indicates whether to use DB transaction or not.
+     */
     public $useTransactions = true;
+    /**
+     * @var string entities finder class name. This class being used if no finder specified in morel directory. Change it
+     * in {@link init()} method if you need custom default finder.
+     */
     private $_defaultFinderClass = Finder::class;
+    /**
+     * @var string records query class name. This class being used if no query specified in morel directory. Change it
+     * in {@link init()} method if you need custom default query.
+     */
     private $_defaultQueryClass = RecordQuery::class;
 
     public function validateAndSave(DomainEntity $entity, $attributes = null) {
@@ -127,7 +157,7 @@ class Repository extends base\Component implements contracts\Repository {
         return $this->container->create($this->getRecordClass());
     }
 
-    public function createEntityFromRecord(contracts\Record $record) {
+    public function createEntityFromSource(contracts\EntityDataSource $record) {
         $container = $this->container;
         return $container->create([
             'class' => $this->getEntityClass(),
@@ -173,6 +203,17 @@ class Repository extends base\Component implements contracts\Repository {
     }
 
     /**
+     * @return EntitiesProvider an instance of data provider.
+     */
+    public function getEntitiesProvider() {
+        return $this->container->create([
+            'class' => $this->entitiesProviderClassName,
+            'query' => $this->createQuery(),
+            'repository' => $this,
+        ]);
+    }
+    /**
+     * @deprecated use {@link getProvider()} or {@link RecordsRepository}
      * @return ActiveDataProvider
      */
     public function createRecordsDataProvider() {

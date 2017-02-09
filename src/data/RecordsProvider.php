@@ -2,7 +2,7 @@
 
 namespace dekey\domain\data;
 
-use yii\data\BaseDataProvider;
+use yii\data\ActiveDataProvider;
 
 /**
  * Represents
@@ -10,5 +10,6 @@ use yii\data\BaseDataProvider;
  * @package dekey\domain\data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class EntityProvider extends BaseDataProvider {
+class RecordsProvider extends ActiveDataProvider  {
+
 }

@@ -17,7 +17,7 @@ class Finder extends MagicObject {
      */
     private $_query;
     /**
-     * @var Repository
+     * @var EntitiesRepository
      */
     private $_repository;
 

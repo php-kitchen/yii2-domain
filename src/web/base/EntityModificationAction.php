@@ -19,6 +19,7 @@ abstract class EntityModificationAction extends Action {
     public $failToSaveErrorFlashMessage = 'Unable to save entity';
     public $validationFailedFlashMessage = 'Please correct errors.';
     public $successFlashMessage = 'Changes successfully saved.';
+
     /**
      * @var \dekey\domain\web\base\ViewModel;
      */

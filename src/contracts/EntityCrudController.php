@@ -2,19 +2,19 @@
 
 namespace dekey\domain\contracts;
 
-use dekey\domain\db\Repository;
+use dekey\domain\db\EntitiesRepository;
 
 /**
  * Represents
  *
- * @property Repository $repository
+ * @property EntitiesRepository $repository
  *
  * @package dekey\domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface EntityCrudController {
     /**
-     * @return Repository
+     * @return EntitiesRepository
      */
     public function getRepository();
 
@@ -22,5 +22,5 @@ interface EntityCrudController {
 
     public function findEntityByPk($pk);
 
-    public function createListingRecordsProvider();
+    public function createListingDataProvider();
 }
