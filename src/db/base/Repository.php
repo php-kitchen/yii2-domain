@@ -207,7 +207,7 @@ abstract class Repository extends Component implements contracts\Repository {
 
     public function getQueryClassName() {
         if (null === $this->_queryClassName) {
-            $this->_entityClassName = $this->buildModelElementClassName('Query', $this->defaultQueryClassName);
+            $this->_queryClassName = $this->buildModelElementClassName('Query', $this->defaultQueryClassName);
         }
         return $this->_queryClassName;
     }
