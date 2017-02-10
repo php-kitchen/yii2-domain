@@ -11,7 +11,8 @@
         "Strategy",
         "Finder",
         "Specification",
-        "Yii2"
+        "Yii2",
+        "Clean code"
     ],
     "authors": [
         {

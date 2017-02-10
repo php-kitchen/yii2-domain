@@ -1,4 +1,4 @@
-# Yii2 Container
+# Yii2 Domain
 
 Domain Driven Design patters implementation for Yii2.
 
