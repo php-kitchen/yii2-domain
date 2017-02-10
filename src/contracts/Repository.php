@@ -10,9 +10,13 @@ namespace dekey\domain\contracts;
  */
 interface Repository {
     const EVENT_BEFORE_SAVE = 'beforeSave';
-    const EVENT_AFTER_SAVE = 'beforeSave';
-    const EVENT_BEFORE_DELETE = 'beforeSave';
-    const EVENT_AFTER_DELETE = 'beforeSave';
+    const EVENT_AFTER_SAVE = 'afterSave';
+    const EVENT_BEFORE_ADD = 'beforeAdd';
+    const EVENT_BEFORE_UPDATE = 'beforeUpdate';
+    const AFTER_BEFORE_ADD = 'afterAdd';
+    const EVENT_AFTER_UPDATE = 'afterUpdate';
+    const EVENT_BEFORE_DELETE = 'beforeDelete';
+    const EVENT_AFTER_DELETE = 'afterDelete';
 
     public function validateAndSave(DomainEntity $entity, $attributes = null);
 
@@ -31,12 +35,6 @@ interface Repository {
     public function find();
 
     public function createNewEntity();
-
-    /**
-     * @param \dekey\domain\db\Record $record
-     * @return DomainEntity
-     */
-    public function createEntityFromSource(EntityDataSource $record);
 
     public function getEntitiesProvider();
 }

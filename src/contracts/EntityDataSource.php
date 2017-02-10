@@ -6,7 +6,7 @@ namespace dekey\domain\contracts;
  * Represents {@link DomainEntity} data source.
  *
  * @package dekey\domain
- * @author Dmitry Kolodko <dangel@quartsoft.com>
+ * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface EntityDataSource {
     /**

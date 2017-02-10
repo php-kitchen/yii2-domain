@@ -13,7 +13,7 @@ use yii\base\ArrayAccessTrait;
  * @property DataMapper $dataMapper
  *
  * @package dekey\domain
- * @author Dmitry Kolodko <dangel@quartsoft.com>
+ * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Entity extends Component implements DomainEntity, \IteratorAggregate, \ArrayAccess, Arrayable {
     use ArrayableTrait;
