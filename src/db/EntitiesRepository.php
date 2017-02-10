@@ -11,6 +11,9 @@ use yii\base\InvalidConfigException;
 /**
  * Represents entities DB repository.
  *
+ * @property string $finderClassName public alias of the {@link _finderClass}
+ * @property string $defaultFinderClassName public alias of the {@link _defaultFinderClass}
+ *
  * @package dekey\domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
@@ -22,10 +25,16 @@ class EntitiesRepository extends base\Repository {
      */
     public $dataMapperClassName = domain\base\DataMapper::class;
     /**
+     * @var string indicates what finder to use. By default equal following template "{model name}Finder" where model name is equal to
+     * the repository class name without "Repository" suffix.
+     */
+    private $_finderClassName;
+    /**
      * @var string entities finder class name. This class being used if no finder specified in morel directory. Change it
      * in {@link init()} method if you need custom default finder.
      */
-    private $_defaultFinderClass = Finder::class;
+    private $_defaultFinderClassName = Finder::class;
+
 
     public function __construct($config = []) {
         $this->entitiesProviderClassName = EntitiesProvider::class;
@@ -88,19 +97,19 @@ class EntitiesRepository extends base\Repository {
     public function createNewEntity() {
         $container = $this->container;
         return $container->create([
-            'class' => $this->getEntityClass(),
+            'class' => $this->entityClassName,
             'dataMapper' => $container->create($this->dataMapperClassName, [$this->createRecord()]),
         ]);
     }
 
     private function createRecord() {
-        return $this->container->create($this->getRecordClass());
+        return $this->container->create($this->recordClassName);
     }
 
     public function createEntityFromSource(contracts\EntityDataSource $record) {
         $container = $this->container;
         return $container->create([
-            'class' => $this->getEntityClass(),
+            'class' => $this->entityClassName,
             'dataMapper' => $container->create($this->dataMapperClassName, [$record]),
         ]);
     }
@@ -115,29 +124,30 @@ class EntitiesRepository extends base\Repository {
     }
 
     protected function createFinder() {
-        return $this->container->create($this->getFinderClass(), [$query = $this->createQuery(), $repository = $this]);
-    }
-
-    //----------------------- GETTERS FOR DYNAMIC PROPERTIES -----------------------//
-
-    protected function getRecordClass() {
-        return $this->buildModelElementClassName('Record');
-    }
-
-    protected function getFinderClass() {
-        return $this->buildModelElementClassName('Finder', $this->getDefaultFinderClass());
+        return $this->container->create($this->finderClassName, [$query = $this->createQuery(), $repository = $this]);
     }
 
     //----------------------- GETTERS/SETTERS -----------------------//
 
-    protected function getDefaultFinderClass() {
-        return $this->_defaultFinderClass;
+    protected function getFinderClassName() {
+        if (null === $this->_finderClassName) {
+            $this->_finderClassName = $this->buildModelElementClassName('Finder', $this->defaultFinderClassName);
+        }
+        return $this->_finderClassName;
     }
 
-    protected function setDefaultFinderClass($defaultFinderClass) {
+    public function setFinderClassName($finderClassName) {
+        $this->_finderClassName = $finderClassName;
+    }
+
+    public function getDefaultFinderClassName() {
+        return $this->_defaultFinderClassName;
+    }
+
+    public function setDefaultFinderClassName($defaultFinderClass) {
         if (!class_exists($defaultFinderClass) && !interface_exists($defaultFinderClass)) {
             throw new InvalidConfigException('Default finder class should be an existing class or interface!');
         }
-        $this->_defaultFinderClass = $defaultFinderClass;
+        $this->_defaultFinderClassName = $defaultFinderClass;
     }
 }

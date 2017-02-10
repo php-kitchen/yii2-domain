@@ -12,6 +12,14 @@ use yii\base\InvalidConfigException;
 /**
  * Represents base DB repository.
  *
+ * GETTERS/SETTERS:
+ *
+ * @property string $className public alias of the {@link _className}
+ * @property string $entityClassName public alias of the {@link _entityClassName}
+ * @property string $queryClassName public alias of the {@link _queryClassName}
+ * @property string $defaultQueryClassName public alias of the {@link _defaultQueryClassName}
+ * @property string $recordClassName public alias of the {@link _recordClassName}
+ *
  * @package dekey\domain\db\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
@@ -35,7 +43,23 @@ abstract class Repository extends Component implements contracts\Repository {
      * @var string records query class name. This class being used if no query specified in morel directory. Change it
      * in {@link init()} method if you need custom default query.
      */
-    private $_defaultQueryClass = domain\db\RecordQuery::class;
+    private $_defaultQueryClassName = domain\db\RecordQuery::class;
+    private $_className;
+    /**
+     * @var string indicates what entity to use. By default equal following template "{model name}Entity" where model name is equal to
+     * the repository class name without "Repository" suffix.
+     */
+    private $_entityClassName;
+    /**
+     * @var string indicates what records query to use. By default equal following template "{model name}Query" where model name is equal to
+     * the repository class name without "Repository" suffix.
+     */
+    private $_queryClassName;
+    /**
+     * @var string indicates what record to use. By default equal following template "{model name}Record" where model name is equal to
+     * the repository class name without "Repository" suffix.
+     */
+    private $_recordClassName;
 
     /**
      * @return domain\db\Finder|domain\db\RecordQuery
@@ -93,7 +117,7 @@ abstract class Repository extends Component implements contracts\Repository {
      */
     protected function triggerModelEvent($eventName, $entity) {
         /**
-         * @var ModelEvent $event
+         * @var domain\base\ModelEvent $event
          */
         $event = $this->container->create($this->modelEventClassName, [$entity]);
         $this->trigger($eventName, $event);
@@ -116,42 +140,95 @@ abstract class Repository extends Component implements contracts\Repository {
 
     /**
      * @param mixed $pk primary key of the entity
-     * @return Entity[]
+     * @return domain\db\Entity
      */
     public function findOneWithPk($pk) {
         return $this->find()->oneWithPk($pk);
     }
 
     /**
-     * @return Entity[]
+     * @return domain\db\Entity[]
      */
     public function findAll() {
         return $this->find()->all();
     }
 
     /**
-     * @return Entity[]
+     * @return domain\db\Entity[]
      */
-    public function each() {
-        return $this->find()->each();
+    public function each($batchSize = 100) {
+        return $this->find()->each($batchSize);
+    }
+    /**
+     * @return domain\db\Entity[][]
+     */
+    public function getBatchIterator($batchSize = 100) {
+        return $this->find()->each($batchSize);
     }
 
     public function createQuery() {
-        return $this->container->create($this->getQueryClass(), [$recordClass = $this->getRecordClass()]);
+        return $this->container->create($this->queryClassName, [$recordClass = $this->recordClassName]);
     }
 
-    //----------------------- GETTERS FOR DYNAMIC PROPERTIES -----------------------//
+    //----------------------- GETTERS/SETTERS -----------------------//
 
-    protected function getEntityClass() {
-        return $this->buildModelElementClassName('Entity');
+    public function getDefaultQueryClassName() {
+        return $this->_defaultQueryClassName;
     }
 
-    protected function getQueryClass() {
-        return $this->buildModelElementClassName('Query', $this->getDefaultQueryClass());
+    public function setDefaultQueryClassName($defaultQueryClass) {
+        if (!class_exists($defaultQueryClass) && !interface_exists($defaultQueryClass)) {
+            throw new InvalidConfigException('Default query class should be an existing class or interface!');
+        }
+        $this->_defaultQueryClassName = $defaultQueryClass;
+    }
+
+    public function getClassName() {
+        if (null === $this->_className) {
+            $this->_className = static::class;
+        }
+        return $this->_className;
+    }
+
+    public function setClassName($className) {
+        $this->_className = $className;
+    }
+
+    public function getEntityClassName() {
+        if (null === $this->_entityClassName) {
+            $this->_entityClassName = $this->buildModelElementClassName('Entity');
+        }
+        return $this->_entityClassName;
+    }
+
+    public function setEntityClassName($entityClassName) {
+        $this->_entityClassName = $entityClassName;
+    }
+
+    public function getQueryClassName() {
+        if (null === $this->_queryClassName) {
+            $this->_entityClassName = $this->buildModelElementClassName('Query', $this->defaultQueryClassName);
+        }
+        return $this->_queryClassName;
+    }
+
+    public function setQueryClassName($queryClassName) {
+        $this->_queryClassName = $queryClassName;
+    }
+
+    public function getRecordClassName() {
+        if (null === $this->_recordClassName) {
+            $this->_recordClassName = $this->buildModelElementClassName('Record');
+        }
+        return $this->_recordClassName;
+    }
+
+    public function setRecordClassName($recordClassName) {
+        $this->_recordClassName = $recordClassName;
     }
 
     protected function buildModelElementClassName($modelElement, $defaultClass = null) {
-        $selfClassName = static::class;
+        $selfClassName = $this->className;
         $elementClassName = str_replace('Repository', $modelElement, $selfClassName);
         if (!class_exists($elementClassName) && !interface_exists($elementClassName)) {
             if ($defaultClass) {
@@ -161,18 +238,5 @@ abstract class Repository extends Component implements contracts\Repository {
             }
         }
         return $elementClassName;
-    }
-
-    //----------------------- GETTERS/SETTERS -----------------------//
-
-    public function getDefaultQueryClass() {
-        return $this->_defaultQueryClass;
-    }
-
-    public function setDefaultQueryClass($defaultQueryClass) {
-        if (!class_exists($defaultQueryClass) && !interface_exists($defaultQueryClass)) {
-            throw new InvalidConfigException('Default query class should be an existing class or interface!');
-        }
-        $this->_defaultQueryClass = $defaultQueryClass;
     }
 }

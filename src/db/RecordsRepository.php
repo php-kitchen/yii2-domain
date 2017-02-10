@@ -73,7 +73,7 @@ class RecordsRepository extends base\Repository {
 
     public function createNewEntity() {
         return $this->container->create([
-            'class' => $this->getEntityClass(),
+            'class' => $this->entityClassName,
         ]);
     }
 
@@ -84,5 +84,11 @@ class RecordsRepository extends base\Repository {
      */
     public function find() {
         return $this->createQuery();
+    }
+
+    //----------------------- GETTERS/SETTERS -----------------------//
+
+    public function getRecordClassName() {
+        return $this->getEntityClassName();
     }
 }

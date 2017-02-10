@@ -60,8 +60,8 @@ class Finder extends MagicObject {
         return $this->container->create(SearchResult::class, [$iterator, $this->getRepository()]);
     }
 
-    public function each() {
-        $iterator = $this->getQuery()->each();
+    public function each($batchSize = 100) {
+        $iterator = $this->getQuery()->each($batchSize);
         return $this->container->create(SearchResult::class, [$iterator, $this->getRepository()]);
     }
 
