@@ -9,6 +9,8 @@ namespace dekey\domain\db\mixins;
  * @property string $alias public alias of the {@link _alias}
  * @property string $mainTableName public alias of the {@link _mainTableName}
  *
+ * @mixin QueryConditionBuilderAccess
+ *
  * @package dekey\domain\db\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
@@ -46,8 +48,8 @@ trait RecordQueryFunctions {
      * @return \dekey\domain\db\Record|array|null
      */
     public function oneWithPk($pk) {
-        $pkParam = $this->buildAliasedParamName('pk');
-        $primaryKey = $this->buildAliasedFieldName($this->primaryKeyName);
+        $pkParam = $this->buildAliasedNameOfParam('pk');
+        $primaryKey = $this->buildAliasedNameOfField($this->primaryKeyName);
         $this->andWhere("{$primaryKey}={$pkParam}", [$pkParam => $pk]);
         return $this->one();
     }
