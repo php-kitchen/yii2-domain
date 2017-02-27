@@ -32,7 +32,9 @@ class ListRecords extends Action {
 
     public function init() {
         $this->setViewFileIfNotSetTo('list');
-        $this->viewModelClassName = ListingModel::class;
+        if (!$this->viewModelClassName) {
+            $this->viewModelClassName = ListingModel::class;
+        }
     }
 
     public function run() {
