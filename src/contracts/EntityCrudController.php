@@ -9,6 +9,8 @@ use dekey\domain\db\EntitiesRepository;
  *
  * @property EntitiesRepository $repository
  *
+ * @deprecated
+ *
  * @package dekey\domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */

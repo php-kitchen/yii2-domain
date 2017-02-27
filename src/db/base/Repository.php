@@ -68,7 +68,7 @@ abstract class Repository extends Component implements contracts\Repository {
 
     abstract protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes);
 
-    //----------------------- ENTITY MANIPULATION METHODS -----------------------//
+    //region ----------------------- ENTITY MANIPULATION METHODS ------------------------
 
     public function validateAndSave(contracts\DomainEntity $entity, $attributes = null) {
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = true, $attributes) : $this->saveEntityInternal($entity, $runValidation = true, $attributes);
@@ -135,8 +135,9 @@ abstract class Repository extends Component implements contracts\Repository {
             'repository' => $this,
         ]);
     }
+    //endregion-
 
-    //----------------------- SEARCH METHODS -----------------------//
+    //region ----------------------- SEARCH METHODS -------------------------------------
 
     /**
      * @param mixed $pk primary key of the entity
@@ -159,6 +160,7 @@ abstract class Repository extends Component implements contracts\Repository {
     public function each($batchSize = 100) {
         return $this->find()->each($batchSize);
     }
+
     /**
      * @return domain\db\Entity[][]
      */
@@ -169,8 +171,9 @@ abstract class Repository extends Component implements contracts\Repository {
     public function createQuery() {
         return $this->container->create($this->queryClassName, [$recordClass = $this->recordClassName]);
     }
+    //endregion
 
-    //----------------------- GETTERS/SETTERS -----------------------//
+    //region ----------------------- GETTERS/SETTERS ------------------------------------
 
     public function getDefaultQueryClassName() {
         return $this->_defaultQueryClassName;
@@ -239,4 +242,5 @@ abstract class Repository extends Component implements contracts\Repository {
         }
         return $elementClassName;
     }
+    //endregion
 }

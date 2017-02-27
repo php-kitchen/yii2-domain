@@ -11,10 +11,12 @@ use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 /**
- * Represents
+ * Represents base view model.
  *
  * @property mixed $id
- * @property \yii\web\Controller $controller
+ * @property \dekey\domain\contracts\EntityController|\yii\web\Controller $controller
+ * @property \dekey\domain\db\EntitiesRepository $repository
+ * @property \dekey\domain\data\EntitiesProvider $dataProvider
  * @property \dekey\domain\base\Entity $entity
  *
  * @package dekey\domain\web
@@ -40,7 +42,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      */
     private $_entityAttributesMap;
     /**
-     * @var \yii\web\Controller
+     * @var \dekey\domain\contracts\EntityController|\yii\web\Controller
      */
     private $_controller;
 
@@ -123,7 +125,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         $this->_entityAttributesMap = $entityAttributesMap;
     }
 
-    // -------------------- GETTERS/SETTERS --------------------
+    //region -------------------- GETTERS/SETTERS --------------------
 
     public function getEntity() {
         return $this->_entity;
@@ -144,4 +146,9 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     public function setController($controller) {
         $this->_controller = $controller;
     }
+
+    public function getRepository() {
+        return $this->controller->repository;
+    }
+    //endregion
 }

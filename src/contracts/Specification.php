@@ -11,4 +11,5 @@ use yii\db\ActiveQueryInterface;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface Specification extends ActiveQueryInterface {
+    public function bySearchModel($model);
 }

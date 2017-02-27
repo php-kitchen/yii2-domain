@@ -9,6 +9,7 @@ use yii\data\ActiveDataProvider;
  * Represents DB records provider.
  *
  * @property \dekey\domain\db\EntitiesRepository|\dekey\domain\db\RecordsRepository $repository
+ * @property \dekey\domain\db\RecordQuery $query
  *
  * @package dekey\domain\data
  * @author Dmitry Kolodko <prowwid@gmail.com>

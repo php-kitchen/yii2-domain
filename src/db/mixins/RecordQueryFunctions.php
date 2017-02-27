@@ -63,6 +63,10 @@ trait RecordQueryFunctions {
         return parent::alias($alias);
     }
 
+    public function bySearchModel($model) {
+        return $this;
+    }
+
     //endregion
 
     //region ------------------- GETTERS/SETTERS  -------------------

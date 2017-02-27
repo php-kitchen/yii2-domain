@@ -20,28 +20,20 @@ use yii\web\NotFoundHttpException;
 trait EntityManagement {
     public $notFoundModelExceptionMessage = 'Requested page does not exist!';
     public $notFoundModelExceptionClassName = NotFoundHttpException::class;
-    public $useArraysForListings = true;
-    public $prepareListingDataProvider;
     /**
      * @var \dekey\domain\db\EntitiesRepository
      */
     private $_repository;
 
-    public function createListingDataProvider() {
-        $dataProvider = $this->getRepository()->getEntitiesProvider();
-        if ($this->useArraysForListings) {
-            $dataProvider->query->asArray();
-        }
-        if (is_callable($this->prepareListingDataProvider)) {
-            call_user_func($this->prepareListingDataProvider, $dataProvider);
-        }
-        return $dataProvider;
-    }
-
     public function findEntityByPk($pk) {
         $entity = $this->getRepository()->find()->oneWithPk($pk);
         if (null === $entity) {
-            throw new NotFoundHttpException($this->notFoundModelExceptionMessage);
+            /**
+             * @var NotFoundHttpException $exception
+             */
+            $exception = $this->getContainer()
+                ->create($this->notFoundModelExceptionClassName, [$this->notFoundModelExceptionMessage]);
+            throw $exception;
         }
         return $entity;
     }
@@ -53,7 +45,7 @@ trait EntityManagement {
         return $this->_repository;
     }
 
-    public function setRepository($repository) {
+    public function setRepository(Repository $repository) {
         if (is_string($repository) || is_array($repository)) {
             $this->_repository = $this->container->create($repository);
         } elseif (is_object($repository) && $repository instanceof Repository) {

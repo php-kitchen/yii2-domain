@@ -35,13 +35,12 @@ class EntitiesRepository extends base\Repository {
      */
     private $_defaultFinderClassName = Finder::class;
 
-
     public function __construct($config = []) {
         $this->entitiesProviderClassName = EntitiesProvider::class;
         parent::__construct($config);
     }
 
-    //----------------------- ENTITY MANIPULATION METHODS -----------------------//
+    //region ---------------------- ENTITY MANIPULATION METHODS -------------------
 
     /**
      * @override
@@ -91,8 +90,9 @@ class EntitiesRepository extends base\Repository {
         $dataSource = $entity->getDataMapper()->getDataSource();
         return $dataSource->validate();
     }
+    //endregion
 
-    //----------------------- INSTANTIATION METHODS -----------------------//
+    //region ----------------------- INSTANTIATION METHODS ------------------------
 
     public function createNewEntity() {
         $container = $this->container;
@@ -113,8 +113,9 @@ class EntitiesRepository extends base\Repository {
             'dataMapper' => $container->create($this->dataMapperClassName, [$record]),
         ]);
     }
+    //endregion
 
-    //----------------------- SEARCH METHODS -----------------------//
+    //region ----------------------- SEARCH METHODS -------------------------------
 
     /**
      * @return Finder|RecordQuery
@@ -126,8 +127,9 @@ class EntitiesRepository extends base\Repository {
     protected function createFinder() {
         return $this->container->create($this->finderClassName, [$query = $this->createQuery(), $repository = $this]);
     }
+    //endregion
 
-    //----------------------- GETTERS/SETTERS -----------------------//
+    //region ----------------------- GETTERS/SETTERS ------------------------------
 
     protected function getFinderClassName() {
         if (null === $this->_finderClassName) {
@@ -150,4 +152,5 @@ class EntitiesRepository extends base\Repository {
         }
         $this->_defaultFinderClassName = $defaultFinderClass;
     }
+    //endregion
 }

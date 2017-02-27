@@ -3,6 +3,7 @@
 namespace dekey\domain\web\actions;
 
 use dekey\domain\web\base\Action;
+use dekey\domain\web\mixins\ViewModelManagement;
 
 /**
  * Represents
@@ -11,6 +12,7 @@ use dekey\domain\web\base\Action;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ListRecords extends Action {
+    use ViewModelManagement;
     /**
      * @var callable a PHP callable that will be called to prepare a data provider that
      * should return a collection of the models. If not set, [[prepareDataProvider()]] will be used instead.
@@ -32,11 +34,9 @@ class ListRecords extends Action {
     }
 
     public function run() {
-        $controller = $this->controller;
-        $dataProvider = $controller->createListingDataProvider();
-        if (is_callable($this->prepareDataProvider)) {
-            call_user_function_array($this->prepareDataProvider, [$dataProvider, $this]);
-        }
-        return $this->renderViewFile(compact('dataProvider'));
+        $model = $this->createViewModel();
+        $request = $this->getRequest();
+        $model->load($request->queryParams);
+        return $this->renderViewFile(compact('model'));
     }
 }
