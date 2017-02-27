@@ -3,6 +3,7 @@
 namespace dekey\domain\web\actions;
 
 use dekey\domain\web\base\Action;
+use dekey\domain\web\base\ListingModel;
 use dekey\domain\web\mixins\ViewModelManagement;
 
 /**
@@ -31,10 +32,11 @@ class ListRecords extends Action {
 
     public function init() {
         $this->setViewFileIfNotSetTo('list');
+        $this->viewModelClassName = ListingModel::class;
     }
 
     public function run() {
-        $model = $this->createViewModel();
+        $model = $this->createNewModel();
         $request = $this->getRequest();
         $model->load($request->queryParams);
         return $this->renderViewFile(compact('model'));

@@ -10,6 +10,7 @@ use dekey\domain\web\base\ViewModel;
  *
  * @property \yii\web\Controller|\dekey\domain\contracts\EntityCrudController $controller
  * @property string $id
+ * @property string $viewModelClassName
  *
  * @mixin \dekey\di\mixins\ServiceLocatorAccess
  * @mixin \dekey\di\mixins\ContainerAccess
