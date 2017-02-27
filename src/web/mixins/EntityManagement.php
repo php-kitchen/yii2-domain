@@ -45,7 +45,7 @@ trait EntityManagement {
         return $this->_repository;
     }
 
-    public function setRepository(Repository $repository) {
+    public function setRepository($repository) {
         if (is_string($repository) || is_array($repository)) {
             $this->_repository = $this->container->create($repository);
         } elseif (is_object($repository) && $repository instanceof Repository) {
