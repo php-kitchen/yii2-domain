@@ -24,7 +24,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
     private $_dataMapper;
 
     public function getId() {
-        return $this->getDataMapper()->primaryKey;
+        return $this->dataMapper->primaryKey;
     }
 
     /**

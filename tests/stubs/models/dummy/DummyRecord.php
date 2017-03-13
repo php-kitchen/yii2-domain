@@ -11,5 +11,10 @@ use tests\stubs\base\Record;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class DummyRecord extends Record {
+    public $id;
+
+    public function getPrimaryKey($asBool = false) {
+        return $this->id;
+    }
 
 }

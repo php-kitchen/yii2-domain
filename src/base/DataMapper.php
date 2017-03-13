@@ -2,8 +2,12 @@
 
 namespace dekey\domain\base;
 
+use dekey\domain\contracts\Record;
+
 /**
  * Represents
+ *
+ * @property mixed $primaryKey
  *
  * @package dekey\domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -13,6 +17,7 @@ class DataMapper extends Component {
      * @var \dekey\domain\db\Record
      */
     protected $dataSource;
+    protected $relatedEntities;
 
     /**
      * DataMapper constructor.
@@ -41,7 +46,62 @@ class DataMapper extends Component {
     }
 
     public function get($name) {
-        return $this->canGet($name) ? $this->dataSource->$name : null;
+        if (isset($this->relatedEntities[$name])) {
+            $property = $this->relatedEntities[$name];
+        } else {
+            $property = $this->getPropertyFromDataSource($name);
+        }
+
+        return $property;
+    }
+
+    protected function getPropertyFromDataSource($propertyName) {
+        $property = $this->canGet($propertyName) ? $this->dataSource->$propertyName : null;
+
+        if ($property instanceof Record && ($repository = $this->findRepositoryForRecord($property))) {
+            $property = $repository->createEntityFromSource($property);
+            $this->relatedEntities[$propertyName] = $property;
+        } elseif ($this->propertyIsAnArrayOfRecords($property)) {
+            $repository = $this->findRepositoryForRecord($property[0]);
+            if ($repository) {
+                $entities = [];
+                foreach ($property as $key => $item) {
+                    $entities[$key] = $repository->createEntityFromSource($item);
+                }
+                $property = &$entities;
+                $this->relatedEntities[$propertyName] = &$entities;
+            }
+        }
+        return $property;
+    }
+
+    protected function propertyIsAnArrayOfRecords($property) {
+        return is_array($property) && isset($property[0]) && ($property[0] instanceof Record) && $this->arrayHasOnlyRecords($property);
+    }
+
+    protected function arrayHasOnlyRecords(&$array) {
+        return array_reduce(
+            $array,
+            function($result, $element) {
+                return ($element instanceof Record);
+            }
+        );
+    }
+
+    /**
+     * @param $record
+     * @return null|\dekey\domain\db\EntitiesRepository
+     */
+    protected function findRepositoryForRecord($record) {
+        $recordClass = get_class($record);
+        $repositoryClass = str_replace('Record', 'Repository', $recordClass);
+        $container = $this->container;
+        try {
+            $repository = $container->create($repositoryClass);
+        } catch (\Exception $e) {
+            $repository = null;
+        }
+        return $repository;
     }
 
     public function set($name, $value) {
