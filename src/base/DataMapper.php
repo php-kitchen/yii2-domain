@@ -94,10 +94,10 @@ class DataMapper extends Component {
      */
     protected function findRepositoryForRecord($record) {
         $recordClass = get_class($record);
-        $repositoryClass = str_replace('Record', 'Repository', $recordClass);
+        $repositoryClass = strstr($recordClass, 'Record') ? str_replace('Record', 'Repository', $recordClass) : null;
         $container = $this->container;
         try {
-            $repository = $container->create($repositoryClass);
+            $repository = $repositoryClass ? $container->create($repositoryClass) : null;
         } catch (\Exception $e) {
             $repository = null;
         }
