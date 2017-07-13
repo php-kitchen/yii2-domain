@@ -30,7 +30,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      * @inheritdoc
      */
     public static function instantiate($row) {
-        return static::getInstance()->getContainer()->create(static::class);
+        return \Yii::$container->create(static::class);
     }
 
     /**
