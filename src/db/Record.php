@@ -60,7 +60,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
     }
 
     public function isNotNew() {
-        return $this->isNewRecord;
+        return !$this->isNewRecord;
     }
 
     public function canGetProperty($name, $checkVars = true, $checkBehaviors = true) {
