@@ -15,13 +15,13 @@ use yii\db\BatchQueryResult;
 class SearchResult extends MagicObject implements \Iterator {
     private $_queryResultIterator;
     /**
-     * @var contracts\Repository
+     * @var base\Repository|contracts\Repository
      */
     private $_repository;
 
     public function __construct(BatchQueryResult $queryResult, contracts\Repository $repository, $config = []) {
         $this->_queryResultIterator = $queryResult;
-        $this->_repository = $queryResult;
+        $this->setRepository($repository);
         parent::__construct($config);
     }
 
