@@ -81,7 +81,7 @@ a framework that would allow you to build high quality architecture and implemen
 "Yii2Domain" library is a crutch designed to solve issues of domain layer caused by ActiveRecord in existing projects.
 There are few decent solutions to build domain layer in a new project:
 - [Spot ORM](http://phpdatamapper.com/)
-- [Symphony + Doctrine](http://symfony.com/doc/current/doctrine.html) (preferable solution)
+- [Symfony + Doctrine](http://symfony.com/doc/current/doctrine.html) (preferable solution)
 - [Eloquent ORM](http://laravel.su/docs/5.2/eloquent) (if you like Laravel and you are not working with enterprise applications)
 
 ## Build status
