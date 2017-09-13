@@ -15,6 +15,10 @@ class AddEntity extends EntityModificationAction {
         $this->setViewFileIfNotSetTo('add');
     }
 
+    public function run() {
+        return $this->loadModelAndSaveOrPrintView();
+    }
+
     protected function initModel() {
         $this->_model = $this->createNewModel();
     }

@@ -19,7 +19,7 @@ class EditEntity extends EntityModificationAction {
 
     public function run($id) {
         $this->entityId = $id;
-        return parent::run();
+        return $this->loadModelAndSaveOrPrintView();
     }
 
     protected function initModel() {

@@ -19,17 +19,12 @@ abstract class EntityModificationAction extends Action {
     public $failToSaveErrorFlashMessage = 'Unable to save entity';
     public $validationFailedFlashMessage = 'Please correct errors.';
     public $successFlashMessage = 'Changes successfully saved.';
-
     /**
      * @var \dekey\domain\web\base\ViewModel;
      */
     protected $_model;
 
     abstract protected function initModel();
-
-    public function run() {
-        return $this->loadModelAndSaveOrPrintView();
-    }
 
     protected function loadModelAndSaveOrPrintView() {
         $isSaved = $this->loadModelAndSave();
