@@ -2,7 +2,7 @@
 
 namespace DeKey\Examples\User;
 
-use dekey\domain\base\Entity;
+use PHPKitchen\Domain\Base\Entity;
 
 /**
  * Represents user entity.

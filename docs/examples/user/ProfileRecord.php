@@ -2,7 +2,7 @@
 
 namespace DeKey\Examples\User;
 
-use dekey\domain\db\Record;
+use PHPKitchen\Domain\DB\Record;
 
 /**
  * Represents user profile record in the DB.

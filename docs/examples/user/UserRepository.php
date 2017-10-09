@@ -2,7 +2,7 @@
 
 namespace DeKey\Examples\User;
 
-use dekey\domain\db\EntitiesRepository;
+use PHPKitchen\Domain\DB\EntitiesRepository;
 
 /**
  * Represents users repository.

@@ -2,7 +2,7 @@
 
 namespace tests\core;
 
-use dekey\domain\base\DataMapper;
+use PHPKitchen\Domain\Base\DataMapper;
 use tests\base\TestCase;
 use tests\stubs\models\dummy\DummyEntity;
 use tests\stubs\models\dummy\DummyRecord;
@@ -12,7 +12,7 @@ use tests\stubs\models\tmux\TmuxRepository;
 /**
  * Represents unit test of {@link DataMapper}
  *
- * @coversDefaultClass \dekey\domain\base\DataMapper
+ * @coversDefaultClass \PHPKitchen\Domain\base\DataMapper
  *
  * @package tests\core
  * @author Dmitry Kolodko <prowwid@gmail.com>

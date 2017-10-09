@@ -2,7 +2,7 @@
 
 namespace DeKey\Examples\User;
 
-use dekey\domain\db\RecordQuery;
+use PHPKitchen\Domain\DB\RecordQuery;
 
 /**
  * Represents user DB record query.
