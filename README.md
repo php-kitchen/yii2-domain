@@ -16,7 +16,7 @@ Latest Stable Version | Total downloads | Monthly Downloads | Licensing
 
 ## Requirements
 
-**`PHP >= 5.6.0` is required.**
+**`PHP >= 7.1` is required.**
 
 ## Getting Started
 
