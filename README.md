@@ -84,6 +84,10 @@ There are few decent solutions to build domain layer in a new project:
 - [Symfony + Doctrine](http://symfony.com/doc/current/doctrine.html) (preferable solution)
 - [Eloquent ORM](http://laravel.su/docs/5.4/eloquent) (if you like Laravel and you are not working with enterprise applications)
 
+## Contributing
+
+If you want to ask any questions, suggest improvements or just to talk with community and developers, [join our server at Discord](https://discord.gg/Ez5VZhC) 
+
 ## Build status
 
 CI status    | Code quality
