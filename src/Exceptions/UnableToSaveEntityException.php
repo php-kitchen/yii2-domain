@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Eexceptions;
+namespace PHPKitchen\Domain\Exceptions;
 
 /**
  * Represents
