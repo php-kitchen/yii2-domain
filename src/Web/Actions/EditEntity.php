@@ -7,7 +7,7 @@ use PHPKitchen\Domain\Web\Base\EntityModificationAction;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\Web\actions
+ * @package PHPKitchen\Domain\Web\Actions
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class EditEntity extends EntityModificationAction {

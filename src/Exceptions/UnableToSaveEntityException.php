@@ -1,11 +1,11 @@
 <?php
 
-namespace PHPKitchen\Domain\Eexceptions;
+namespace PHPKitchen\Domain\Exceptions;
 
 /**
  * Represents
  *
- * @package data\Yii2Domain\src\exceptions
+ * @package PHPKitchen\Domain\Exceptions
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class UnableToSaveEntityException extends \Exception {

@@ -10,7 +10,7 @@ use PHPKitchen\Domain\Contracts\Record;
  * Extends {@link RecordsProvider} to fetch data using query object and then convert
  * records to entities.
  *
- * @package PHPKitchen\Domain\data
+ * @package PHPKitchen\Domain\Data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class EntitiesProvider extends RecordsProvider {

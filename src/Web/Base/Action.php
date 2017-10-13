@@ -15,7 +15,7 @@ use yii\helpers\Inflector;
  * @property \yii\web\Request $request
  * @property \yii\web\Session $session
  *
- * @package PHPKitchen\Domain\Web
+ * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerAware {

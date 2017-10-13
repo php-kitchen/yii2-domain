@@ -3,15 +3,15 @@
 namespace PHPKitchen\Domain\DB\Mixins;
 
 /**
- * Combines functions required for {@link PHPKitchen\Domain\db\RecordQuery}.
- * The only goal of this mixin is to allow building custom query classes without extending {@link PHPKitchen\Domain\db\RecordQuery}
+ * Combines functions required for {@link PHPKitchen\Domain\DB\RecordQuery}.
+ * The only goal of this mixin is to allow building custom query classes without extending {@link PHPKitchen\Domain\DB\RecordQuery}
  *
  * @property string $alias public alias of the {@link _alias}
  * @property string $mainTableName public alias of the {@link _mainTableName}
  *
  * @mixin QueryConditionBuilderAccess
  *
- * @package PHPKitchen\Domain\db\mixins
+ * @package PHPKitchen\Domain\DB\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait RecordQueryFunctions {

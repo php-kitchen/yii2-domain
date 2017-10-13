@@ -16,7 +16,7 @@ use yii\db\ActiveRecord;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\base
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Record extends ActiveRecord implements contracts\Record, ContainerAware, ServiceLocatorAware, LoggerAware, EntityDataSource {

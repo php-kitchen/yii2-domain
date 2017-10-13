@@ -2,7 +2,7 @@
 
 namespace PHPKitchen\Domain\Web\Actions;
 
-use PHPKitchen\Domain\Eexceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use PHPKitchen\Domain\Web\Base\Action;
 
 /**

@@ -9,7 +9,7 @@ use yii\db\BatchQueryResult;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\db
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class SearchResult extends MagicObject implements \Iterator {

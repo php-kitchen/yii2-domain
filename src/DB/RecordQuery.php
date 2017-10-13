@@ -12,7 +12,7 @@ use PHPKitchen\Domain\Contracts;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\base
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordQuery extends ActiveQuery implements contracts\Specification, contracts\RecordQuery {

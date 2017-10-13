@@ -11,7 +11,7 @@ use PHPKitchen\Domain\DB\QueryConditionBuilder;
  *
  * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  *
- * @package PHPKitchen\Domain\db\mixins
+ * @package PHPKitchen\Domain\DB\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait QueryConditionBuilderAccess {

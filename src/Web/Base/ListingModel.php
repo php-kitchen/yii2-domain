@@ -7,7 +7,7 @@ use PHPKitchen\Domain\Contracts\Specification;
 /**
  * Represents a view model designed to be used in listing actions.
  *
- * @package PHPKitchen\Domain\Web\base
+ * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ListingModel extends ViewModel {

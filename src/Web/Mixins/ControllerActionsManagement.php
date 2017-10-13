@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\Web\mixins
+ * @package PHPKitchen\Domain\Web\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ControllerActionsManagement {

@@ -8,7 +8,7 @@ use PHPKitchen\Domain\Contracts;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\db
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Finder extends MagicObject {

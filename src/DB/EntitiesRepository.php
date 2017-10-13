@@ -5,7 +5,7 @@ namespace PHPKitchen\Domain\DB;
 use PHPKitchen\Domain;
 use PHPKitchen\Domain\Contracts;
 use PHPKitchen\Domain\Data\EntitiesProvider;
-use PHPKitchen\Domain\Eexceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use yii\base\InvalidConfigException;
 
 /**

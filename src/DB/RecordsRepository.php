@@ -8,7 +8,7 @@ use PHPKitchen\Domain\Contracts;
 /**
  * Represents DB records repository.
  *
- * @package PHPKitchen\Domain\db
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordsRepository extends Base\Repository {
@@ -24,7 +24,7 @@ class RecordsRepository extends Base\Repository {
      * @param bool $runValidation
      * @param array $attributes
      * @return bool result.
-     * @throws domain\Eexceptions\UnableToSaveEntityException
+     * @throws Domain\Exceptions\UnableToSaveEntityException
      */
     protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes) {
         $isEntityNew = $entity->isNew();
@@ -37,7 +37,7 @@ class RecordsRepository extends Base\Repository {
             $this->triggerModelEvent($isEntityNew ? self::EVENT_BEFORE_ADD : self::EVENT_AFTER_UPDATE, $entity);
             $this->triggerModelEvent(self::EVENT_AFTER_SAVE, $entity);
         } else {
-            $exception = new domain\Eexceptions\UnableToSaveEntityException('Failed to save entity ' . get_class($entity));
+            $exception = new Domain\Exceptions\UnableToSaveEntityException('Failed to save entity ' . get_class($entity));
             $exception->errorsList = $entity->getErrors();
             throw $exception;
         }

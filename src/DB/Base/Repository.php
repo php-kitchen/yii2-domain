@@ -20,7 +20,7 @@ use yii\base\InvalidConfigException;
  * @property string $defaultQueryClassName public alias of the {@link _defaultQueryClassName}
  * @property string $recordClassName public alias of the {@link _recordClassName}
  *
- * @package PHPKitchen\Domain\db\base
+ * @package PHPKitchen\Domain\DB\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 abstract class Repository extends Component implements contracts\Repository {

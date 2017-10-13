@@ -2,14 +2,14 @@
 
 namespace PHPKitchen\Domain\Web\Base;
 
-use PHPKitchen\Domain\Eexceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use PHPKitchen\Domain\Web\Mixins\ModelSearching;
 use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
 
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\Web\base
+ * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 abstract class EntityModificationAction extends Action {

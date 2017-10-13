@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
  * @property \PHPKitchen\Domain\Data\EntitiesProvider $dataProvider
  * @property \PHPKitchen\Domain\Base\Entity $entity
  *
- * @package PHPKitchen\Domain\Web
+ * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {

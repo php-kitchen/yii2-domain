@@ -14,7 +14,7 @@ use yii\web\NotFoundHttpException;
  * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
  * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  * @mixin ViewModelManagement
- * @package PHPKitchen\Domain\Web\mixins
+ * @package PHPKitchen\Domain\Web\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ModelSearching {

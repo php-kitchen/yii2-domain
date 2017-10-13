@@ -7,7 +7,7 @@ use PHPKitchen\Domain\Base\MagicObject;
 /**
  * Represents
  *
- * @package PHPKitchen\Domain\db
+ * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Condition extends MagicObject {

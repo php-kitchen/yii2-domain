@@ -11,7 +11,7 @@ use yii\data\ActiveDataProvider;
  * @property \PHPKitchen\Domain\DB\EntitiesRepository|\PHPKitchen\Domain\DB\RecordsRepository $repository
  * @property \PHPKitchen\Domain\DB\RecordQuery $query
  *
- * @package PHPKitchen\Domain\data
+ * @package PHPKitchen\Domain\Data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordsProvider extends ActiveDataProvider {
