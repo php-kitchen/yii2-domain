@@ -37,6 +37,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      * Checks whether action with specified ID exists in owner controller.
      *
      * @param string $id action ID.
+     *
      * @return boolean whether action exists or not.
      */
     protected function isActionExistsInController($id) {
@@ -47,6 +48,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
         if (array_key_exists($id, $this->controller->actions())) {
             return true;
         }
+
         return false;
     }
 
@@ -90,6 +92,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
             if (is_scalar($value)) {
                 $value = preg_replace_callback("/{(\\w+)}/", function ($matches) use ($params) {
                     $paramName = $matches[1];
+
                     return isset($params[$paramName]) ? $params[$paramName] : $paramName;
                 }, $value);
             } else {
@@ -107,6 +110,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
         if (is_callable($this->prepareViewParams)) {
             $params = call_user_func($this->prepareViewParams, $params, $this);
         }
+
         return $this->controller->render($this->viewFile, $params);
     }
 

@@ -51,6 +51,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         $newAttributes = $this->convertToEntityAttributes();
         $entity = $this->getEntity();
         $entity->load(ArrayHelper::merge($defaultAttributes, $newAttributes));
+
         return $entity;
     }
 
@@ -84,6 +85,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
             }
             $attributes[$entityAttribute] = $attributeValue;
         }
+
         return $attributes;
     }
 
@@ -94,6 +96,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      */
     public function loadAttributesFromEntity() {
         $attributes = $this->convertEntityToSelfAttributes();
+
         return $this->load($attributes, '');
     }
 
@@ -110,6 +113,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
                 $attributes[$formValue] = $entity->$modelAttribute;
             }
         }
+
         return $attributes;
     }
 
@@ -118,6 +122,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
             $selfAttributeNames = $this->attributes();
             $this->_entityAttributesMap = array_combine($selfAttributeNames, $selfAttributeNames);
         }
+
         return $this->_entityAttributesMap;
     }
 

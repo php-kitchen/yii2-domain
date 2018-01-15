@@ -44,6 +44,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
 
     /**
      * @param $class
+     *
      * @return RecordQuery
      */
     public function createQuery($class) {
@@ -52,6 +53,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
          */
         $finder = $this->getContainer()->create($class, [static::class]);
         $finder->setMainTableName(static::tableName());
+
         return $finder;
     }
 
@@ -91,6 +93,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function validateAndSave($attributeNames = null) {
@@ -121,6 +124,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function saveWithoutValidation($attributeNames = null) {

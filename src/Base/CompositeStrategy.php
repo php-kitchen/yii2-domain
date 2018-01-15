@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPKitchen\Domain\Base;
 
 use PHPKitchen\Domain\Mixins\StrategiesComposingAlgorithm;

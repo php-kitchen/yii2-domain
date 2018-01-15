@@ -19,6 +19,7 @@ class EditEntity extends EntityModificationAction {
 
     public function run($id) {
         $this->entityId = $id;
+
         return $this->loadModelAndSaveOrPrintView();
     }
 

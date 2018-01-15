@@ -89,6 +89,7 @@ abstract class Repository extends Component implements contracts\Repository {
         if (!$result) {
             $this->rollbackTransaction();
         }
+
         return $result;
     }
 
@@ -112,6 +113,7 @@ abstract class Repository extends Component implements contracts\Repository {
      *
      * @param boolean $insert whether this method called while inserting a record.
      * If `false`, it means the method is called while updating a record.
+     *
      * @return boolean whether the insertion or updating should continue.
      * If `false`, the insertion or updating will be cancelled.
      */
@@ -141,6 +143,7 @@ abstract class Repository extends Component implements contracts\Repository {
 
     /**
      * @param mixed $pk primary key of the entity
+     *
      * @return domain\DB\Entity
      */
     public function findOneWithPk($pk) {
@@ -190,6 +193,7 @@ abstract class Repository extends Component implements contracts\Repository {
         if (null === $this->_className) {
             $this->_className = static::class;
         }
+
         return $this->_className;
     }
 
@@ -201,6 +205,7 @@ abstract class Repository extends Component implements contracts\Repository {
         if (null === $this->_entityClassName) {
             $this->_entityClassName = $this->buildModelElementClassName('Entity');
         }
+
         return $this->_entityClassName;
     }
 
@@ -212,6 +217,7 @@ abstract class Repository extends Component implements contracts\Repository {
         if (null === $this->_queryClassName) {
             $this->_queryClassName = $this->buildModelElementClassName('Query', $this->defaultQueryClassName);
         }
+
         return $this->_queryClassName;
     }
 
@@ -223,6 +229,7 @@ abstract class Repository extends Component implements contracts\Repository {
         if (null === $this->_recordClassName) {
             $this->_recordClassName = $this->buildModelElementClassName('Record');
         }
+
         return $this->_recordClassName;
     }
 
@@ -240,6 +247,7 @@ abstract class Repository extends Component implements contracts\Repository {
                 throw new InvalidConfigException("{$modelElement} class should be an existing class or interface!");
             }
         }
+
         return $elementClassName;
     }
     //endregion

@@ -32,9 +32,10 @@ trait EntityManagement {
              * @var NotFoundHttpException $exception
              */
             $exception = $this->getContainer()
-                ->create($this->notFoundModelExceptionClassName, [$this->notFoundModelExceptionMessage]);
+                              ->create($this->notFoundModelExceptionClassName, [$this->notFoundModelExceptionMessage]);
             throw $exception;
         }
+
         return $entity;
     }
 
@@ -42,6 +43,7 @@ trait EntityManagement {
         if ($this->_repository === null) {
             throw new InvalidConfigException('Repository should be set in ' . static::class);
         }
+
         return $this->_repository;
     }
 

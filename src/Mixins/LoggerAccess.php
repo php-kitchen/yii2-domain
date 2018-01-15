@@ -87,6 +87,7 @@ trait LoggerAccess {
      *
      * @param string $token token for the code block
      * @param string $category the category of this log message
+     *
      * @see endProfile()
      */
     public function beginProfile($token, $category = '') {
@@ -99,6 +100,7 @@ trait LoggerAccess {
      *
      * @param string $token token for the code block
      * @param string $category the category of this log message
+     *
      * @see beginProfile()
      */
     public function endProfile($token, $category = '') {
@@ -124,6 +126,7 @@ trait LoggerAccess {
         if (!isset(static::$_logger)) {
             static::$_logger = \Yii::$app->log->getLogger();
         }
+
         return static::$_logger;
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "55f3d202c7967e3d76c62264ddf6d2bf",
+    "content-hash": "3348a306257a51bdd1dac97e395ed4c3",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -475,56 +475,6 @@
     ],
     "packages-dev": [
         {
-            "name": "dekeysoft/pu-tester",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dekeysoft/pu-tester.git",
-                "reference": "0c3176d74a38aa89afbc1f6aa14788767ed0e946"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dekeysoft/pu-tester/zipball/0c3176d74a38aa89afbc1f6aa14788767ed0e946",
-                "reference": "0c3176d74a38aa89afbc1f6aa14788767ed0e946",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "5.6.*",
-                "satooshi/php-coveralls": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DeKey\\Tester\\": "src",
-                    "Tests\\DeKey\\Tester\\": "tests"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitry Kolodko",
-                    "email": "dangel.dekey@gmail.com"
-                }
-            ],
-            "description": "Simple tester class designed to write PHPUnit tests in BDD-style. Allows to express what test intended to check in human-readable format.",
-            "keywords": [
-                "BDD",
-                "extension",
-                "phpunit",
-                "tester",
-                "tests",
-                "unit tests"
-            ],
-            "abandoned": "https://github.com/php-kitchen/code-specs",
-            "time": "2016-10-19T16:08:53+00:00"
-        },
-        {
             "name": "doctrine/instantiator",
             "version": "1.1.0",
             "source": {
@@ -718,6 +668,55 @@
                 "object graph"
             ],
             "time": "2017-10-19T19:58:43+00:00"
+        },
+        {
+            "name": "php-kitchen/code-specs",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-kitchen/code-specs.git",
+                "reference": "0c3176d74a38aa89afbc1f6aa14788767ed0e946"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-kitchen/code-specs/zipball/0c3176d74a38aa89afbc1f6aa14788767ed0e946",
+                "reference": "0c3176d74a38aa89afbc1f6aa14788767ed0e946",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.6.*",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DeKey\\Tester\\": "src",
+                    "Tests\\DeKey\\Tester\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Kolodko",
+                    "email": "dangel.dekey@gmail.com"
+                }
+            ],
+            "description": "Simple tester class designed to write PHPUnit tests in BDD-style. Allows to express what test intended to check in human-readable format.",
+            "keywords": [
+                "BDD",
+                "extension",
+                "phpunit",
+                "tester",
+                "tests",
+                "unit tests"
+            ],
+            "time": "2016-10-19T16:08:53+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

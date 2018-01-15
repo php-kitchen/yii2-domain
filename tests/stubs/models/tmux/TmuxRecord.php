@@ -22,7 +22,6 @@ class TmuxRecord extends Record {
         return $this->id;
     }
 
-
     public function getListOfSelfRecords() {
         return [
             $this,

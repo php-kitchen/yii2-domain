@@ -52,6 +52,7 @@ trait TransactionAccess {
      *
      * @param string $methodName class method name that should be wrapped by transaction.
      * @param array ...$methodArguments [optional] method arguments.
+     *
      * @return bool|mixed returns method result or false if transaction failed.
      */
     protected function callTransactionalMethod($methodName, ...$methodArguments) {
@@ -63,6 +64,7 @@ trait TransactionAccess {
             $result = false;
             $this->rollbackTransaction();
         }
+
         return $result;
     }
 
@@ -70,6 +72,7 @@ trait TransactionAccess {
      * Wraps passed callback in transaction.
      *
      * @param callable $callback valid callback to be wrapped by transaction.
+     *
      * @return bool|mixed returns callback result or false if transaction failed.
      */
     protected function callInTransaction(callable $callback) {
@@ -81,6 +84,7 @@ trait TransactionAccess {
             $result = false;
             $this->rollbackTransaction();
         }
+
         return $result;
     }
 }

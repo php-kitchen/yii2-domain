@@ -26,6 +26,7 @@ class ListingModel extends ViewModel {
         if ($provider->query instanceof Specification) {
             $provider->query->bySearchModel($this);
         }
+
         return $provider;
     }
 }

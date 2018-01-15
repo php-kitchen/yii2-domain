@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPKitchen\Domain\Base;
 
 use PHPKitchen\Domain\Contracts;
@@ -14,6 +15,7 @@ abstract class Strategy extends Component implements contracts\Strategy {
 
     /**
      * @param array ...$params algorithm params.
+     *
      * @return mixed strategy result.
      */
     public function __invoke(...$params) {

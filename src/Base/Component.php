@@ -10,7 +10,8 @@ use PHPKitchen\Domain\Contracts\LoggerAware;
 use PHPKitchen\Domain\Mixins\LoggerAccess;
 
 /**
- * Represents
+ * Extends default Yii {@link \yii\base\Component} to provide container and
+ * service provider access features.
  *
  * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>

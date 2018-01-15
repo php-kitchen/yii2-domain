@@ -38,6 +38,7 @@ abstract class EntityModificationAction extends Action {
         if ($this->getModel()->load($this->getRequest()->post())) {
             $isSaved = $this->validateModelAndTryToSaveEntity();
         }
+
         return $isSaved;
     }
 
@@ -48,6 +49,7 @@ abstract class EntityModificationAction extends Action {
             $this->addErrorFlash($this->validationFailedFlashMessage);
             $result = false;
         }
+
         return $result;
     }
 
@@ -64,6 +66,7 @@ abstract class EntityModificationAction extends Action {
         } else {
             $this->addErrorFlash($this->failToSaveErrorFlashMessage);
         }
+
         return $savedSuccessfully;
     }
 
@@ -76,6 +79,7 @@ abstract class EntityModificationAction extends Action {
         } else {
             $redirectUrl = $this->redirectUrl;
         }
+
         return $this->controller->redirect($redirectUrl);
     }
 
@@ -83,6 +87,7 @@ abstract class EntityModificationAction extends Action {
         if (null === $this->_model) {
             $this->initModel();
         }
+
         return $this->_model;
     }
 }

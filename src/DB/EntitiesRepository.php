@@ -44,18 +44,20 @@ class EntitiesRepository extends Base\Repository {
 
     /**
      * @override
+     *
      * @param domain\Base\Entity $entity
      */
     protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes) {
         $isEntityNew = $entity->isNew();
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
         if ($this->triggerModelEvent($isEntityNew ? self::EVENT_BEFORE_ADD : self::EVENT_BEFORE_UPDATE, $entity) && $this->triggerModelEvent(self::EVENT_BEFORE_SAVE, $entity)) {
-            $dataSource = $entity->getDataMapper()->getDataSource();
             $result = $runValidation ? $dataSource->validateAndSave($attributes) : $dataSource->saveWithoutValidation($attributes);
         } else {
             $result = false;
         }
         if ($result) {
-            $this->triggerModelEvent($isEntityNew ? self::EVENT_BEFORE_ADD : self::EVENT_AFTER_UPDATE, $entity);
+            $this->triggerModelEvent($isEntityNew ? self::EVENT_AFTER_ADD : self::EVENT_AFTER_UPDATE, $entity);
             $this->triggerModelEvent(self::EVENT_AFTER_SAVE, $entity);
         } else {
             $exception = new UnableToSaveEntityException('Failed to save entity ' . get_class($entity));
@@ -68,6 +70,7 @@ class EntitiesRepository extends Base\Repository {
 
     /**
      * @param domain\Base\Entity $entity
+     *
      * @return bool result.
      */
     public function delete(contracts\DomainEntity $entity) {
@@ -79,15 +82,18 @@ class EntitiesRepository extends Base\Repository {
         if ($result) {
             $this->triggerModelEvent(self::EVENT_AFTER_DELETE, $entity);
         }
+
         return $result;
     }
 
     /**
      * @param domain\Base\Entity $entity
+     *
      * @return bool result.
      */
     public function validate(contracts\DomainEntity $entity) {
         $dataSource = $entity->getDataMapper()->getDataSource();
+
         return $dataSource->validate();
     }
     //endregion
@@ -96,6 +102,7 @@ class EntitiesRepository extends Base\Repository {
 
     public function createNewEntity() {
         $container = $this->container;
+
         return $container->create([
             'class' => $this->entityClassName,
             'dataMapper' => $container->create($this->dataMapperClassName, [$this->createRecord()]),
@@ -108,6 +115,7 @@ class EntitiesRepository extends Base\Repository {
 
     public function createEntityFromSource(contracts\EntityDataSource $record) {
         $container = $this->container;
+
         return $container->create([
             'class' => $this->entityClassName,
             'dataMapper' => $container->create($this->dataMapperClassName, [$record]),
@@ -125,7 +133,10 @@ class EntitiesRepository extends Base\Repository {
     }
 
     protected function createFinder() {
-        return $this->container->create($this->finderClassName, [$query = $this->createQuery(), $repository = $this]);
+        return $this->container->create($this->finderClassName, [
+            $query = $this->createQuery(),
+            $repository = $this,
+        ]);
     }
     //endregion
 
@@ -135,6 +146,7 @@ class EntitiesRepository extends Base\Repository {
         if (null === $this->_finderClassName) {
             $this->_finderClassName = $this->buildModelElementClassName('Finder', $this->defaultFinderClassName);
         }
+
         return $this->_finderClassName;
     }
 

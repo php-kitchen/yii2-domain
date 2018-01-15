@@ -2,7 +2,6 @@
 
 namespace PHPKitchen\Domain\Web\Mixins;
 
-
 use PHPKitchen\Domain\Web\Base\ViewModel;
 
 /**
@@ -26,11 +25,13 @@ trait ViewModelManagement {
 
     protected function createNewModel() {
         $entity = $this->controller->getRepository()->createNewEntity();
+
         return $this->createViewModel($entity);
     }
 
     /**
      * @param \PHPKitchen\Domain\Base\Entity $entity
+     *
      * @return \PHPKitchen\Domain\Web\Base\ViewModel
      */
     protected function createViewModel($entity) {
@@ -40,6 +41,7 @@ trait ViewModelManagement {
             'controller' => $this->controller,
         ]);
         $model->scenario = $this->scenario;
+
         return $model;
     }
 
