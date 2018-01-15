@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\domain\mixins;
+namespace PHPKitchen\Domain\mixins;
 
 use yii\base\InvalidCallException;
 
@@ -8,9 +8,9 @@ use yii\base\InvalidCallException;
  * Injects methods to manipulate db transactions.
  * Trait supposed to be used only in protected an private contexts!
  *
- * @mixin \dekey\di\mixins\ServiceLocatorAccess
+ * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
  *
- * @package dekey\domain\mixins
+ * @package PHPKitchen\Domain\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait TransactionAccess {
@@ -52,6 +52,7 @@ trait TransactionAccess {
      *
      * @param string $methodName class method name that should be wrapped by transaction.
      * @param array ...$methodArguments [optional] method arguments.
+     *
      * @return bool|mixed returns method result or false if transaction failed.
      */
     protected function callTransactionalMethod($methodName, ...$methodArguments) {
@@ -63,6 +64,7 @@ trait TransactionAccess {
             $result = false;
             $this->rollbackTransaction();
         }
+
         return $result;
     }
 
@@ -70,6 +72,7 @@ trait TransactionAccess {
      * Wraps passed callback in transaction.
      *
      * @param callable $callback valid callback to be wrapped by transaction.
+     *
      * @return bool|mixed returns callback result or false if transaction failed.
      */
     protected function callInTransaction(callable $callback) {
@@ -81,6 +84,7 @@ trait TransactionAccess {
             $result = false;
             $this->rollbackTransaction();
         }
+
         return $result;
     }
 }

@@ -1,18 +1,18 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
 /**
  * Represents entities controller.
  *
- * @property \dekey\domain\db\EntitiesRepository $repository
+ * @property \PHPKitchen\Domain\db\EntitiesRepository $repository
  *
- * @package dekey\domain\contracts
+ * @package PHPKitchen\Domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface EntityController {
     /**
-     * @return \dekey\domain\db\EntitiesRepository
+     * @return \PHPKitchen\Domain\db\EntitiesRepository
      */
     public function getRepository();
 

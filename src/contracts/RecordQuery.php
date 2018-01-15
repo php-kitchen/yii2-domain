@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
 use yii\db\ActiveQueryInterface;
 
@@ -10,7 +10,7 @@ use yii\db\ActiveQueryInterface;
  * @property string $alias public alias of the {@link _alias}
  * @property string $mainTableName public alias of the {@link _mainTableName}
  *
- * @package dekey\domain\contracts
+ * @package PHPKitchen\Domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface RecordQuery extends ActiveQueryInterface {
@@ -18,6 +18,7 @@ interface RecordQuery extends ActiveQueryInterface {
 
     /**
      * @param $pk
+     *
      * @return ActiveRecord|array|null
      */
     public function oneWithPk($pk);

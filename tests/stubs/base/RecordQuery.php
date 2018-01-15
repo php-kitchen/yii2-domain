@@ -8,7 +8,7 @@ namespace tests\stubs\base;
  * @package tests\stubs
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class RecordQuery extends \dekey\domain\db\RecordQuery {
+class RecordQuery extends \PHPKitchen\Domain\db\RecordQuery {
 
     public $records = [];
     public $singleRecord = [];

@@ -1,5 +1,6 @@
 <?php
-namespace dekey\domain\contracts;
+
+namespace PHPKitchen\Domain\contracts;
 
 /**
  * Represents

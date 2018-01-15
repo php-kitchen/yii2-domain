@@ -1,8 +1,8 @@
 <?php
 
-namespace dekey\domain\base;
+namespace PHPKitchen\Domain\base;
 
-use dekey\domain\contracts\DomainEntity;
+use PHPKitchen\Domain\contracts\DomainEntity;
 use yii\base\Arrayable;
 use yii\base\ArrayableTrait;
 use yii\base\ArrayAccessTrait;
@@ -12,14 +12,14 @@ use yii\base\ArrayAccessTrait;
  *
  * @property DataMapper $dataMapper
  *
- * @package dekey\domain
+ * @package PHPKitchen\Domain
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Entity extends Component implements DomainEntity, \IteratorAggregate, \ArrayAccess, Arrayable {
     use ArrayableTrait;
     use ArrayAccessTrait;
     /**
-     * @var \dekey\domain\base\DataMapper
+     * @var \PHPKitchen\Domain\base\DataMapper
      */
     private $_dataMapper;
 
@@ -58,6 +58,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
      * @param array $data the data array to load, typically `$_POST` or `$_GET`.
      * @param string $formName the form name to use to load the data into the model.
      * If not set, [[formName()]] is used.
+     *
      * @return boolean whether `load()` found the expected form in `$data`.
      */
     public function load($data) {
@@ -69,6 +70,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
      * Override this method to implement specific logic for your entity.
      *
      * @param mixed $data traversable data of {@link _dataSource}.
+     *
      * @return mixed converted data. By default returns the same data as passed.
      */
     protected function convertDataToSourceAttributes(&$data) {
@@ -104,6 +106,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
                 throw $e;
             }
         }
+
         return $result;
     }
 
@@ -145,6 +148,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
             $dataMapper = $this->getDataMapper();
             $result = $dataMapper && ($dataMapper->canGet($name) || $dataMapper->canSet($name));
         }
+
         return $result;
     }
 
@@ -154,6 +158,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
             $dataMapper = $this->getDataMapper();
             $result = $dataMapper && $dataMapper->canGet($name);
         }
+
         return $result;
     }
 
@@ -163,6 +168,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
             $dataMapper = $this->getDataMapper();
             $result = $dataMapper && $dataMapper->canSet($name);
         }
+
         return $result;
     }
 

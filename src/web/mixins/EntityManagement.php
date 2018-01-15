@@ -1,27 +1,27 @@
 <?php
 
-namespace dekey\domain\web\mixins;
+namespace PHPKitchen\Domain\web\mixins;
 
-use dekey\domain\contracts\Repository;
+use PHPKitchen\Domain\contracts\Repository;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 
 /**
  * Represents
  *
- * @property \dekey\domain\db\EntitiesRepository $repository
+ * @property \PHPKitchen\Domain\db\EntitiesRepository $repository
  *
- * @mixin \dekey\di\mixins\ServiceLocatorAccess
- * @mixin \dekey\di\mixins\ContainerAccess
+ * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
+ * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  *
- * @package dekey\domain\web\mixins
+ * @package PHPKitchen\Domain\web\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait EntityManagement {
     public $notFoundModelExceptionMessage = 'Requested page does not exist!';
     public $notFoundModelExceptionClassName = NotFoundHttpException::class;
     /**
-     * @var \dekey\domain\db\EntitiesRepository
+     * @var \PHPKitchen\Domain\db\EntitiesRepository
      */
     private $_repository;
 
@@ -32,9 +32,10 @@ trait EntityManagement {
              * @var NotFoundHttpException $exception
              */
             $exception = $this->getContainer()
-                ->create($this->notFoundModelExceptionClassName, [$this->notFoundModelExceptionMessage]);
+                              ->create($this->notFoundModelExceptionClassName, [$this->notFoundModelExceptionMessage]);
             throw $exception;
         }
+
         return $entity;
     }
 
@@ -42,6 +43,7 @@ trait EntityManagement {
         if ($this->_repository === null) {
             throw new InvalidConfigException('Repository should be set in ' . static::class);
         }
+
         return $this->_repository;
     }
 

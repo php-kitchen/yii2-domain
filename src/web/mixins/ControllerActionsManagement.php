@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\domain\web\mixins;
+namespace PHPKitchen\Domain\web\mixins;
 
 use yii\helpers\ArrayHelper;
 
 /**
  * Represents
  *
- * @package dekey\domain\web\mixins
+ * @package PHPKitchen\Domain\web\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ControllerActionsManagement {

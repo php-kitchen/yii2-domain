@@ -1,14 +1,14 @@
 <?php
 
-namespace dekey\domain\web\actions;
+namespace PHPKitchen\Domain\web\actions;
 
-use dekey\domain\exceptions\UnableToSaveEntityException;
-use dekey\domain\web\base\Action;
+use PHPKitchen\Domain\exceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\web\base\Action;
 
 /**
  * Represents
  *
- * @package dekey\domain\web
+ * @package PHPKitchen\Domain\web
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class DeleteEntity extends Action {
@@ -23,6 +23,7 @@ class DeleteEntity extends Action {
         $controller = $this->controller;
         $entity = $controller->findEntityByPk($id);
         $this->tryToDeleteEntity($entity);
+
         return $this->redirectToNextPage();
     }
 
@@ -48,6 +49,7 @@ class DeleteEntity extends Action {
         } else {
             $redirectUrl = $this->redirectUrl;
         }
+
         return $this->controller->redirect($redirectUrl);
     }
 }

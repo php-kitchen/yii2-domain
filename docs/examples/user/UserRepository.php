@@ -1,13 +1,13 @@
 <?php
 
-namespace DeKey\Examples\User;
+namespace PHPKitchen\Examples\User;
 
-use dekey\domain\db\EntitiesRepository;
+use PHPKitchen\Domain\db\EntitiesRepository;
 
 /**
  * Represents users repository.
  *
- * @package DeKey\Examples\User
+ * @package PHPKitchen\Examples\User
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class UserRepository extends EntitiesRepository {

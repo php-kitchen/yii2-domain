@@ -1,21 +1,23 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\di\mixins\ContainerAccess;
-use dekey\di\mixins\ServiceLocatorAccess;
-use dekey\domain\db\mixins\QueryConditionBuilderAccess;
-use dekey\domain\db\mixins\RecordQueryFunctions;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
+use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\contracts;
+use PHPKitchen\Domain\db\mixins\QueryConditionBuilderAccess;
+use PHPKitchen\Domain\db\mixins\RecordQueryFunctions;
 use yii\db\ActiveQuery;
-use dekey\domain\contracts;
 
 /**
  * Represents
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class RecordQuery extends ActiveQuery implements contracts\Specification, contracts\RecordQuery {
+class RecordQuery extends ActiveQuery implements contracts\Specification, contracts\RecordQuery, ContainerAware, ServiceLocatorAware {
     use QueryConditionBuilderAccess;
     use RecordQueryFunctions;
     use ContainerAccess;

@@ -1,16 +1,17 @@
 <?php
-namespace dekey\domain\mixins;
+
+namespace PHPKitchen\Domain\mixins;
 
 /**
  * Represents
  *
- * @mixin \dekey\di\mixins\ContainerAccess
+ * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait StrategiesComposingAlgorithm {
     /**
-     * @var \dekey\domain\base\Strategy[]|array
+     * @var \PHPKitchen\Domain\base\Strategy[]|array
      */
     private $_chainedStrategies;
 

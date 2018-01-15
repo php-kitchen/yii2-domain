@@ -1,14 +1,14 @@
 <?php
 
-namespace dekey\domain\base;
+namespace PHPKitchen\Domain\base;
 
-use dekey\domain\contracts\DomainEntity;
+use PHPKitchen\Domain\contracts\DomainEntity;
 use yii\base\Event;
 
 /**
  * Represents
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ModelEvent extends Event {

@@ -1,20 +1,19 @@
 <?php
 
-namespace dekey\domain\web\mixins;
+namespace PHPKitchen\Domain\web\mixins;
 
-
-use dekey\domain\web\base\ViewModel;
+use PHPKitchen\Domain\web\base\ViewModel;
 
 /**
  * Represents
  *
- * @property \yii\web\Controller|\dekey\domain\contracts\EntityCrudController $controller
+ * @property \yii\web\Controller|\PHPKitchen\Domain\contracts\EntityCrudController $controller
  * @property string $id
  * @property string $viewModelClassName
  *
- * @mixin \dekey\di\mixins\ServiceLocatorAccess
- * @mixin \dekey\di\mixins\ContainerAccess
- * @package dekey\domain\web\mixins
+ * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
+ * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
+ * @package PHPKitchen\Domain\web\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ViewModelManagement {
@@ -26,12 +25,14 @@ trait ViewModelManagement {
 
     protected function createNewModel() {
         $entity = $this->controller->getRepository()->createNewEntity();
+
         return $this->createViewModel($entity);
     }
 
     /**
-     * @param \dekey\domain\base\Entity $entity
-     * @return \dekey\domain\web\base\ViewModel
+     * @param \PHPKitchen\Domain\base\Entity $entity
+     *
+     * @return \PHPKitchen\Domain\web\base\ViewModel
      */
     protected function createViewModel($entity) {
         $model = $this->container->create([
@@ -40,6 +41,7 @@ trait ViewModelManagement {
             'controller' => $this->controller,
         ]);
         $model->scenario = $this->scenario;
+
         return $model;
     }
 

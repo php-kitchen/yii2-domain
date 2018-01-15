@@ -1,21 +1,21 @@
 <?php
 
-namespace dekey\domain\base;
+namespace PHPKitchen\Domain\base;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\contracts\ServiceLocatorAware;
-use dekey\di\mixins\ContainerAccess;
-use dekey\di\mixins\ServiceLocatorAccess;
-use dekey\domain\mixins\LoggerAccess;
-use yii\base\Object;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
+use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\mixins\LoggerAccess;
+use yii\base\BaseObject;
 
 /**
  * Represents
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class MagicObject extends Object implements ContainerAware, ServiceLocatorAware {
+class MagicObject extends BaseObject implements ContainerAware, ServiceLocatorAware {
     use ServiceLocatorAccess;
     use ContainerAccess;
     use LoggerAccess;

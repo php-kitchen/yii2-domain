@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\domain\web\actions;
+namespace PHPKitchen\Domain\web\actions;
 
-use dekey\domain\web\base\EntityModificationAction;
+use PHPKitchen\Domain\web\base\EntityModificationAction;
 
 /**
  * Represents
  *
- * @package dekey\domain\web\actions
+ * @package PHPKitchen\Domain\web\actions
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class AddEntity extends EntityModificationAction {

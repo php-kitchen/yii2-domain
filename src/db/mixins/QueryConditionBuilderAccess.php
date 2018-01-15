@@ -1,17 +1,17 @@
 <?php
 
-namespace dekey\domain\db\mixins;
+namespace PHPKitchen\Domain\db\mixins;
 
-use dekey\domain\db\QueryConditionBuilder;
+use PHPKitchen\Domain\db\QueryConditionBuilder;
 
 /**
  * Represents
  *
  * @property QueryConditionBuilder $conditionBuilder protected alias of the {@link _conditionBuilder}
  *
- * @mixin \dekey\di\mixins\ContainerAccess
+ * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  *
- * @package dekey\domain\db\mixins
+ * @package PHPKitchen\Domain\db\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait QueryConditionBuilderAccess {
@@ -23,6 +23,7 @@ trait QueryConditionBuilderAccess {
      *
      * @param string $field field name.
      * @param null $alias optional alias. If not used query alias will be used.
+     *
      * @return string
      */
     public function buildAliasedNameOfField($field, $alias = null) {
@@ -37,6 +38,7 @@ trait QueryConditionBuilderAccess {
         if (null === $this->_conditionBuilder) {
             $this->_conditionBuilder = $this->container->create($this->conditionBuilderClassName, [$query = $this]);
         }
+
         return $this->_conditionBuilder;
     }
 }

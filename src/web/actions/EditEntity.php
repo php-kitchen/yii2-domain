@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\domain\web\actions;
+namespace PHPKitchen\Domain\web\actions;
 
-use dekey\domain\web\base\EntityModificationAction;
+use PHPKitchen\Domain\web\base\EntityModificationAction;
 
 /**
  * Represents
  *
- * @package dekey\domain\web\actions
+ * @package PHPKitchen\Domain\web\actions
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class EditEntity extends EntityModificationAction {
@@ -19,6 +19,7 @@ class EditEntity extends EntityModificationAction {
 
     public function run($id) {
         $this->entityId = $id;
+
         return $this->loadModelAndSaveOrPrintView();
     }
 

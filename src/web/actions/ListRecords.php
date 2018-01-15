@@ -1,15 +1,15 @@
 <?php
 
-namespace dekey\domain\web\actions;
+namespace PHPKitchen\Domain\web\actions;
 
-use dekey\domain\web\base\Action;
-use dekey\domain\web\base\ListingModel;
-use dekey\domain\web\mixins\ViewModelManagement;
+use PHPKitchen\Domain\web\base\Action;
+use PHPKitchen\Domain\web\base\ListingModel;
+use PHPKitchen\Domain\web\mixins\ViewModelManagement;
 
 /**
  * Represents
  *
- * @package dekey\domain\web
+ * @package PHPKitchen\Domain\web
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ListRecords extends Action {
@@ -41,6 +41,7 @@ class ListRecords extends Action {
         $model = $this->createNewModel();
         $request = $this->getRequest();
         $model->load($request->queryParams);
+
         return $this->renderViewFile(compact('model'));
     }
 }

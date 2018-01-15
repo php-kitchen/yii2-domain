@@ -1,11 +1,11 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
 /**
  * Represents domain entity.
  *
- * @package dekey\domain
+ * @package PHPKitchen\Domain
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface DomainEntity {

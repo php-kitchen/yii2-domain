@@ -1,22 +1,22 @@
 <?php
 
-namespace dekey\domain\data;
+namespace PHPKitchen\Domain\data;
 
-use dekey\domain\contracts;
+use PHPKitchen\Domain\contracts;
 use yii\data\ActiveDataProvider;
 
 /**
  * Represents DB records provider.
  *
- * @property \dekey\domain\db\EntitiesRepository|\dekey\domain\db\RecordsRepository $repository
- * @property \dekey\domain\db\RecordQuery $query
+ * @property \PHPKitchen\Domain\db\EntitiesRepository|\PHPKitchen\Domain\db\RecordsRepository $repository
+ * @property \PHPKitchen\Domain\db\RecordQuery $query
  *
- * @package dekey\domain\data
+ * @package PHPKitchen\Domain\data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordsProvider extends ActiveDataProvider {
     /**
-     * @var \dekey\domain\db\EntitiesRepository|\dekey\domain\db\RecordsRepository
+     * @var \PHPKitchen\Domain\db\EntitiesRepository|\PHPKitchen\Domain\db\RecordsRepository
      */
     protected $_repository;
 

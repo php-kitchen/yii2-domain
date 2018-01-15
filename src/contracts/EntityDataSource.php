@@ -1,11 +1,11 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
 /**
  * Represents {@link DomainEntity} data source.
  *
- * @package dekey\domain
+ * @package PHPKitchen\Domain
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface EntityDataSource {
@@ -29,6 +29,7 @@ interface EntityDataSource {
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function validateAndSave($attributeNames = null);
@@ -53,6 +54,7 @@ interface EntityDataSource {
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function saveWithoutValidation($attributeNames = null);
@@ -71,6 +73,7 @@ interface EntityDataSource {
      * null will be returned.
      *
      * @param string $name the attribute name
+     *
      * @return mixed the attribute value. Null if the attribute is not set or does not exist.
      */
     public function getAttribute($name);

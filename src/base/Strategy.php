@@ -1,7 +1,8 @@
 <?php
-namespace dekey\domain\base;
 
-use dekey\domain\contracts;
+namespace PHPKitchen\Domain\base;
+
+use PHPKitchen\Domain\contracts;
 use yii\base\Event;
 
 /**
@@ -14,6 +15,7 @@ abstract class Strategy extends Component implements contracts\Strategy {
 
     /**
      * @param array ...$params algorithm params.
+     *
      * @return mixed strategy result.
      */
     public function __invoke(...$params) {

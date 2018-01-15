@@ -1,17 +1,17 @@
 <?php
 
-namespace dekey\domain\db\mixins;
+namespace PHPKitchen\Domain\db\mixins;
 
 /**
- * Combines functions required for {@link dekey\domain\db\RecordQuery}.
- * The only goal of this mixin is to allow building custom query classes without extending {@link dekey\domain\db\RecordQuery}
+ * Combines functions required for {@link PHPKitchen\Domain\db\RecordQuery}.
+ * The only goal of this mixin is to allow building custom query classes without extending {@link PHPKitchen\Domain\db\RecordQuery}
  *
  * @property string $alias public alias of the {@link _alias}
  * @property string $mainTableName public alias of the {@link _mainTableName}
  *
  * @mixin QueryConditionBuilderAccess
  *
- * @package dekey\domain\db\mixins
+ * @package PHPKitchen\Domain\db\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait RecordQueryFunctions {
@@ -40,17 +40,20 @@ trait RecordQueryFunctions {
         foreach ($this->getBehaviors() as $name => $behavior) {
             $clone->attachBehavior($name, clone $behavior);
         }
+
         return $clone;
     }
 
     /**
      * @param $pk
-     * @return \dekey\domain\db\Record|array|null
+     *
+     * @return \PHPKitchen\Domain\db\Record|array|null
      */
     public function oneWithPk($pk) {
         $pkParam = $this->buildAliasedNameOfParam('pk');
         $primaryKey = $this->buildAliasedNameOfField($this->primaryKeyName);
         $this->andWhere("{$primaryKey}={$pkParam}", [$pkParam => $pk]);
+
         return $this->one();
     }
 
@@ -60,6 +63,7 @@ trait RecordQueryFunctions {
      */
     public function alias($alias) {
         $this->_alias = $alias;
+
         return parent::alias($alias);
     }
 
@@ -76,6 +80,7 @@ trait RecordQueryFunctions {
             $method = new \ReflectionMethod($this->modelClass, 'tableName');
             $this->_mainTableName = $method->invoke(null);
         }
+
         return $this->_mainTableName;
     }
 
@@ -87,6 +92,7 @@ trait RecordQueryFunctions {
         if ($this->_alias === null) {
             $this->_alias = $this->getMainTableName();
         }
+
         return $this->_alias;
     }
     //endregion

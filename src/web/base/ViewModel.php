@@ -1,12 +1,12 @@
 <?php
 
-namespace dekey\domain\web\base;
+namespace PHPKitchen\Domain\web\base;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\contracts\ServiceLocatorAware;
-use dekey\di\mixins\ContainerAccess;
-use dekey\di\mixins\ServiceLocatorAccess;
-use dekey\domain\contracts\DomainEntity;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
+use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\contracts\DomainEntity;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -14,19 +14,19 @@ use yii\helpers\ArrayHelper;
  * Represents base view model.
  *
  * @property mixed $id
- * @property \dekey\domain\contracts\EntityController|\yii\web\Controller $controller
- * @property \dekey\domain\db\EntitiesRepository $repository
- * @property \dekey\domain\data\EntitiesProvider $dataProvider
- * @property \dekey\domain\base\Entity $entity
+ * @property \PHPKitchen\Domain\contracts\EntityController|\yii\web\Controller $controller
+ * @property \PHPKitchen\Domain\db\EntitiesRepository $repository
+ * @property \PHPKitchen\Domain\data\EntitiesProvider $dataProvider
+ * @property \PHPKitchen\Domain\base\Entity $entity
  *
- * @package dekey\domain\web
+ * @package PHPKitchen\Domain\web
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     use ContainerAccess;
     use ServiceLocatorAccess;
     /**
-     * @var \dekey\domain\base\Entity
+     * @var \PHPKitchen\Domain\base\Entity
      */
     private $_entity;
     /**
@@ -42,7 +42,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      */
     private $_entityAttributesMap;
     /**
-     * @var \dekey\domain\contracts\EntityController|\yii\web\Controller
+     * @var \PHPKitchen\Domain\contracts\EntityController|\yii\web\Controller
      */
     private $_controller;
 
@@ -51,6 +51,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         $newAttributes = $this->convertToEntityAttributes();
         $entity = $this->getEntity();
         $entity->load(ArrayHelper::merge($defaultAttributes, $newAttributes));
+
         return $entity;
     }
 
@@ -84,6 +85,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
             }
             $attributes[$entityAttribute] = $attributeValue;
         }
+
         return $attributes;
     }
 
@@ -94,6 +96,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      */
     public function loadAttributesFromEntity() {
         $attributes = $this->convertEntityToSelfAttributes();
+
         return $this->load($attributes, '');
     }
 
@@ -110,6 +113,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
                 $attributes[$formValue] = $entity->$modelAttribute;
             }
         }
+
         return $attributes;
     }
 
@@ -118,6 +122,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
             $selfAttributeNames = $this->attributes();
             $this->_entityAttributesMap = array_combine($selfAttributeNames, $selfAttributeNames);
         }
+
         return $this->_entityAttributesMap;
     }
 

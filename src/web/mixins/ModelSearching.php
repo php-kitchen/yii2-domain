@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\domain\web\mixins;
+namespace PHPKitchen\Domain\web\mixins;
 
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
@@ -11,10 +11,10 @@ use yii\web\NotFoundHttpException;
  * @property \yii\web\Controller $controller
  * @property string $id
  *
- * @mixin \dekey\di\mixins\ServiceLocatorAccess
- * @mixin \dekey\di\mixins\ContainerAccess
+ * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
+ * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  * @mixin ViewModelManagement
- * @package dekey\domain\web\mixins
+ * @package PHPKitchen\Domain\web\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait ModelSearching {

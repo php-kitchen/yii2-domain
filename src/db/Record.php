@@ -1,22 +1,22 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\contracts\ServiceLocatorAware;
-use dekey\di\mixins\ContainerAccess;
-use dekey\di\mixins\ServiceLocatorAccess;
-use dekey\domain\contracts;
-use dekey\domain\contracts\EntityDataSource;
-use dekey\domain\contracts\LoggerAware;
-use dekey\domain\mixins\LoggerAccess;
-use dekey\domain\mixins\StaticSelfAccess;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
+use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\contracts;
+use PHPKitchen\Domain\contracts\EntityDataSource;
+use PHPKitchen\Domain\contracts\LoggerAware;
+use PHPKitchen\Domain\mixins\LoggerAccess;
+use PHPKitchen\Domain\mixins\StaticSelfAccess;
 use yii\db\ActiveRecord;
 
 /**
  * Represents
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Record extends ActiveRecord implements contracts\Record, ContainerAware, ServiceLocatorAware, LoggerAware, EntityDataSource {
@@ -44,6 +44,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
 
     /**
      * @param $class
+     *
      * @return RecordQuery
      */
     public function createQuery($class) {
@@ -52,6 +53,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
          */
         $finder = $this->getContainer()->create($class, [static::class]);
         $finder->setMainTableName(static::tableName());
+
         return $finder;
     }
 
@@ -91,6 +93,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function validateAndSave($attributeNames = null) {
@@ -121,6 +124,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      * will not be saved to the database and this method will return `false`.
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
+     *
      * @return boolean whether the saving succeeded (i.e. no validation errors occurred).
      */
     public function saveWithoutValidation($attributeNames = null) {

@@ -1,14 +1,14 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\domain;
-use dekey\domain\contracts;
+use PHPKitchen\Domain;
+use PHPKitchen\Domain\contracts;
 
 /**
  * Represents DB records repository.
  *
- * @package dekey\domain\db
+ * @package PHPKitchen\Domain\db
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordsRepository extends base\Repository {
@@ -23,6 +23,7 @@ class RecordsRepository extends base\Repository {
      * @param Record|contracts\DomainEntity $entity
      * @param bool $runValidation
      * @param array $attributes
+     *
      * @return bool result.
      * @throws domain\exceptions\UnableToSaveEntityException
      */
@@ -47,6 +48,7 @@ class RecordsRepository extends base\Repository {
 
     /**
      * @param Record|contracts\DomainEntity $entity
+     *
      * @return bool result.
      */
     public function delete(contracts\DomainEntity $entity) {
@@ -58,11 +60,13 @@ class RecordsRepository extends base\Repository {
         if ($result) {
             $this->triggerModelEvent(self::EVENT_AFTER_DELETE, $entity);
         }
+
         return $result;
     }
 
     /**
      * @param Record|contracts\DomainEntity $entity
+     *
      * @return bool result.
      */
     public function validate(contracts\DomainEntity $entity) {

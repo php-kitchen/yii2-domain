@@ -8,7 +8,7 @@ namespace tests\stubs\base;
  * @package tests\stubs
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Record extends \dekey\domain\db\Record {
+class Record extends \PHPKitchen\Domain\db\Record {
     protected $saveResult = true;
     protected $deleteResult = true;
     protected $emulatedErrors = [];

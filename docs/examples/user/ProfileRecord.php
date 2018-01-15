@@ -1,8 +1,8 @@
 <?php
 
-namespace DeKey\Examples\User;
+namespace PHPKitchen\Examples\User;
 
-use dekey\domain\db\Record;
+use PHPKitchen\Domain\db\Record;
 
 /**
  * Represents user profile record in the DB.
@@ -12,7 +12,7 @@ use dekey\domain\db\Record;
  * @property int $fullName
  * @property int $dateOfBirth
  *
- * @package DeKey\Examples\User
+ * @package PHPKitchen\Examples\User
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ProfileRecord extends Record {

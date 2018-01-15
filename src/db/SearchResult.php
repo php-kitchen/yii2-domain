@@ -1,15 +1,15 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\domain\base\MagicObject;
-use dekey\domain\contracts;
+use PHPKitchen\Domain\base\MagicObject;
+use PHPKitchen\Domain\contracts;
 use yii\db\BatchQueryResult;
 
 /**
  * Represents
  *
- * @package dekey\domain\db
+ * @package PHPKitchen\Domain\db
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class SearchResult extends MagicObject implements \Iterator {
@@ -37,6 +37,7 @@ class SearchResult extends MagicObject implements \Iterator {
         } else {
             $entity = null;
         }
+
         return $entity;
     }
 

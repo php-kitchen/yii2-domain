@@ -1,8 +1,8 @@
 <?php
 
-namespace DeKey\Examples\User;
+namespace PHPKitchen\Examples\User;
 
-use dekey\domain\db\Record;
+use PHPKitchen\Domain\db\Record;
 
 /**
  * Represents record of a user in the DB.
@@ -16,7 +16,7 @@ use dekey\domain\db\Record;
  * Relations:
  * @property ProfileRecord $profile link to profile table in the DB.
  *
- * @package DeKey\Examples\User
+ * @package PHPKitchen\Examples\User
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class UserRecord extends Record {

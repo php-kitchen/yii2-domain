@@ -1,8 +1,8 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
-use dekey\domain\db\EntitiesRepository;
+use PHPKitchen\Domain\db\EntitiesRepository;
 
 /**
  * Represents
@@ -11,7 +11,7 @@ use dekey\domain\db\EntitiesRepository;
  *
  * @deprecated
  *
- * @package dekey\domain\contracts
+ * @package PHPKitchen\Domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface EntityCrudController {

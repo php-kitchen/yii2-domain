@@ -2,7 +2,7 @@
 
 namespace tests\data;
 
-use dekey\domain\data\EntitiesProvider;
+use PHPKitchen\Domain\data\EntitiesProvider;
 use tests\base\TestCase;
 use tests\stubs\models\dummy\DummyEntity;
 use tests\stubs\models\dummy\DummyQuery;
@@ -12,7 +12,7 @@ use tests\stubs\models\dummy\DummyRepository;
 /**
  * Unit test for {@link EntitiesProvider}
  *
- * @coversDefaultClass \dekey\domain\data\EntitiesProvider
+ * @coversDefaultClass \PHPKitchen\Domain\data\EntitiesProvider
  *
  * @package tests\data
  * @author Dmitry Kolodko <prowwid@gmail.com>

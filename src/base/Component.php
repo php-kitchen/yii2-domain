@@ -1,18 +1,19 @@
 <?php
 
-namespace dekey\domain\base;
+namespace PHPKitchen\Domain\base;
 
-use dekey\di\contracts\ContainerAware;
-use dekey\di\contracts\ServiceLocatorAware;
-use dekey\di\mixins\ContainerAccess;
-use dekey\di\mixins\ServiceLocatorAccess;
-use dekey\domain\contracts\LoggerAware;
-use dekey\domain\mixins\LoggerAccess;
+use PHPKitchen\DI\Contracts\ContainerAware;
+use PHPKitchen\DI\Contracts\ServiceLocatorAware;
+use PHPKitchen\DI\Mixins\ContainerAccess;
+use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\contracts\LoggerAware;
+use PHPKitchen\Domain\mixins\LoggerAccess;
 
 /**
- * Represents
+ * Extends default Yii {@link \yii\base\Component} to provide container and
+ * service provider access features.
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Component extends \yii\base\Component implements ContainerAware, ServiceLocatorAware, LoggerAware {

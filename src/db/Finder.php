@@ -1,14 +1,14 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\domain\base\MagicObject;
-use dekey\domain\contracts;
+use PHPKitchen\Domain\base\MagicObject;
+use PHPKitchen\Domain\contracts;
 
 /**
  * Represents
  *
- * @package dekey\domain\db
+ * @package PHPKitchen\Domain\db
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Finder extends MagicObject {
@@ -40,6 +40,7 @@ class Finder extends MagicObject {
         foreach ($queryResult as $record) {
             $entities[] = $this->createEntityFromRecord($record);
         }
+
         return $entities;
     }
 
@@ -57,11 +58,13 @@ class Finder extends MagicObject {
 
     public function batch($batchSize = 100) {
         $iterator = $this->getQuery()->batch($batchSize);
+
         return $this->container->create(SearchResult::class, [$iterator, $this->getRepository()]);
     }
 
     public function each($batchSize = 100) {
         $iterator = $this->getQuery()->each($batchSize);
+
         return $this->container->create(SearchResult::class, [$iterator, $this->getRepository()]);
     }
 
@@ -71,6 +74,7 @@ class Finder extends MagicObject {
         } else {
             $entity = $record;
         }
+
         return $entity;
     }
 
@@ -82,6 +86,7 @@ class Finder extends MagicObject {
         } else {
             $result = parent::__call($name, $params);
         }
+
         return $result;
     }
 

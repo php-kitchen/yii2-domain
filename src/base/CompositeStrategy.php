@@ -1,7 +1,8 @@
 <?php
-namespace dekey\domain\base;
 
-use dekey\domain\mixins\StrategiesComposingAlgorithm;
+namespace PHPKitchen\Domain\base;
+
+use PHPKitchen\Domain\mixins\StrategiesComposingAlgorithm;
 
 /**
  * Represents

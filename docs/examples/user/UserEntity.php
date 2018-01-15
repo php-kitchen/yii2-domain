@@ -1,8 +1,8 @@
 <?php
 
-namespace DeKey\Examples\User;
+namespace PHPKitchen\Examples\User;
 
-use dekey\domain\base\Entity;
+use PHPKitchen\Domain\base\Entity;
 
 /**
  * Represents user entity.
@@ -16,7 +16,7 @@ use dekey\domain\base\Entity;
  * @property int $fullName
  * @property int $dateOfBirth
  *
- * @package DeKey\Examples\User
+ * @package PHPKitchen\Examples\User
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class UserEntity extends Entity {

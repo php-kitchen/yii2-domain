@@ -1,11 +1,11 @@
 <?php
 
-namespace dekey\domain\contracts;
+namespace PHPKitchen\Domain\contracts;
 
 /**
  * Represents
  *
- * @package dekey\domain\contracts
+ * @package PHPKitchen\Domain\contracts
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 interface Finder {

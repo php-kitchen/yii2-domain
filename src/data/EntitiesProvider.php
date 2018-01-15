@@ -1,8 +1,8 @@
 <?php
 
-namespace dekey\domain\data;
+namespace PHPKitchen\Domain\data;
 
-use dekey\domain\contracts\Record;
+use PHPKitchen\Domain\contracts\Record;
 
 /**
  * Represents data provider of an Entity.
@@ -10,7 +10,7 @@ use dekey\domain\contracts\Record;
  * Extends {@link RecordsProvider} to fetch data using query object and then convert
  * records to entities.
  *
- * @package dekey\domain\data
+ * @package PHPKitchen\Domain\data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class EntitiesProvider extends RecordsProvider {
@@ -24,6 +24,7 @@ class EntitiesProvider extends RecordsProvider {
         } else {
             $newResult = &$result;
         }
+
         return $newResult;
     }
 }

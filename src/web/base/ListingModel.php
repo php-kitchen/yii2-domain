@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\domain\web\base;
+namespace PHPKitchen\Domain\web\base;
 
-use dekey\domain\contracts\Specification;
+use PHPKitchen\Domain\contracts\Specification;
 
 /**
  * Represents a view model designed to be used in listing actions.
  *
- * @package dekey\domain\web\base
+ * @package PHPKitchen\Domain\web\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class ListingModel extends ViewModel {
@@ -16,7 +16,7 @@ class ListingModel extends ViewModel {
     /**
      * Override this method
      *
-     * @return \dekey\domain\data\EntitiesProvider
+     * @return \PHPKitchen\Domain\data\EntitiesProvider
      */
     public function getDataProvider() {
         $provider = $this->repository->getEntitiesProvider();
@@ -26,6 +26,7 @@ class ListingModel extends ViewModel {
         if ($provider->query instanceof Specification) {
             $provider->query->bySearchModel($this);
         }
+
         return $provider;
     }
 }

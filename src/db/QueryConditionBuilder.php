@@ -1,14 +1,14 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\domain\base\MagicObject;
-use dekey\domain\contracts;
+use PHPKitchen\Domain\base\MagicObject;
+use PHPKitchen\Domain\contracts;
 
 /**
  * Represents
  *
- * @package dekey\domain\db
+ * @package PHPKitchen\Domain\db
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class QueryConditionBuilder extends MagicObject {
@@ -25,6 +25,7 @@ class QueryConditionBuilder extends MagicObject {
 
     public function buildAliasedNameOfField($field, $alias = null) {
         $alias = $alias ? $alias : $this->query->alias;
+
         return "[[$alias]].[[$field]]";
     }
 
@@ -37,6 +38,7 @@ class QueryConditionBuilder extends MagicObject {
         } else {
             $this->addParamNameToUsed($paramName);
         }
+
         return $paramName;
     }
 
@@ -50,6 +52,7 @@ class QueryConditionBuilder extends MagicObject {
 
     protected function getParamNameNextIndexAndIncreaseCurrent($paramName) {
         $this->_paramNamesCounters[$paramName]++;
+
         return $this->_paramNamesCounters[$paramName];
     }
 }

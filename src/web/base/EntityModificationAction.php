@@ -1,15 +1,15 @@
 <?php
 
-namespace dekey\domain\web\base;
+namespace PHPKitchen\Domain\web\base;
 
-use dekey\domain\exceptions\UnableToSaveEntityException;
-use dekey\domain\web\mixins\ModelSearching;
-use dekey\domain\web\mixins\ViewModelManagement;
+use PHPKitchen\Domain\exceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\web\mixins\ModelSearching;
+use PHPKitchen\Domain\web\mixins\ViewModelManagement;
 
 /**
  * Represents
  *
- * @package dekey\domain\web\base
+ * @package PHPKitchen\Domain\web\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 abstract class EntityModificationAction extends Action {
@@ -20,7 +20,7 @@ abstract class EntityModificationAction extends Action {
     public $validationFailedFlashMessage = 'Please correct errors.';
     public $successFlashMessage = 'Changes successfully saved.';
     /**
-     * @var \dekey\domain\web\base\ViewModel;
+     * @var \PHPKitchen\Domain\web\base\ViewModel;
      */
     protected $_model;
 
@@ -38,6 +38,7 @@ abstract class EntityModificationAction extends Action {
         if ($this->getModel()->load($this->getRequest()->post())) {
             $isSaved = $this->validateModelAndTryToSaveEntity();
         }
+
         return $isSaved;
     }
 
@@ -48,6 +49,7 @@ abstract class EntityModificationAction extends Action {
             $this->addErrorFlash($this->validationFailedFlashMessage);
             $result = false;
         }
+
         return $result;
     }
 
@@ -64,6 +66,7 @@ abstract class EntityModificationAction extends Action {
         } else {
             $this->addErrorFlash($this->failToSaveErrorFlashMessage);
         }
+
         return $savedSuccessfully;
     }
 
@@ -76,6 +79,7 @@ abstract class EntityModificationAction extends Action {
         } else {
             $redirectUrl = $this->redirectUrl;
         }
+
         return $this->controller->redirect($redirectUrl);
     }
 
@@ -83,6 +87,7 @@ abstract class EntityModificationAction extends Action {
         if (null === $this->_model) {
             $this->initModel();
         }
+
         return $this->_model;
     }
 }

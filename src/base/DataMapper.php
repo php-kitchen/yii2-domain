@@ -1,20 +1,20 @@
 <?php
 
-namespace dekey\domain\base;
+namespace PHPKitchen\Domain\base;
 
-use dekey\domain\contracts\Record;
+use PHPKitchen\Domain\contracts\Record;
 
 /**
  * Represents
  *
  * @property mixed $primaryKey
  *
- * @package dekey\domain\base
+ * @package PHPKitchen\Domain\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class DataMapper extends Component {
     /**
-     * @var \dekey\domain\db\Record
+     * @var \PHPKitchen\Domain\db\Record
      */
     protected $dataSource;
     protected $relatedEntities;
@@ -29,11 +29,13 @@ class DataMapper extends Component {
 
     public function canGet($name) {
         $dataSource = $this->dataSource;
+
         return $dataSource->canGetProperty($name);
     }
 
     public function canSet($name) {
         $dataSource = $this->dataSource;
+
         return $dataSource->canSetProperty($name);
     }
 
@@ -72,6 +74,7 @@ class DataMapper extends Component {
                 $this->relatedEntities[$propertyName] = &$entities;
             }
         }
+
         return $property;
     }
 
@@ -82,7 +85,7 @@ class DataMapper extends Component {
     protected function arrayHasOnlyRecords(&$array) {
         return array_reduce(
             $array,
-            function($result, $element) {
+            function ($result, $element) {
                 return ($element instanceof Record);
             }
         );
@@ -90,7 +93,8 @@ class DataMapper extends Component {
 
     /**
      * @param $record
-     * @return null|\dekey\domain\db\EntitiesRepository
+     *
+     * @return null|\PHPKitchen\Domain\db\EntitiesRepository
      */
     protected function findRepositoryForRecord($record) {
         $recordClass = get_class($record);
@@ -101,6 +105,7 @@ class DataMapper extends Component {
         } catch (\Exception $e) {
             $repository = null;
         }
+
         return $repository;
     }
 

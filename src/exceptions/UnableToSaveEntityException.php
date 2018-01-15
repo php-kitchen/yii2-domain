@@ -1,6 +1,6 @@
 <?php
 
-namespace dekey\domain\exceptions;
+namespace PHPKitchen\Domain\exceptions;
 
 /**
  * Represents

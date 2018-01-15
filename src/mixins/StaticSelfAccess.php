@@ -1,16 +1,16 @@
 <?php
 
-namespace dekey\domain\mixins;
+namespace PHPKitchen\Domain\mixins;
 
 /**
  * Represents
  *
- * @package dekey\domain\mixins
+ * @package PHPKitchen\Domain\mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 trait StaticSelfAccess {
     /**
-     * @return \dekey\domain\base\Component[]
+     * @return \PHPKitchen\Domain\base\Component[]
      */
     protected static $_instances = [];
 
@@ -21,6 +21,7 @@ trait StaticSelfAccess {
         if (!isset(static::$_instances[static::class])) {
             static::initializeInstance();
         }
+
         return static::$_instances[static::class];
     }
 

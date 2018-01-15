@@ -1,13 +1,13 @@
 <?php
 
-namespace dekey\domain\db;
+namespace PHPKitchen\Domain\db;
 
-use dekey\domain\base\MagicObject;
+use PHPKitchen\Domain\base\MagicObject;
 
 /**
  * Represents
  *
- * @package dekey\domain\db
+ * @package PHPKitchen\Domain\db
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class Condition extends MagicObject {
@@ -19,6 +19,7 @@ class Condition extends MagicObject {
         } else {
             $result = parent::__call($name, $params);
         }
+
         return $result;
     }
 }
