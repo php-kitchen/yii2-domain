@@ -2,7 +2,7 @@
 
 namespace tests\data;
 
-use PHPKitchen\Domain\data\EntitiesProvider;
+use PHPKitchen\Domain\Data\EntitiesProvider;
 use tests\base\TestCase;
 use tests\stubs\models\dummy\DummyEntity;
 use tests\stubs\models\dummy\DummyQuery;

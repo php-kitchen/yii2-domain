@@ -2,7 +2,7 @@
 
 namespace tests\stubs\models\tmux;
 
-use PHPKitchen\Domain\db\EntitiesRepository;
+use PHPKitchen\Domain\DB\EntitiesRepository;
 
 /**
  * Represents

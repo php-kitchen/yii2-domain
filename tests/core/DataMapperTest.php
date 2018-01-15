@@ -2,7 +2,7 @@
 
 namespace tests\core;
 
-use PHPKitchen\Domain\base\DataMapper;
+use PHPKitchen\Domain\Base\DataMapper;
 use tests\base\TestCase;
 use tests\stubs\models\dummy\DummyEntity;
 use tests\stubs\models\dummy\DummyRecord;

@@ -2,7 +2,7 @@
 
 namespace tests\stubs\models\dummy;
 
-use PHPKitchen\Domain\base\Entity;
+use PHPKitchen\Domain\Base\Entity;
 
 /**
  * Represents

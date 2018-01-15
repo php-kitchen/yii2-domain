@@ -1,13 +1,13 @@
 <?php
 
-namespace PHPKitchen\Examples\User;
+namespace DeKey\Examples\User;
 
-use PHPKitchen\Domain\db\RecordQuery;
+use PHPKitchen\Domain\DB\RecordQuery;
 
 /**
  * Represents user DB record query.
  *
- * @package PHPKitchen\Examples\User
+ * @package DeKey\Examples\User
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class UserQuery extends RecordQuery {

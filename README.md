@@ -12,23 +12,23 @@ Includes realization of a following patters:
 
 Latest Stable Version | Total downloads | Monthly Downloads | Licensing 
 --------------------- |  -------------- | ----------------  | --------- 
-[![Latest Stable Version](https://poser.pugx.org/dekeysoft/yii2-domain/v/stable)](https://packagist.org/packages/dekeysoft/yii2-domain) | [![Total Downloads](https://poser.pugx.org/dekeysoft/yii2-domain/downloads)](https://packagist.org/packages/dekeysoft/yii2-domain) | [![Monthly Downloads](https://poser.pugx.org/dekeysoft/yii2-domain/d/monthly)](https://packagist.org/packages/dekeysoft/yii2-domain) | [![License](https://poser.pugx.org/dekeysoft/yii2-domain/license)](https://packagist.org/packages/dekeysoft/yii2-domain)
+[![Latest Stable Version](https://poser.pugx.org/php-kitchen/yii2-domain/v/stable)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![Total Downloads](https://poser.pugx.org/php-kitchen/yii2-domain/downloads)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![Monthly Downloads](https://poser.pugx.org/php-kitchen/yii2-domain/d/monthly)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![License](https://poser.pugx.org/php-kitchen/yii2-domain/license)](https://packagist.org/packages/php-kitchen/yii2-domain)
 
 ## Requirements
 
-**`PHP >= 5.6.0` is required.**
+**`PHP >= 7.1` is required.**
 
 ## Getting Started
 
-Run the following command to add Yii2 Domain to your project's `composer.json`. See [Packagist](https://packagist.org/packages/dekeysoft/yii2-domain) for specific versions.
+Run the following command to add Yii2 Domain to your project's `composer.json`. See [Packagist](https://packagist.org/packages/php-kitchen/yii2-domain) for specific versions.
 
 ```bash
-composer require dekeysoft/yii2-domain
+composer require php-kitchen/yii2-domain
 ```
 
 Or you can copy this library from:
-- [Packagist](https://packagist.org/packages/dekeysoft/yii2-domain)
-- [Github](https://github.com/dekeysoft/yii2-domain)
+- [Packagist](https://packagist.org/packages/php-kitchen/yii2-domain)
+- [Github](https://github.com/php-kitchen/yii2-domain)
 
 For additional information and guides go to the [project documentation](docs/README.md)
 
@@ -82,10 +82,14 @@ a framework that would allow you to build high quality architecture and implemen
 There are few decent solutions to build domain layer in a new project:
 - [Spot ORM](http://phpdatamapper.com/)
 - [Symfony + Doctrine](http://symfony.com/doc/current/doctrine.html) (preferable solution)
-- [Eloquent ORM](http://laravel.su/docs/5.2/eloquent) (if you like Laravel and you are not working with enterprise applications)
+- [Eloquent ORM](http://laravel.su/docs/5.4/eloquent) (if you like Laravel and you are not working with enterprise applications)
+
+## Contributing
+
+If you want to ask any questions, suggest improvements or just to talk with community and developers, [join our server at Discord](https://discord.gg/Ez5VZhC) 
 
 ## Build status
 
 CI status    | Code quality
 ------------ | ------------
-[![Build Status](https://travis-ci.org/dekeysoft/yii2-domain.svg?branch=master)](https://travis-ci.org/dekeysoft/yii2-domain) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dekeysoft/yii2-domain/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dekeysoft/yii2-domain/?branch=master)
+[![Build Status](https://travis-ci.org/php-kitchen/yii2-domain.svg?branch=master)](https://travis-ci.org/php-kitchen/yii2-domain) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/?branch=master)
