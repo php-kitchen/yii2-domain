@@ -29,11 +29,13 @@ class DataMapper extends Component {
 
     public function canGet($name) {
         $dataSource = $this->dataSource;
+
         return $dataSource->canGetProperty($name);
     }
 
     public function canSet($name) {
         $dataSource = $this->dataSource;
+
         return $dataSource->canSetProperty($name);
     }
 
@@ -72,6 +74,7 @@ class DataMapper extends Component {
                 $this->relatedEntities[$propertyName] = &$entities;
             }
         }
+
         return $property;
     }
 
@@ -82,7 +85,7 @@ class DataMapper extends Component {
     protected function arrayHasOnlyRecords(&$array) {
         return array_reduce(
             $array,
-            function($result, $element) {
+            function ($result, $element) {
                 return ($element instanceof Record);
             }
         );
@@ -90,6 +93,7 @@ class DataMapper extends Component {
 
     /**
      * @param $record
+     *
      * @return null|\PHPKitchen\Domain\DB\EntitiesRepository
      */
     protected function findRepositoryForRecord($record) {
@@ -101,6 +105,7 @@ class DataMapper extends Component {
         } catch (\Exception $e) {
             $repository = null;
         }
+
         return $repository;
     }
 

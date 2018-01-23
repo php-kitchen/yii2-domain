@@ -12,6 +12,7 @@ class Record extends \PHPKitchen\Domain\DB\Record {
     protected $saveResult = true;
     protected $deleteResult = true;
     protected $emulatedErrors = [];
+
     public function attributes() {
         return [
             'id',
@@ -19,6 +20,7 @@ class Record extends \PHPKitchen\Domain\DB\Record {
             'fieldTwo',
         ];
     }
+
     public function save($runValidation = true, $attributes = null) {
         return $this->saveResult;
     }
@@ -33,23 +35,27 @@ class Record extends \PHPKitchen\Domain\DB\Record {
 
     public function emulateSuccessSaveResult() {
         $this->saveResult = true;
+
         return $this;
     }
 
     public function emulateFailedSaveResult($errors = []) {
         $this->saveResult = false;
         $this->emulatedErrors = $errors;
+
         return $this;
     }
 
     public function emulateSuccessDeleteResult() {
         $this->deleteResult = true;
+
         return $this;
     }
 
     public function emulateFailedDeleteResult($errors = []) {
         $this->saveResult = false;
         $this->emulatedErrors = $errors;
+
         return $this;
     }
 

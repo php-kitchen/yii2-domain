@@ -41,6 +41,7 @@ class ListRecords extends Action {
         $model = $this->createNewModel();
         $request = $this->getRequest();
         $model->load($request->queryParams);
+
         return $this->renderViewFile(compact('model'));
     }
 }

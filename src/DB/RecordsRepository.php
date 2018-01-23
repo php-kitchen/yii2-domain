@@ -23,6 +23,7 @@ class RecordsRepository extends Base\Repository {
      * @param Record|contracts\DomainEntity $entity
      * @param bool $runValidation
      * @param array $attributes
+     *
      * @return bool result.
      * @throws Domain\Exceptions\UnableToSaveEntityException
      */
@@ -47,6 +48,7 @@ class RecordsRepository extends Base\Repository {
 
     /**
      * @param Record|contracts\DomainEntity $entity
+     *
      * @return bool result.
      */
     public function delete(contracts\DomainEntity $entity) {
@@ -58,11 +60,13 @@ class RecordsRepository extends Base\Repository {
         if ($result) {
             $this->triggerModelEvent(self::EVENT_AFTER_DELETE, $entity);
         }
+
         return $result;
     }
 
     /**
      * @param Record|contracts\DomainEntity $entity
+     *
      * @return bool result.
      */
     public function validate(contracts\DomainEntity $entity) {

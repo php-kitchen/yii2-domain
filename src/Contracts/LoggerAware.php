@@ -55,6 +55,7 @@ interface LoggerAware {
      *
      * @param string $token token for the code block
      * @param string $category the category of this log message
+     *
      * @see endProfile()
      */
     public function beginProfile($token, $category = '');
@@ -65,6 +66,7 @@ interface LoggerAware {
      *
      * @param string $token token for the code block
      * @param string $category the category of this log message
+     *
      * @see beginProfile()
      */
     public function endProfile($token, $category = '');

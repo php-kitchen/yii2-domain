@@ -28,18 +28,19 @@ class EntityProviderTest extends TestCase {
         $count = $dataProvider->getCount();
         $tester = $this->tester;
         $tester->expectsThat('data provider correctly calculates entities number')
-            ->valueOf($count)
-            ->isEqualTo(self::STUBBED_RECORDS_COUNT);
+               ->valueOf($count)
+               ->isEqualTo(self::STUBBED_RECORDS_COUNT);
         $models = $dataProvider->getModels();
         $tester->expectsThat('data provider correctly calculates entities number')
-            ->theArray($models)
-            ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
+               ->theArray($models)
+               ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
         foreach ($models as $model) {
             $tester->expectsThat('data provider have converted record to entity')
-                ->object($model)
-                ->isInstanceOf(DummyEntity::class);
+                   ->object($model)
+                   ->isInstanceOf(DummyEntity::class);
         }
     }
+
     /**
      * @covers ::getModels
      */
@@ -48,16 +49,16 @@ class EntityProviderTest extends TestCase {
         $count = $dataProvider->getCount();
         $tester = $this->tester;
         $tester->expectsThat('data provider correctly calculates entities number')
-            ->valueOf($count)
-            ->isEqualTo(self::STUBBED_RECORDS_COUNT);
+               ->valueOf($count)
+               ->isEqualTo(self::STUBBED_RECORDS_COUNT);
         $models = $dataProvider->getModels();
         $tester->expectsThat('data provider correctly calculates entities number')
-            ->theArray($models)
-            ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
+               ->theArray($models)
+               ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
         foreach ($models as $model) {
             $tester->expectsThat('data provider have converted record to entity')
-                ->valueOf($model)
-                ->isInternalType('array');
+                   ->valueOf($model)
+                   ->isInternalType('array');
         }
     }
 
@@ -71,6 +72,7 @@ class EntityProviderTest extends TestCase {
             new DummyRecord(),
             new DummyRecord(),
         ];
+
         return new EntitiesProvider([
             'query' => $query,
             'repository' => $repository,
@@ -83,12 +85,13 @@ class EntityProviderTest extends TestCase {
         $repository = new DummyRepository();
         $query = new DummyQuery(DummyRecord::class);
         $query->records = [
-            ['id' =>1],
-            ['id' =>1],
-            ['id' =>1],
-            ['id' =>1],
-            ['id' =>1],
+            ['id' => 1],
+            ['id' => 1],
+            ['id' => 1],
+            ['id' => 1],
+            ['id' => 1],
         ];
+
         return new EntitiesProvider([
             'query' => $query,
             'repository' => $repository,

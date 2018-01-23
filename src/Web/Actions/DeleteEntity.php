@@ -23,6 +23,7 @@ class DeleteEntity extends Action {
         $controller = $this->controller;
         $entity = $controller->findEntityByPk($id);
         $this->tryToDeleteEntity($entity);
+
         return $this->redirectToNextPage();
     }
 
@@ -48,6 +49,7 @@ class DeleteEntity extends Action {
         } else {
             $redirectUrl = $this->redirectUrl;
         }
+
         return $this->controller->redirect($redirectUrl);
     }
 }

@@ -16,5 +16,4 @@ class DummyRecord extends Record {
     public function getPrimaryKey($asBool = false) {
         return $this->id;
     }
-
 }

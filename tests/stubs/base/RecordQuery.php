@@ -9,9 +9,9 @@ namespace tests\stubs\base;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class RecordQuery extends \PHPKitchen\Domain\DB\RecordQuery {
-
     public $records = [];
     public $singleRecord = [];
+
     public function all($db = null) {
         return $this->records;
     }

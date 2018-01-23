@@ -23,12 +23,12 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.1",
-        "yiisoft/yii2": ">=2.0.10",
-        "php-kitchen/yii2-di": "^0.0.9"
+        "yiisoft/yii2": ">=2.0.13",
+        "php-kitchen/yii2-di": "^0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "5.7.*",
-        "dekeysoft/pu-tester": "^1.0",
+        "php-kitchen/code-specs": "^1.0",
         "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {

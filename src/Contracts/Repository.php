@@ -13,7 +13,11 @@ interface Repository {
     const EVENT_AFTER_SAVE = 'afterSave';
     const EVENT_BEFORE_ADD = 'beforeAdd';
     const EVENT_BEFORE_UPDATE = 'beforeUpdate';
+    /**
+     * @deprecated use EVENT_AFTER_ADD if you used this one
+     */
     const AFTER_BEFORE_ADD = 'afterAdd';
+    const EVENT_AFTER_ADD = 'afterAdd';
     const EVENT_AFTER_UPDATE = 'afterUpdate';
     const EVENT_BEFORE_DELETE = 'beforeDelete';
     const EVENT_AFTER_DELETE = 'afterDelete';

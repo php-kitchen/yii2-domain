@@ -19,6 +19,7 @@ class Condition extends MagicObject {
         } else {
             $result = parent::__call($name, $params);
         }
+
         return $result;
     }
 }

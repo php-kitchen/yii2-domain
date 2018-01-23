@@ -18,6 +18,7 @@ interface RecordQuery extends ActiveQueryInterface {
 
     /**
      * @param $pk
+     *
      * @return ActiveRecord|array|null
      */
     public function oneWithPk($pk);

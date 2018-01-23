@@ -21,6 +21,7 @@ trait StaticSelfAccess {
         if (!isset(static::$_instances[static::class])) {
             static::initializeInstance();
         }
+
         return static::$_instances[static::class];
     }
 

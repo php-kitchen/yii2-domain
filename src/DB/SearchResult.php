@@ -37,6 +37,7 @@ class SearchResult extends MagicObject implements \Iterator {
         } else {
             $entity = null;
         }
+
         return $entity;
     }
 

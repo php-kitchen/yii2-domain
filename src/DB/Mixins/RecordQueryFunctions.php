@@ -40,17 +40,20 @@ trait RecordQueryFunctions {
         foreach ($this->getBehaviors() as $name => $behavior) {
             $clone->attachBehavior($name, clone $behavior);
         }
+
         return $clone;
     }
 
     /**
      * @param $pk
+     *
      * @return \PHPKitchen\Domain\DB\Record|array|null
      */
     public function oneWithPk($pk) {
         $pkParam = $this->buildAliasedNameOfParam('pk');
         $primaryKey = $this->buildAliasedNameOfField($this->primaryKeyName);
         $this->andWhere("{$primaryKey}={$pkParam}", [$pkParam => $pk]);
+
         return $this->one();
     }
 
@@ -60,6 +63,7 @@ trait RecordQueryFunctions {
      */
     public function alias($alias) {
         $this->_alias = $alias;
+
         return parent::alias($alias);
     }
 
@@ -76,6 +80,7 @@ trait RecordQueryFunctions {
             $method = new \ReflectionMethod($this->modelClass, 'tableName');
             $this->_mainTableName = $method->invoke(null);
         }
+
         return $this->_mainTableName;
     }
 
@@ -87,6 +92,7 @@ trait RecordQueryFunctions {
         if ($this->_alias === null) {
             $this->_alias = $this->getMainTableName();
         }
+
         return $this->_alias;
     }
     //endregion

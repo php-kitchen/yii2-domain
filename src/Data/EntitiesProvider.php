@@ -24,6 +24,7 @@ class EntitiesProvider extends RecordsProvider {
         } else {
             $newResult = &$result;
         }
+
         return $newResult;
     }
 }

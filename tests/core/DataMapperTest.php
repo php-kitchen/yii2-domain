@@ -36,12 +36,12 @@ class DataMapperTest extends TestCase {
         $dummyEntity = $mapper->get('dummy');
 
         $this->tester->checksScenario('trying to get related entity object from data source')
-            ->expectsThat('mapper creates entity from given record as data source')
-            ->object($dummyEntity)
-            ->isInstanceOf(DummyEntity::class)
-            ->and()
-            ->valueOf($dummyEntity->id)
-            ->isEqualTo(self::DUMMY_RECORD_ID);
+                     ->expectsThat('mapper creates entity from given record as data source')
+                     ->object($dummyEntity)
+                     ->isInstanceOf(DummyEntity::class)
+                     ->and()
+                     ->valueOf($dummyEntity->id)
+                     ->isEqualTo(self::DUMMY_RECORD_ID);
     }
 
     /**
@@ -54,15 +54,16 @@ class DataMapperTest extends TestCase {
         $records = $mapper->get('listOfSelfRecords');
 
         $this->tester->checksScenario('trying to get related entities list from data source')
-            ->expectsThat('mapper creates a list of entities from given records as data source')
-            ->theArray($records)
-            ->isNotEmpty()
-            ->isEqualTo($this->getEntitiesListFromRecord());
+                     ->expectsThat('mapper creates a list of entities from given records as data source')
+                     ->theArray($records)
+                     ->isNotEmpty()
+                     ->isEqualTo($this->getEntitiesListFromRecord());
     }
 
     protected function getEntitiesListFromRecord() {
         $tmuxRepository = new TmuxRepository();
         $tmuxEntity = $tmuxRepository->createEntityFromSource($this->record);
+
         return [
             $tmuxEntity,
             $tmuxEntity,
@@ -78,9 +79,9 @@ class DataMapperTest extends TestCase {
         $records = $mapper->get('listOfMixedValues');
 
         $this->tester->checksScenario('trying to get list of mixed values from data source')
-            ->expectsThat('mapper creates a list of entities from given records as data source')
-            ->theArray($records)
-            ->isEqualTo($this->getListOfMixedValuesFromRecord());
+                     ->expectsThat('mapper creates a list of entities from given records as data source')
+                     ->theArray($records)
+                     ->isEqualTo($this->getListOfMixedValuesFromRecord());
     }
 
     protected function getListOfMixedValuesFromRecord() {

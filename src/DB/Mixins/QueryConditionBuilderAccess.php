@@ -23,6 +23,7 @@ trait QueryConditionBuilderAccess {
      *
      * @param string $field field name.
      * @param null $alias optional alias. If not used query alias will be used.
+     *
      * @return string
      */
     public function buildAliasedNameOfField($field, $alias = null) {
@@ -37,6 +38,7 @@ trait QueryConditionBuilderAccess {
         if (null === $this->_conditionBuilder) {
             $this->_conditionBuilder = $this->container->create($this->conditionBuilderClassName, [$query = $this]);
         }
+
         return $this->_conditionBuilder;
     }
 }
