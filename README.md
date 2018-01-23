@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/php-kitchen/yii2-domain"><img src="https://travis-ci.org/php-kitchen/yii2-domain.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/php-kitchen/code-specs"><img src="https://img.shields.io/badge/Tested%20%20By-CodeSpecs-green.svg" alt="Tested By"></a>
+<a href="https://github.com/php-kitchen/code-specs"><img src="https://img.shields.io/badge/Tested%20%20By-CodeSpecs-brightgreen.svg" alt="Tested By"></a>
 <a href="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/?branch=master"><img src="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/badges/quality-score.png?b=master" alt="Code Quality"></a>
 <a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/lphp-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/d/monthly" alt="Monthly Downloads"></a>
@@ -10,9 +10,9 @@
 <a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/license.svg" alt="License"></a>
 </p>
 
-# Yii2 Domain
 
-Domain Driven Design patters implementation for Yii2.
+
+**Yii2 Domain** is a Domain Driven Design patters implementation for Yii2.
 
 Includes realization of a following patters:
 - Repository
