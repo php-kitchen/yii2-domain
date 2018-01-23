@@ -1,8 +1,8 @@
 <?php
 
-namespace tests\stubs\models\tmux;
+namespace PHPKitchen\Domain\Specs\Stubs\Models\Tmux;
 
-use tests\stubs\base\Record;
+use PHPKitchen\Domain\Specs\Stubs\Base\Record;
 
 /**
  * Represents

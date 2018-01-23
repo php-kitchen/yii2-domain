@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\stubs\models\tmux;
+namespace PHPKitchen\Domain\Specs\Stubs\Models\Tmux;
 
 use PHPKitchen\Domain\DB\EntitiesRepository;
 

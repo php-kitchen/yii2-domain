@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\stubs\base;
+namespace PHPKitchen\Domain\Specs\Stubs\Base;
 
 /**
  * Represents

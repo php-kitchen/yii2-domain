@@ -1,8 +1,8 @@
 <?php
 
-namespace tests\stubs\models\dummy;
+namespace PHPKitchen\Domain\Specs\Stubs\Models\Dummy;
 
-use tests\stubs\base\Record;
+use PHPKitchen\Domain\Specs\Stubs\Base\Record;
 
 /**
  * Represents

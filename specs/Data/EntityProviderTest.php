@@ -1,13 +1,13 @@
 <?php
 
-namespace tests\data;
+namespace PHPKitchen\Domain\Specs\Data;
 
 use PHPKitchen\Domain\Data\EntitiesProvider;
-use tests\base\TestCase;
-use tests\stubs\models\dummy\DummyEntity;
-use tests\stubs\models\dummy\DummyQuery;
-use tests\stubs\models\dummy\DummyRecord;
-use tests\stubs\models\dummy\DummyRepository;
+use PHPKitchen\Domain\Specs\Base\Spec;
+use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyEntity;
+use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyQuery;
+use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyRecord;
+use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyRepository;
 
 /**
  * Unit test for {@link EntitiesProvider}
@@ -17,48 +17,50 @@ use tests\stubs\models\dummy\DummyRepository;
  * @package tests\data
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class EntityProviderTest extends TestCase {
+class EntityProviderTest extends Spec {
     const STUBBED_RECORDS_COUNT = 5;
 
     /**
+     * @test
      * @covers ::getModels
      */
-    public function testGetRecordsDataAsEntities() {
+    public function getDataAsEntitiesBehavior() {
         $dataProvider = $this->createDatProviderWithStubbedRecordsData();
         $count = $dataProvider->getCount();
-        $tester = $this->tester;
-        $tester->expectsThat('data provider correctly calculates entities number')
-               ->valueOf($count)
-               ->isEqualTo(self::STUBBED_RECORDS_COUNT);
+        $I = $this->tester;
+        $I->expectThat('data provider correctly calculates entities number');
+        $I->see($count)
+          ->isEqualTo(self::STUBBED_RECORDS_COUNT);
         $models = $dataProvider->getModels();
-        $tester->expectsThat('data provider correctly calculates entities number')
-               ->theArray($models)
-               ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
+        $I->expectThat('data provider correctly calculates entities number');
+        $I->seeArray($models)
+          ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
         foreach ($models as $model) {
-            $tester->expectsThat('data provider have converted record to entity')
-                   ->object($model)
-                   ->isInstanceOf(DummyEntity::class);
+            $I->expectThat('data provider have converted record to entity');
+            $I->seeObject($model)
+              ->isInstanceOf(DummyEntity::class);
         }
     }
 
     /**
+     * @test
      * @covers ::getModels
      */
-    public function testGetArrayData() {
+    public function getDataAsArray() {
         $dataProvider = $this->createDatProviderWithStubbedArrayData();
         $count = $dataProvider->getCount();
-        $tester = $this->tester;
-        $tester->expectsThat('data provider correctly calculates entities number')
-               ->valueOf($count)
-               ->isEqualTo(self::STUBBED_RECORDS_COUNT);
+        $I = $this->tester;
+        $I->expectThat('data provider correctly calculates entities number');
+        $I->see($count)
+          ->isEqualTo(self::STUBBED_RECORDS_COUNT);
         $models = $dataProvider->getModels();
-        $tester->expectsThat('data provider correctly calculates entities number')
-               ->theArray($models)
-               ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
+        $I->expectThat('data provider correctly calculates entities number');
+        $I->seeArray($models)
+          ->countIsEqualToCountOf(self::STUBBED_RECORDS_COUNT);
         foreach ($models as $model) {
-            $tester->expectsThat('data provider have converted record to entity')
-                   ->valueOf($model)
-                   ->isInternalType('array');
+            $I->expectThat('data provider have converted record to entity');
+            $I->see($model)
+              ->isInternalType('array');
         }
     }
 

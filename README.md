@@ -1,3 +1,15 @@
+<p align="center"><img src="https://github.com/php-kitchen/yii2-domain/blob/master/docs/logo.png" width="600px"></p>
+
+<p align="center">
+<a href="https://travis-ci.org/php-kitchen/yii2-domain"><img src="https://travis-ci.org/php-kitchen/yii2-domain.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/php-kitchen/code-specs"><img src="https://img.shields.io/badge/Tested%20%20By-CodeSpecs-green.svg" alt="Tested By"></a>
+<a href="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/?branch=master"><img src="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/badges/quality-score.png?b=master" alt="Code Quality"></a>
+<a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/lphp-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/d/monthly" alt="Monthly Downloads"></a>
+<a href="https://packagist.org/packages/lphp-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/license.svg" alt="License"></a>
+</p>
+
 # Yii2 Domain
 
 Domain Driven Design patters implementation for Yii2.
@@ -7,12 +19,6 @@ Includes realization of a following patters:
 - Entity
 - Specification (very rough implementation through ActiveQuery)
 - Strategy
-
-## Package information
-
-Latest Stable Version | Total downloads | Monthly Downloads | Licensing 
---------------------- |  -------------- | ----------------  | --------- 
-[![Latest Stable Version](https://poser.pugx.org/php-kitchen/yii2-domain/v/stable)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![Total Downloads](https://poser.pugx.org/php-kitchen/yii2-domain/downloads)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![Monthly Downloads](https://poser.pugx.org/php-kitchen/yii2-domain/d/monthly)](https://packagist.org/packages/php-kitchen/yii2-domain) | [![License](https://poser.pugx.org/php-kitchen/yii2-domain/license)](https://packagist.org/packages/php-kitchen/yii2-domain)
 
 ## Requirements
 
@@ -34,7 +40,7 @@ For additional information and guides go to the [project documentation](docs/REA
 
 ## Overview
 
-Goal of this library is to introduce Domain Driven Design(DDD) principles to Yii2 projects and to fix [ActiveRecord problem](http://www.mehdi-khalili.com/orm-anti-patterns-part-1-active-record/) 
+Goal of this library is to introduce Domain Driven Design(DDD) principles to Yii2 projects and to fix [ActiveRecord problem](http://www.mehdi-khalili.com/orm-anti-patterns-part-1-active-record) 
  of domain layer in applications with medium and large domain area.
 
 Each model represented as a standalone directory that contains repository, entity, record and query classes. All of these 
@@ -74,7 +80,7 @@ $repository->delete($entity);
 ```
 
 ## Note:
-this library is designed to solve [ActiveRecord problem](http://www.mehdi-khalili.com/orm-anti-patterns-part-1-active-record/) of Yii 2. Don't use this library if you are starting a new project and looking for 
+this library is designed to solve [ActiveRecord problem](http://www.mehdi-khalili.com/orm-anti-patterns-part-1-active-record) of Yii 2. Don't use this library if you are starting a new project and looking for 
 a solution that would allow you to build a decent architecture - you need a good framework that would allow you do build high-quality solution and Yii 2 is not
 a framework that would allow you to build high quality architecture and implement rich domain layer. 
 
@@ -88,8 +94,4 @@ There are few decent solutions to build domain layer in a new project:
 
 If you want to ask any questions, suggest improvements or just to talk with community and developers, [join our server at Discord](https://discord.gg/Ez5VZhC) 
 
-## Build status
 
-CI status    | Code quality
------------- | ------------
-[![Build Status](https://travis-ci.org/php-kitchen/yii2-domain.svg?branch=master)](https://travis-ci.org/php-kitchen/yii2-domain) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/?branch=master)

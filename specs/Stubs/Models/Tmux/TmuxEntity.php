@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\stubs\models\tmux;
+namespace PHPKitchen\Domain\Specs\Stubs\Models\Tmux;
 
 use PHPKitchen\Domain\Base\Entity;
-use tests\stubs\models\dummy\DummyEntity;
+use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyEntity;
 
 /**
  * Represents

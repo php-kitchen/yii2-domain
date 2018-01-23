@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\stubs\models\dummy;
+namespace PHPKitchen\Domain\Specs\Stubs\Models\Dummy;
 
 use PHPKitchen\Domain\DB\EntitiesRepository;
 

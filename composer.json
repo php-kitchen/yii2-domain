@@ -23,18 +23,22 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.1",
-        "yiisoft/yii2": ">=2.0.13",
+        "yiisoft/yii2": "^2.0.13",
         "php-kitchen/yii2-di": "^0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.7.*",
-        "php-kitchen/code-specs": "^1.0",
+        "phpunit/phpunit": "^6.5",
+        "php-kitchen/code-specs": "^4.0",
         "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "PHPKitchen\\Domain\\": "src",
-            "tests\\": "tests"
+            "PHPKitchen\\Domain\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPKitchen\\Domain\\Specs\\": "specs"
         }
     }
 }
