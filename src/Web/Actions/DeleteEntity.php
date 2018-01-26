@@ -13,6 +13,7 @@ use PHPKitchen\Domain\Web\Base\Action;
  */
 class DeleteEntity extends Action {
     public $failToDeleteErrorFlashMessage = 'Unable to delete entity';
+    public $successfulDeleteFlashMessage = 'Entity successfully deleted';
     public $redirectUrl;
 
     public function init() {
@@ -35,7 +36,7 @@ class DeleteEntity extends Action {
             $savedSuccessfully = false;
         }
         if ($savedSuccessfully) {
-            $this->addSuccessFlash($this->failToDeleteErrorFlashMessage);
+            $this->addSuccessFlash($this->successfulDeleteFlashMessage);
         } else {
             $this->addErrorFlash($this->failToDeleteErrorFlashMessage);
         }
