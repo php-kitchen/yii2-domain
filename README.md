@@ -14,9 +14,9 @@
 
 
 
-**Yii2 Domain** is a Domain Driven Design patters implementation for Yii2.
+**Yii2 Domain** is a Domain Driven Design patterns implementation for Yii2.
 
-Includes realization of a following patters:
+Includes realization of a following patterns:
 - Repository
 - Entity
 - Specification (very rough implementation through ActiveQuery)

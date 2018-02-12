@@ -40,7 +40,7 @@ class DataMapper extends Component {
     }
 
     public function isPropertySet($name) {
-        return $this->canGetProperty($name) || isset($this->dataSource->$name);
+        return isset($this->dataSource->$name);
     }
 
     public function getDataSource() {

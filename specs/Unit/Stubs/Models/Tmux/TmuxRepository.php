@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Specs\Stubs\Models\Dummy;
+namespace PHPKitchen\Domain\Specs\Unit\Stubs\Models\Tmux;
 
 use PHPKitchen\Domain\DB\EntitiesRepository;
 
@@ -10,5 +10,5 @@ use PHPKitchen\Domain\DB\EntitiesRepository;
  * @package tests\stubs
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class DummyRepository extends EntitiesRepository {
+class TmuxRepository extends EntitiesRepository {
 }

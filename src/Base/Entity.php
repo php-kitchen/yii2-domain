@@ -126,7 +126,7 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
     public function __isset($name) {
         $dataMapper = $this->getDataMapper();
 
-        return parent::__isset($name) || $dataMapper && $dataMapper->isPropertySet($name);
+        return parent::__isset($name) || ($dataMapper && $dataMapper->isPropertySet($name));
     }
 
     public function __unset($name) {

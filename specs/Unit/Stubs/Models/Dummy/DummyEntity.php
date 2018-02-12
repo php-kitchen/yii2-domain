@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Specs\Stubs\Models\Dummy;
+namespace PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy;
 
 use PHPKitchen\Domain\Base\Entity;
 

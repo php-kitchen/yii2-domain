@@ -1,13 +1,13 @@
 <?php
 
-namespace PHPKitchen\Domain\Specs\Core;
+namespace PHPKitchen\Domain\Specs\Unit\Core;
 
 use PHPKitchen\Domain\Base\DataMapper;
 use PHPKitchen\Domain\Specs\Base\Spec;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyEntity;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyRecord;
-use PHPKitchen\Domain\Specs\Stubs\Models\Tmux\TmuxRecord;
-use PHPKitchen\Domain\Specs\Stubs\Models\Tmux\TmuxRepository;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyEntity;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyRecord;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Tmux\TmuxRecord;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Tmux\TmuxRepository;
 
 /**
  * Represents unit test of {@link DataMapper}

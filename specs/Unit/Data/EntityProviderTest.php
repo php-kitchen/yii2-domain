@@ -1,13 +1,13 @@
 <?php
 
-namespace PHPKitchen\Domain\Specs\Data;
+namespace PHPKitchen\Domain\Specs\Unit\Data;
 
 use PHPKitchen\Domain\Data\EntitiesProvider;
 use PHPKitchen\Domain\Specs\Base\Spec;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyEntity;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyQuery;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyRecord;
-use PHPKitchen\Domain\Specs\Stubs\Models\Dummy\DummyRepository;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyEntity;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyQuery;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyRecord;
+use PHPKitchen\Domain\Specs\Unit\Stubs\Models\Dummy\DummyRepository;
 
 /**
  * Unit test for {@link EntitiesProvider}

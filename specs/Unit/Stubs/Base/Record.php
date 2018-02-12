@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Specs\Stubs\Base;
+namespace PHPKitchen\Domain\Specs\Unit\Stubs\Base;
 
 /**
  * Represents
