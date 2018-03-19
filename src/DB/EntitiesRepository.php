@@ -91,26 +91,6 @@ class EntitiesRepository extends Base\Repository {
      *
      * @return bool result.
      */
-    public function restore(contracts\DomainEntity $entity) {
-        $result = false;
-        if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
-            $dataSource = $entity->getDataMapper()->getDataSource();
-            if ($dataSource->hasMethod('restore')) {
-                $result = $dataSource->restore();
-            }
-        }
-        if ($result) {
-            $this->triggerModelEvent(self::EVENT_AFTER_DELETE, $entity);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param domain\Base\Entity $entity
-     *
-     * @return bool result.
-     */
     public function validate(contracts\DomainEntity $entity) {
         $dataSource = $entity->getDataMapper()->getDataSource();
 
