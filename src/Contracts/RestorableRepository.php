@@ -8,6 +8,6 @@ namespace PHPKitchen\Domain\Contracts;
  * @package PHPKitchen\Domain\Contracts
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */
-interface RecoveredRepository {
+interface RestorableRepository {
     public function restore(DomainEntity $entity);
 }

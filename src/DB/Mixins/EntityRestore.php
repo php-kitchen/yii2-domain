@@ -5,14 +5,14 @@ namespace PHPKitchen\Domain\DB\Mixins;
 use PHPKitchen\Domain\Contracts\DomainEntity;
 
 /**
- * Represents recovered entities functionality for DB repository.
+ * Represents mixin designed for recovering entities that was previously deleted.
  *
- * @property \PHPKitchen\Domain\DB\Base\Repository $this
+ * @mixin \PHPKitchen\Domain\DB\Base\Repository
  *
  * @package PHPKitchen\Domain\DB\Mixins
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */
-class RecoveredRepositoryFunctions {
+trait EntityRestore {
     /**
      * @param DomainEntity $entity
      *

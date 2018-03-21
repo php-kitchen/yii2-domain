@@ -2,7 +2,7 @@
 
 namespace PHPKitchen\Domain\Web\Actions;
 
-use PHPKitchen\Domain\Contracts\RecoveredRepository;
+use PHPKitchen\Domain\Contracts\RestorableRepository;
 use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use PHPKitchen\Domain\Web\Base\Action;
 
@@ -47,7 +47,7 @@ class RestoreEntity extends Action {
     protected function tryToRestoreEntity($entity) {
         $repository = $this->controller->repository;
         try {
-            if ($repository instanceof RecoveredRepository) {
+            if ($repository instanceof RestorableRepository) {
                 $savedSuccessfully = $repository->restore($entity);
             } else {
                 $savedSuccessfully = false;
