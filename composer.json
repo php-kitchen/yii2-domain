@@ -31,6 +31,9 @@
         "php-kitchen/code-specs": "^4.0",
         "satooshi/php-coveralls": "^1.0"
     },
+    "suggest": {
+        "yii2tech/ar-softdelete": "Needed to support 'Recoverable' functionality."
+    },
     "autoload": {
         "psr-4": {
             "PHPKitchen\\Domain\\": "src"

@@ -12,13 +12,13 @@ use PHPKitchen\Domain\Contracts\DomainEntity;
  * @package PHPKitchen\Domain\DB\Mixins
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */
-trait EntityRestore {
+trait EntityRecovering {
     /**
      * @param DomainEntity $entity
      *
      * @return bool result.
      */
-    public function restore(DomainEntity $entity) {
+    public function recover(DomainEntity $entity) {
         $result = false;
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
             $dataSource = $entity->getDataMapper()->getDataSource();

@@ -10,5 +10,5 @@ use PHPKitchen\CodeSpecs\Base\Specification;
  * @package tests\base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Spec extends Specification {
+abstract class Spec extends Specification {
 }

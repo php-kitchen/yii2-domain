@@ -6,6 +6,8 @@ use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;
 use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\DB\EntitiesRepository;
+use yii\base\InvalidArgumentException;
 use yii\helpers\Inflector;
 
 /**
@@ -14,6 +16,7 @@ use yii\helpers\Inflector;
  * @property \PHPKitchen\Domain\Contracts\EntityCrudController|\yii\web\Controller $controller
  * @property \yii\web\Request $request
  * @property \yii\web\Session $session
+ * @property \PHPKitchen\Domain\DB\EntitiesRepository $repository
  *
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -32,6 +35,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     public $useFlashMessages = true;
     public $successFlashMessageKey = 'success';
     public $errorFlashMessageKey = 'error';
+    private $_repository;
 
     /**
      * Checks whether action with specified ID exists in owner controller.
@@ -126,5 +130,34 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      */
     protected function getSession() {
         return $this->serviceLocator->session;
+    }
+
+    public function getRepository(): EntitiesRepository {
+        if (null === $this->_repository) {
+            // fallback to support old approach with defining repositories in controllers
+            $this->_repository = $this->controller->repository ?? null;
+        }
+
+        return $this->_repository;
+    }
+
+    public function setRepository($repository): void {
+        if ($this->isObjectValidRepository($repository)) {
+            $this->_repository = $repository;
+        } else {
+            $this->createAndSetRepositoryFromDefinition($repository);
+        }
+    }
+
+    protected function createAndSetRepositoryFromDefinition($definition): void {
+        $repository = $this->container->create($definition);
+        if (!$this->isObjectValidRepository($repository)) {
+            throw new InvalidArgumentException('Repository should be an instance of ' . EntitiesRepository::class);
+        }
+        $this->_repository = $repository;
+    }
+
+    protected function isObjectValidRepository($object) {
+        return is_object($object) && $object instanceof EntitiesRepository;
     }
 }

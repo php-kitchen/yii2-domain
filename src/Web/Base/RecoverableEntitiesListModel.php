@@ -10,7 +10,7 @@ use PHPKitchen\Domain\Data\EntitiesProvider;
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */
-class RestorableListingModel extends ListingModel {
+class RecoverableEntitiesListModel extends ListingModel {
     /**
      * Override this method
      *

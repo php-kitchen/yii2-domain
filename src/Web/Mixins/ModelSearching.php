@@ -10,10 +10,13 @@ use yii\web\NotFoundHttpException;
  *
  * @property \yii\web\Controller $controller
  * @property string $id
+ * @property \PHPKitchen\Domain\DB\EntitiesRepository $repository
+ * @property callable $searchBy
  *
  * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
  * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
  * @mixin ViewModelManagement
+ *
  * @package PHPKitchen\Domain\Web\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
@@ -33,16 +36,11 @@ trait ModelSearching {
      *
      * The callable should return the model found, or throw an exception if not found.
      */
-    protected $_modelSearchCallback;
+    protected $_searchBy;
 
     /**
      * Returns the data model based on the primary key given.
      * If the data model is not found, a 404 HTTP exception will be raised.
-     *
-     * @param string $id the ID of the model to be loaded. If the model has a composite primary key,
-     * the ID must be a string of the primary key values separated by commas.
-     * The order of the primary key values should follow that returned by the `primaryKey()` method
-     * of the model.
      *
      * @param string $entityPrimaryKey the ID of the model to be loaded. If the model has a composite primary key,
      * the ID must be a string of the primary key values separated by commas.
@@ -52,14 +50,19 @@ trait ModelSearching {
      * @throws NotFoundHttpException if the model cannot be found
      * @throws InvalidConfigException on invalid configuration
      *
+     * @deprecated use {@link findEntityByIdentifierOrFail} instead
+     *
      * @return mixed
      */
     protected function findModelByPk($entityPrimaryKey) {
-        if ($this->getModelSearchCallback() !== null) {
-            $model = call_user_func($this->getModelSearchCallback(), $entityPrimaryKey, $this);
+        if ($this->searchBy !== null) {
+            $model = call_user_func($this->searchBy, $entityPrimaryKey, $this);
         } elseif ($this->controller->hasMethod('findEntityByPk')) {
+            //@deprecated use repositories or callback
             $entity = $this->controller->findEntityByPk($entityPrimaryKey);
             $model = $this->createViewModel($entity);
+        } elseif ($this->repository) {
+            $model = $this->findEntityByPK($entityPrimaryKey);
         } else {
             throw new InvalidConfigException('Either "' . static::class . '::modelSearchCallback" must be set or controller must declare method "findEntityByPk()".');
         }
@@ -67,11 +70,54 @@ trait ModelSearching {
         return $model;
     }
 
-    public function getModelSearchCallback() {
-        return $this->_modelSearchCallback;
+    /**
+     * Returns the data model based on the primary key given.
+     * If the data model is not found, a 404 HTTP exception will be raised.
+     *
+     * @param string $identifier the ID of the model to be loaded. If the model has a composite primary key,
+     * the ID must be a string of the primary key values separated by commas.
+     * The order of the primary key values should follow that returned by the `primaryKey()` method
+     * of the model.
+     *
+     * @throws InvalidConfigException on invalid configuration
+     *
+     * @return mixed
+     */
+    protected function findEntityByIdentifierOrFail($identifier) {
+        if ($this->searchBy !== null) {
+            $model = call_user_func($this->searchBy, $identifier, $this);
+        } elseif ($this->repository) {
+            $model = $this->findEntityByPK($identifier);
+        } else {
+            throw new InvalidConfigException('Either "' . static::class . '::searchBy" or "' . static::class . '::repository" must be set.');
+        }
+
+        return $model;
     }
 
+    protected function findEntityByPK($primaryKey) {
+        return $this->repository->find()->oneWithPk($primaryKey);
+    }
+
+    public function getSearchBy() {
+        return $this->_searchBy;
+    }
+
+    public function setSearchBy(callable $filter) {
+        $this->_searchBy = $filter;
+    }
+
+    /**
+     * @deprecated use {@link getSearchBy}
+     */
+    public function getModelSearchCallback() {
+        return $this->getSearchBy();
+    }
+
+    /**
+     * @deprecated use {@link setSearchBy}
+     */
     public function setModelSearchCallback(callable $findModelByPk) {
-        $this->_modelSearchCallback = $findModelByPk;
+        $this->setSearchBy($findModelByPk);
     }
 }

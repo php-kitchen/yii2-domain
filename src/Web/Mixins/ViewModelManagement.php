@@ -13,6 +13,7 @@ use PHPKitchen\Domain\Web\Base\ViewModel;
  *
  * @mixin \PHPKitchen\DI\Mixins\ServiceLocatorAccess
  * @mixin \PHPKitchen\DI\Mixins\ContainerAccess
+ *
  * @package PHPKitchen\Domain\Web\Mixins
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
