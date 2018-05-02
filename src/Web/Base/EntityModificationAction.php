@@ -27,10 +27,9 @@ abstract class EntityModificationAction extends Action {
     abstract protected function initModel();
 
     protected function loadModelAndSaveOrPrintView() {
-        $isSaved = $this->loadModelAndSave();
-        $model = $this->getModel();
-
-        return $isSaved && $this->redirectUrl !== false ? $this->redirectToNextPage() : $this->renderViewFile(compact('model'));
+        return $this->loadModelAndSave() ?
+            $this->handleSuccessfulOperation()
+            : $this->handledFailedOperation();
     }
 
     protected function loadModelAndSave() {
@@ -51,6 +50,21 @@ abstract class EntityModificationAction extends Action {
         }
 
         return $result;
+    }
+
+    protected function handleSuccessfulOperation() {
+        if ($this->redirectUrl) {
+            return $this->redirectToNextPage();
+        }
+        $model = $this->getModel();
+
+        return $this->renderViewFile(compact('model'));
+    }
+
+    protected function handledFailedOperation() {
+        $model = $this->getModel();
+
+        return $this->renderViewFile(compact('model'));
     }
 
     protected function tryToSaveEntity() {
