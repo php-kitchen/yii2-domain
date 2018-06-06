@@ -12,4 +12,12 @@ use yii\db\ActiveQueryInterface;
  */
 interface Specification extends ActiveQueryInterface {
     public function bySearchModel($model);
+
+
+    /**
+     * @param $pk
+     *
+     * @return \PHPKitchen\Domain\DB\Record|array|null
+     */
+    public function oneWithPk($pk);
 }

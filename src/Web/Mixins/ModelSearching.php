@@ -62,7 +62,7 @@ trait ModelSearching {
             $entity = $this->controller->findEntityByPk($entityPrimaryKey);
             $model = $this->createViewModel($entity);
         } elseif ($this->repository) {
-            $model = $this->findEntityByPK($entityPrimaryKey);
+            $model = $this->createViewModel($this->findEntityByPK($entityPrimaryKey));
         } else {
             throw new InvalidConfigException('Either "' . static::class . '::modelSearchCallback" must be set or controller must declare method "findEntityByPk()".');
         }
@@ -84,10 +84,10 @@ trait ModelSearching {
      * @return mixed
      */
     protected function findEntityByIdentifierOrFail($identifier) {
-        if ($this->searchBy !== null) {
-            $model = call_user_func($this->searchBy, $identifier, $this);
+        if ($this->searchBy !== null && is_callable($this->searchBy)) {
+            $model = $this->createViewModel(call_user_func($this->searchBy, $identifier, $this));
         } elseif ($this->repository) {
-            $model = $this->findEntityByPK($identifier);
+            $model = $this->createViewModel($this->findEntityByPK($identifier));
         } else {
             throw new InvalidConfigException('Either "' . static::class . '::searchBy" or "' . static::class . '::repository" must be set.');
         }
@@ -104,6 +104,7 @@ trait ModelSearching {
     }
 
     public function setSearchBy(callable $filter) {
+        // @TODO allow setting classes for lazy load
         $this->_searchBy = $filter;
     }
 
