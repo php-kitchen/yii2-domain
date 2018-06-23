@@ -27,25 +27,31 @@ abstract class EntityModificationAction extends Action {
     abstract protected function initModel();
 
     protected function loadModelAndSaveOrPrintView() {
-        return $this->loadModelAndSave() ?
-            $this->handleSuccessfulOperation()
-            : $this->handledFailedOperation();
+        if ($this->modelLoaded()) {
+            $this->saveModel();
+        } else {
+            $this->printView();
+        }
     }
 
-    protected function loadModelAndSave() {
-        $isSaved = false;
-        if ($this->getModel()->load($this->getRequest()->post())) {
-            $isSaved = $this->validateModelAndTryToSaveEntity();
-        }
+    protected function modelLoaded(): bool {
+        return $this->getModel()->load($this->getRequest()->post());
+    }
 
-        return $isSaved;
+    protected function saveModel() {
+        return $this->validateModelAndTryToSaveEntity()
+            ? $this->handleSuccessfulOperation()
+            : $this->handleFailedOperation();
+    }
+
+    protected function printView() {
+        return $this->renderViewFile(['model' => $this->getModel()]);
     }
 
     protected function validateModelAndTryToSaveEntity() {
         if ($this->getModel()->validate()) {
             $result = $this->tryToSaveEntity();
         } else {
-            $this->addErrorFlash($this->validationFailedFlashMessage);
             $result = false;
         }
 
@@ -56,15 +62,14 @@ abstract class EntityModificationAction extends Action {
         if ($this->redirectUrl) {
             return $this->redirectToNextPage();
         }
-        $model = $this->getModel();
 
-        return $this->renderViewFile(compact('model'));
+        return $this->renderViewFile(['model' => $this->getModel()]);
     }
 
-    protected function handledFailedOperation() {
-        $model = $this->getModel();
+    protected function handleFailedOperation() {
+        $this->addErrorFlash($this->validationFailedFlashMessage);
 
-        return $this->renderViewFile(compact('model'));
+        return $this->printView();
     }
 
     protected function tryToSaveEntity() {
