@@ -27,30 +27,48 @@ abstract class EntityModificationAction extends Action {
     abstract protected function initModel();
 
     protected function loadModelAndSaveOrPrintView() {
-        $isSaved = $this->loadModelAndSave();
-        $model = $this->getModel();
-
-        return $isSaved && $this->redirectUrl !== false ? $this->redirectToNextPage() : $this->renderViewFile(compact('model'));
+        return $this->modelLoaded()
+            ? $this->saveModel()
+            : $this->printView();
     }
 
-    protected function loadModelAndSave() {
-        $isSaved = false;
-        if ($this->getModel()->load($this->getRequest()->post())) {
-            $isSaved = $this->validateModelAndTryToSaveEntity();
-        }
+    protected function modelLoaded(): bool {
+        return $this->getModel()->load($this->getRequest()->post());
+    }
 
-        return $isSaved;
+    protected function saveModel() {
+        return $this->validateModelAndTryToSaveEntity()
+            ? $this->handleSuccessfulOperation()
+            : $this->handleFailedOperation();
+    }
+
+    protected function printView() {
+        return $this->renderViewFile(['model' => $this->getModel()]);
     }
 
     protected function validateModelAndTryToSaveEntity() {
         if ($this->getModel()->validate()) {
             $result = $this->tryToSaveEntity();
         } else {
-            $this->addErrorFlash($this->validationFailedFlashMessage);
             $result = false;
         }
 
         return $result;
+    }
+
+    protected function handleSuccessfulOperation() {
+        $this->addSuccessFlash($this->successFlashMessage);
+        if ($this->redirectUrl) {
+            return $this->redirectToNextPage();
+        }
+
+        return $this->renderViewFile(['model' => $this->getModel()]);
+    }
+
+    protected function handleFailedOperation() {
+        $this->addErrorFlash($this->validationFailedFlashMessage);
+
+        return $this->printView();
     }
 
     protected function tryToSaveEntity() {
