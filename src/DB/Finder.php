@@ -27,9 +27,6 @@ class Finder extends MagicObject {
         parent::__construct($config);
     }
 
-    /**
-     * @return RecordQuery
-     */
     public function asArray() {
         return $this->getQuery()->asArray();
     }
@@ -37,8 +34,8 @@ class Finder extends MagicObject {
     public function all() {
         $queryResult = $this->getQuery()->all();
         $entities = [];
-        foreach ($queryResult as $record) {
-            $entities[] = $this->createEntityFromRecord($record);
+        foreach ($queryResult as $key => $record) {
+            $entities[$key] = $this->createEntityFromRecord($record);
         }
 
         return $entities;
@@ -81,8 +78,10 @@ class Finder extends MagicObject {
     public function __call($name, $params) {
         $query = $this->getQuery();
         if ($query->hasMethod($name)) {
-            call_user_func_array([$query, $name], $params);
-            $result = $this;
+            $result = call_user_func_array([$query, $name], $params);
+            if ($result == $query) {
+                $result = $this;
+            }
         } else {
             $result = parent::__call($name, $params);
         }

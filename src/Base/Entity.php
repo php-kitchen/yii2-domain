@@ -93,6 +93,50 @@ class Entity extends Component implements DomainEntity, \IteratorAggregate, \Arr
         return $this->dataMapper->get($name);
     }
 
+    public function refresh() {
+        return $this->dataMapper->refresh();
+    }
+
+    public function isNewOrWasJustInserted() {
+        return $this->isNew() || $this->wasJustInserted();
+    }
+
+    public function wasJustInserted() {
+        return $this->dataMapper->wasJustInserted();
+    }
+
+    public function getDirtyAttributes($names = null) {
+        return $this->dataMapper->getDirtyAttributes($names);
+    }
+
+    public function setChangedAttributes(array $changedAttributes) {
+        return $this->dataMapper->setChangedAttributes($changedAttributes);
+    }
+
+    public function getOldAttributes() {
+        return $this->dataMapper->getOldAttributes();
+    }
+
+    public function getOldAttribute($name) {
+        return $this->dataMapper->getOldAttribute($name);
+    }
+
+    public function isAttributeChanged($name, $identical = true) {
+        return $this->dataMapper->isAttributeChanged($name, $identical);
+    }
+
+    public function getChangedAttributes() {
+        return $this->dataMapper->getChangedAttributes();
+    }
+
+    public function getChangedAttribute($name) {
+        return $this->dataMapper->getChangedAttribute($name);
+    }
+
+    public function wasAttributeChanged($name) {
+        return $this->dataMapper->wasAttributeChanged($name);
+    }
+
     // --------------  MAGIC ACCESS TO DATA SOURCE ATTRIBUTES --------------
 
     public function __get($name) {

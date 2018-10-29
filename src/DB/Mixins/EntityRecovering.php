@@ -7,8 +7,6 @@ use PHPKitchen\Domain\Contracts\DomainEntity;
 /**
  * Represents mixin designed for recovering entities that was previously deleted.
  *
- * @mixin \PHPKitchen\Domain\DB\Base\Repository
- *
  * @package PHPKitchen\Domain\DB\Mixins
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */

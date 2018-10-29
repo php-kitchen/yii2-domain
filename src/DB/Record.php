@@ -12,6 +12,7 @@ use PHPKitchen\Domain\Contracts\LoggerAware;
 use PHPKitchen\Domain\Mixins\LoggerAccess;
 use PHPKitchen\Domain\Mixins\StaticSelfAccess;
 use yii\db\ActiveRecord;
+use yii\db\AfterSaveEvent;
 
 /**
  * Represents
@@ -24,6 +25,23 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
     use ServiceLocatorAccess;
     use ContainerAccess;
     use StaticSelfAccess;
+    /**
+     * @var bool flag that record was just inserted
+     */
+    private $justInserted = false;
+    /**
+     * @var array attribute values that were changed after inser or update
+     */
+    private $_changedAttributes = [];
+
+    public function init() {
+        parent::init();
+
+        $this->on(static::EVENT_BEFORE_INSERT, [$this, 'markAsJustInserted']);
+        $this->on(static::EVENT_BEFORE_UPDATE, [$this, 'markAsJustUpdated']);
+        $this->on(static::EVENT_AFTER_INSERT, [$this, 'initChangedAttributes']);
+        $this->on(static::EVENT_AFTER_UPDATE, [$this, 'initChangedAttributes']);
+    }
 
     /**
      * @override
@@ -71,6 +89,30 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
 
     public function canSetProperty($name, $checkVars = true, $checkBehaviors = true) {
         return $this->hasAttribute($name) || parent::canSetProperty($name, $checkVars, $checkBehaviors);
+    }
+
+    public function setChangedAttributes(array $changedAttributes) {
+        $this->_changedAttributes = $changedAttributes;
+    }
+
+    public function getChangedAttributes() {
+        return $this->_changedAttributes;
+    }
+
+    public function getChangedAttribute($name) {
+        if ($this->wasAttributeChanged($name)) {
+            return $this->_changedAttributes[$name];
+        }
+
+        return false;
+    }
+
+    public function wasAttributeChanged($name) {
+        return (array_key_exists($name, $this->_changedAttributes));
+    }
+
+    public function wasJustInserted() {
+        return $this->justInserted;
     }
 
     /**
@@ -156,5 +198,17 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
      */
     public function deleteRecord() {
         return parent::delete();
+    }
+
+    protected function markAsJustInserted() {
+        $this->justInserted = true;
+    }
+
+    protected function markAsJustUpdated() {
+        $this->justInserted = false;
+    }
+
+    protected function initChangedAttributes(AfterSaveEvent $event) {
+        $this->setChangedAttributes($event->changedAttributes);
     }
 }
