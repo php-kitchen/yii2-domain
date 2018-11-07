@@ -96,6 +96,81 @@ class EntitiesRepository extends Base\Repository {
 
         return $dataSource->validate();
     }
+
+    /**
+     * @param domain\Base\Entity $entity
+     *
+     * @return bool result
+     */
+    public function refresh(contracts\DomainEntity $entity) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->refresh();
+    }
+    //endregion
+
+    //region ----------------------- ENTITY DATA METHODS --------------------------
+    public function isNewOrJustAdded(contracts\DomainEntity $entity): bool {
+        return $entity->isNew() || $this->isJustAdded($entity);
+    }
+
+    public function isJustUpdated(contracts\DomainEntity $entity): bool {
+        return !$this->isJustAdded($entity);
+    }
+
+    public function isJustAdded(contracts\DomainEntity $entity): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->isJustAdded();
+    }
+
+    public function getDirtyAttributes(contracts\DomainEntity $entity, array $names = null): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getDirtyAttributes($names);
+    }
+
+    public function getOldAttributes(contracts\DomainEntity $entity): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getOldAttributes();
+    }
+
+    public function getOldAttribute(contracts\DomainEntity $entity, string $name) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getOldAttribute($name);
+    }
+
+    public function isAttributeChanged(contracts\DomainEntity $entity, string $name, bool $identical = true): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->isAttributeChanged($name, $identical);
+    }
+
+    public function setChangedAttributes(contracts\DomainEntity $entity, array $changedAttributes): void {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        $dataSource->setChangedAttributes($changedAttributes);
+    }
+
+    public function getChangedAttributes(contracts\DomainEntity $entity): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getChangedAttributes();
+    }
+
+    public function getChangedAttribute(contracts\DomainEntity $entity, string $name) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getChangedAttribute($name);
+    }
+
+    public function wasAttributeChanged(contracts\DomainEntity $entity, string $name): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->wasAttributeChanged($name);
+    }
     //endregion
 
     //region ----------------------- INSTANTIATION METHODS ------------------------

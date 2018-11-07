@@ -28,7 +28,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
     /**
      * @var bool flag that record was just inserted
      */
-    private $justInserted = false;
+    private $justAdded = false;
     /**
      * @var array attribute values that were changed after inser or update
      */
@@ -37,7 +37,7 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
     public function init() {
         parent::init();
 
-        $this->on(static::EVENT_BEFORE_INSERT, [$this, 'markAsJustInserted']);
+        $this->on(static::EVENT_BEFORE_INSERT, [$this, 'markAsJustAdded']);
         $this->on(static::EVENT_BEFORE_UPDATE, [$this, 'markAsJustUpdated']);
         $this->on(static::EVENT_AFTER_INSERT, [$this, 'initChangedAttributes']);
         $this->on(static::EVENT_AFTER_UPDATE, [$this, 'initChangedAttributes']);
@@ -111,8 +111,8 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
         return (array_key_exists($name, $this->_changedAttributes));
     }
 
-    public function wasJustInserted() {
-        return $this->justInserted;
+    public function isJustAdded() {
+        return $this->justAdded;
     }
 
     /**
@@ -200,12 +200,12 @@ class Record extends ActiveRecord implements contracts\Record, ContainerAware, S
         return parent::delete();
     }
 
-    protected function markAsJustInserted() {
-        $this->justInserted = true;
+    protected function markAsJustAdded() {
+        $this->justAdded = true;
     }
 
     protected function markAsJustUpdated() {
-        $this->justInserted = false;
+        $this->justAdded = false;
     }
 
     protected function initChangedAttributes(AfterSaveEvent $event) {

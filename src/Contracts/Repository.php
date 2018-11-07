@@ -30,6 +30,8 @@ interface Repository {
 
     public function validate(DomainEntity $entity);
 
+    public function refresh(DomainEntity $entity);
+
     public function findOneWithPk($pk);
 
     public function findAll();
@@ -41,4 +43,26 @@ interface Repository {
     public function createNewEntity();
 
     public function getEntitiesProvider();
+
+    public function isNewOrJustAdded(DomainEntity $entity): bool;
+
+    public function isJustUpdated(DomainEntity $entity): bool;
+
+    public function isJustAdded(DomainEntity $entity): bool;
+
+    public function getDirtyAttributes(DomainEntity $entity, array $names = null): array;
+
+    public function getOldAttributes(DomainEntity $entity): array;
+
+    public function getOldAttribute(DomainEntity $entity, string $name);
+
+    public function isAttributeChanged(DomainEntity $entity, string $name, bool $identical = true): bool;
+
+    public function setChangedAttributes(DomainEntity $entity, array $changedAttributes): void;
+
+    public function getChangedAttributes(DomainEntity $entity): array;
+
+    public function getChangedAttribute(DomainEntity $entity, string $name);
+
+    public function wasAttributeChanged(DomainEntity $entity, string $name): bool;
 }

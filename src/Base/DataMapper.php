@@ -134,44 +134,4 @@ class DataMapper extends Component {
     public function getAttributes() {
         return $this->dataSource->attributes;
     }
-
-    public function refresh() {
-        return $this->dataSource->refresh();
-    }
-
-    public function wasJustInserted() {
-        return $this->dataSource->wasJustInserted();
-    }
-
-    public function getDirtyAttributes($names = null) {
-        return $this->dataSource->getDirtyAttributes($names);
-    }
-
-    public function setChangedAttributes(array $changedAttributes) {
-        return $this->dataSource->setChangedAttributes($changedAttributes);
-    }
-
-    public function getOldAttributes() {
-        return $this->dataSource->getOldAttributes();
-    }
-
-    public function getOldAttribute($name) {
-        return $this->dataSource->getOldAttribute($name);
-    }
-
-    public function isAttributeChanged($name, $identical = true) {
-        return $this->dataSource->isAttributeChanged($name, $identical);
-    }
-
-    public function getChangedAttributes() {
-        return $this->dataSource->getChangedAttributes();
-    }
-
-    public function getChangedAttribute($name) {
-        return $this->dataSource->getChangedAttribute($name);
-    }
-
-    public function wasAttributeChanged($name) {
-        return $this->dataSource->wasAttributeChanged($name);
-    }
 }
