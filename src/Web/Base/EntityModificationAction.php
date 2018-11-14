@@ -58,7 +58,7 @@ abstract class EntityModificationAction extends Action {
 
     protected function handleSuccessfulOperation() {
         $this->addSuccessFlash($this->successFlashMessage);
-        if ($this->redirectUrl) {
+        if ($this->redirectUrl !== false) {
             return $this->redirectToNextPage();
         }
 
