@@ -20,14 +20,14 @@ class RecordsRepository extends Base\Repository {
     //----------------------- ENTITY MANIPULATION METHODS -----------------------//
 
     /**
-     * @param Record|contracts\DomainEntity $entity
+     * @param Record|Contracts\DomainEntity $entity
      * @param bool $runValidation
      * @param array $attributes
      *
      * @return bool result.
      * @throws Domain\Exceptions\UnableToSaveEntityException
      */
-    protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes) {
         $isEntityNew = $entity->isNew();
         if ($this->triggerModelEvent($isEntityNew ? self::EVENT_BEFORE_ADD : self::EVENT_BEFORE_UPDATE, $entity) && $this->triggerModelEvent(self::EVENT_BEFORE_SAVE, $entity)) {
             $result = $runValidation ? $entity->validateAndSave($attributes) : $entity->saveWithoutValidation($attributes);
@@ -47,11 +47,11 @@ class RecordsRepository extends Base\Repository {
     }
 
     /**
-     * @param Record|contracts\DomainEntity $entity
+     * @param Record|Contracts\DomainEntity $entity
      *
      * @return bool result.
      */
-    public function delete(contracts\DomainEntity $entity) {
+    public function delete(Contracts\DomainEntity $entity) {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
             $result = $entity->deleteRecord();
         } else {
@@ -65,11 +65,11 @@ class RecordsRepository extends Base\Repository {
     }
 
     /**
-     * @param Record|contracts\DomainEntity $entity
+     * @param Record|Contracts\DomainEntity $entity
      *
      * @return bool result.
      */
-    public function validate(contracts\DomainEntity $entity) {
+    public function validate(Contracts\DomainEntity $entity) {
         return $entity->validate();
     }
 

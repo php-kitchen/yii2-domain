@@ -20,7 +20,7 @@ use yii\db\AfterSaveEvent;
  * @package PHPKitchen\Domain\DB
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Record extends ActiveRecord implements contracts\Record, ContainerAware, ServiceLocatorAware, LoggerAware, EntityDataSource {
+class Record extends ActiveRecord implements Contracts\Record, ContainerAware, ServiceLocatorAware, LoggerAware, EntityDataSource {
     use LoggerAccess;
     use ServiceLocatorAccess;
     use ContainerAccess;

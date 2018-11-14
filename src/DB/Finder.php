@@ -21,7 +21,7 @@ class Finder extends MagicObject {
      */
     private $_repository;
 
-    public function __construct(contracts\Specification $query, contracts\Repository $repository, $config = []) {
+    public function __construct(Contracts\Specification $query, Contracts\Repository $repository, $config = []) {
         $this->_query = $query;
         $this->_repository = $repository;
         parent::__construct($config);
@@ -66,7 +66,7 @@ class Finder extends MagicObject {
     }
 
     protected function createEntityFromRecord($record) {
-        if ($record instanceof contracts\Record) {
+        if ($record instanceof Contracts\Record) {
             $entity = $this->getRepository()->createEntityFromSource($record);
         } else {
             $entity = $record;
