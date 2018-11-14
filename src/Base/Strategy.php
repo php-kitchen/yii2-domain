@@ -10,7 +10,7 @@ use yii\base\Event;
  *
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-abstract class Strategy extends Component implements contracts\Strategy {
+abstract class Strategy extends Component implements Contracts\Strategy {
     abstract protected function executeCallAction();
 
     /**

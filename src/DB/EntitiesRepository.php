@@ -47,7 +47,7 @@ class EntitiesRepository extends Base\Repository {
      *
      * @param domain\Base\Entity $entity
      */
-    protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes) {
         $isEntityNew = $entity->isNew();
         $dataSource = $entity->getDataMapper()->getDataSource();
 
@@ -73,7 +73,7 @@ class EntitiesRepository extends Base\Repository {
      *
      * @return bool result.
      */
-    public function delete(contracts\DomainEntity $entity) {
+    public function delete(Contracts\DomainEntity $entity) {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
             $result = $entity->getDataMapper()->getDataSource()->deleteRecord();
         } else {
@@ -91,10 +91,85 @@ class EntitiesRepository extends Base\Repository {
      *
      * @return bool result.
      */
-    public function validate(contracts\DomainEntity $entity) {
+    public function validate(Contracts\DomainEntity $entity) {
         $dataSource = $entity->getDataMapper()->getDataSource();
 
         return $dataSource->validate();
+    }
+
+    /**
+     * @param domain\Base\Entity $entity
+     *
+     * @return bool result
+     */
+    public function refresh(Contracts\DomainEntity $entity) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->refresh();
+    }
+    //endregion
+
+    //region ----------------------- ENTITY DATA METHODS --------------------------
+    public function isNewOrJustAdded(Contracts\DomainEntity $entity): bool {
+        return $entity->isNew() || $this->isJustAdded($entity);
+    }
+
+    public function isJustUpdated(Contracts\DomainEntity $entity): bool {
+        return !$this->isJustAdded($entity);
+    }
+
+    public function isJustAdded(Contracts\DomainEntity $entity): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->isJustAdded();
+    }
+
+    public function getDirtyAttributes(Contracts\DomainEntity $entity, array $names = null): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getDirtyAttributes($names);
+    }
+
+    public function getOldAttributes(Contracts\DomainEntity $entity): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getOldAttributes();
+    }
+
+    public function getOldAttribute(Contracts\DomainEntity $entity, string $name) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getOldAttribute($name);
+    }
+
+    public function isAttributeChanged(Contracts\DomainEntity $entity, string $name, bool $identical = true): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->isAttributeChanged($name, $identical);
+    }
+
+    public function setChangedAttributes(Contracts\DomainEntity $entity, array $changedAttributes): void {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        $dataSource->setChangedAttributes($changedAttributes);
+    }
+
+    public function getChangedAttributes(Contracts\DomainEntity $entity): array {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getChangedAttributes();
+    }
+
+    public function getChangedAttribute(Contracts\DomainEntity $entity, string $name) {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->getChangedAttribute($name);
+    }
+
+    public function wasAttributeChanged(Contracts\DomainEntity $entity, string $name): bool {
+        $dataSource = $entity->getDataMapper()->getDataSource();
+
+        return $dataSource->wasAttributeChanged($name);
     }
     //endregion
 
@@ -113,7 +188,7 @@ class EntitiesRepository extends Base\Repository {
         return $this->container->create($this->recordClassName);
     }
 
-    public function createEntityFromSource(contracts\EntityDataSource $record) {
+    public function createEntityFromSource(Contracts\EntityDataSource $record) {
         $container = $this->container;
 
         return $container->create([

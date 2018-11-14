@@ -10,6 +10,7 @@ use yii\base\ArrayAccessTrait;
 /**
  * Implements domain entity.
  *
+ * @property array $data
  * @property DataMapper $dataMapper
  *
  * @package PHPKitchen\Domain

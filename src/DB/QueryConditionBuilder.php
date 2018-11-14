@@ -18,7 +18,7 @@ class QueryConditionBuilder extends MagicObject {
     protected $query;
     private $_paramNamesCounters = [];
 
-    public function __construct(contracts\RecordQuery $query, $config = []) {
+    public function __construct(Contracts\RecordQuery $query, $config = []) {
         $this->query = $query;
         parent::__construct($config);
     }

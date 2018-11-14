@@ -24,7 +24,7 @@ class RecordsProvider extends ActiveDataProvider {
         return $this->_repository;
     }
 
-    public function setRepository(contracts\Repository $repository) {
+    public function setRepository(Contracts\Repository $repository) {
         $this->_repository = $repository;
     }
 }

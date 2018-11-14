@@ -21,15 +21,12 @@ class Finder extends MagicObject {
      */
     private $_repository;
 
-    public function __construct(contracts\Specification $query, contracts\Repository $repository, $config = []) {
+    public function __construct(Contracts\Specification $query, Contracts\Repository $repository, $config = []) {
         $this->_query = $query;
         $this->_repository = $repository;
         parent::__construct($config);
     }
 
-    /**
-     * @return RecordQuery
-     */
     public function asArray() {
         return $this->getQuery()->asArray();
     }
@@ -37,8 +34,8 @@ class Finder extends MagicObject {
     public function all() {
         $queryResult = $this->getQuery()->all();
         $entities = [];
-        foreach ($queryResult as $record) {
-            $entities[] = $this->createEntityFromRecord($record);
+        foreach ($queryResult as $key => $record) {
+            $entities[$key] = $this->createEntityFromRecord($record);
         }
 
         return $entities;
@@ -69,7 +66,7 @@ class Finder extends MagicObject {
     }
 
     protected function createEntityFromRecord($record) {
-        if ($record instanceof contracts\Record) {
+        if ($record instanceof Contracts\Record) {
             $entity = $this->getRepository()->createEntityFromSource($record);
         } else {
             $entity = $record;
@@ -81,8 +78,10 @@ class Finder extends MagicObject {
     public function __call($name, $params) {
         $query = $this->getQuery();
         if ($query->hasMethod($name)) {
-            call_user_func_array([$query, $name], $params);
-            $result = $this;
+            $result = call_user_func_array([$query, $name], $params);
+            if ($result == $query) {
+                $result = $this;
+            }
         } else {
             $result = parent::__call($name, $params);
         }

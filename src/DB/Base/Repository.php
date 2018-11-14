@@ -23,7 +23,7 @@ use yii\base\InvalidConfigException;
  * @package PHPKitchen\Domain\DB\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-abstract class Repository extends Component implements contracts\Repository {
+abstract class Repository extends Component implements Contracts\Repository {
     use TransactionAccess;
     /**
      * @var bool indicates whether to use DB transaction or not.
@@ -66,19 +66,19 @@ abstract class Repository extends Component implements contracts\Repository {
      */
     abstract public function find();
 
-    abstract protected function saveEntityInternal(contracts\DomainEntity $entity, $runValidation, $attributes);
+    abstract protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes);
 
     //region ----------------------- ENTITY MANIPULATION METHODS ------------------------
 
-    public function validateAndSave(contracts\DomainEntity $entity, $attributes = null) {
+    public function validateAndSave(Contracts\DomainEntity $entity, $attributes = null) {
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = true, $attributes) : $this->saveEntityInternal($entity, $runValidation = true, $attributes);
     }
 
-    public function saveWithoutValidation(contracts\DomainEntity $entity, $attributes = null) {
+    public function saveWithoutValidation(Contracts\DomainEntity $entity, $attributes = null) {
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = false, $attributes) : $this->saveEntityInternal($entity, $runValidation = false, $attributes);
     }
 
-    protected function saveEntityUsingTransaction(contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityUsingTransaction(Contracts\DomainEntity $entity, $runValidation, $attributes) {
         $this->beginTransaction();
         try {
             $result = $this->saveEntityInternal($entity, $runValidation, $attributes);

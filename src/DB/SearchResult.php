@@ -15,11 +15,11 @@ use yii\db\BatchQueryResult;
 class SearchResult extends MagicObject implements \Iterator {
     private $_queryResultIterator;
     /**
-     * @var Base\Repository|contracts\Repository
+     * @var Base\Repository|Contracts\Repository
      */
     private $_repository;
 
-    public function __construct(BatchQueryResult $queryResult, contracts\Repository $repository, $config = []) {
+    public function __construct(BatchQueryResult $queryResult, Contracts\Repository $repository, $config = []) {
         $this->_queryResultIterator = $queryResult;
         $this->setRepository($repository);
         parent::__construct($config);
@@ -28,7 +28,7 @@ class SearchResult extends MagicObject implements \Iterator {
     public function current() {
         $iterator = $this->getQueryResultIterator();
         $value = $iterator->current();
-        if ($iterator->each && $value instanceof contracts\Record) {
+        if ($iterator->each && $value instanceof Contracts\Record) {
             $entity = $this->getRepository()->createEntityFromSource($value);
         } elseif (!$iterator->each) {
             foreach ($value as $record) {
