@@ -4,6 +4,8 @@ namespace PHPKitchen\Domain\Generator\Domain;
 
 use PHPKitchen\Domain\Base\Entity;
 use PHPKitchen\Domain\DB\EntitiesRepository;
+use PHPKitchen\Domain\DB\Record;
+use PHPKitchen\Domain\DB\RecordQuery;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -20,29 +22,46 @@ Yii::$app->cache->flush();
  * @package PHPKitchen\Domain\Generator\Domain
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
  */
-class Generator extends \yii\gii\generators\model\Generator {
+class ModelGenerator extends \yii\gii\generators\model\Generator {
     public $domainName;
     public $moduleName;
     public $domainPath = '@runtime/domains';
-    public $ns = 'Module\\Domain\\Model';
-    public $generateQuery = true;
-    public $recordBaseClass = ActiveRecord::class;
-    public $queryBaseClass = ActiveQuery::class;
+    public $recordBaseClass = Record::class;
+    public $queryBaseClass = RecordQuery::class;
     public $entityBaseClass = Entity::class;
     public $repositoryBaseClass = EntitiesRepository::class;
+    public $formView = __DIR__ . '/UI/form.php';
+
+    public function init() {
+        parent::init();
+
+        $this->ns = "Module\Domain\Model";
+        $this->generateQuery = true;
+    }
+
+    /**
+     * Returns the view file for the input form of the generator.
+     * The default implementation will return the "form.php" file under the directory
+     * that contains the generator class file.
+     *
+     * @return string the view file for the input form of the generator.
+     */
+    public function formView() {
+        return $this->formView;
+    }
 
     /**
      * @inheritdoc
      */
     public function getName(): string {
-        return 'Domain Generator';
+        return 'Domain Model Generator';
     }
 
     /**
      * @inheritdoc
      */
     public function getDescription(): string {
-        return 'This generator generates an domain for the specified database table.';
+        return 'This generator generates a domain model for the specified database table.';
     }
 
     /**
@@ -372,7 +391,7 @@ class Generator extends \yii\gii\generators\model\Generator {
         return $this->domainName . 'Record';
     }
 
-    protected function generateQueryClassName(): string {
+    protected function generateQueryClassName($modelClassName): string {
         return $this->domainName . 'Query';
     }
 
@@ -391,7 +410,7 @@ class Generator extends \yii\gii\generators\model\Generator {
     /**
      * @inheritdoc
      */
-    public function generateLabels(TableSchema $table): array {
+    public function generateLabels($table): array {
         $labels = [];
         foreach ($table->columns as $column) {
             if ($this->generateLabelsFromComments && !empty($column->comment)) {
@@ -519,7 +538,7 @@ class Generator extends \yii\gii\generators\model\Generator {
     /**
      * @inheritdoc
      */
-    protected function generateRelationName(array $relations, TableSchema $table, string $key, bool $multiple): string {
+    protected function generateRelationName($relations, $table, $key, $multiple): string {
         if (!empty($key) && substr_compare($key, 'id', -2, 2, true) === 0 && strcasecmp($key, 'id')) {
             $key = rtrim(substr($key, 0, -2), '_');
         }
@@ -545,7 +564,7 @@ class Generator extends \yii\gii\generators\model\Generator {
     /**
      * @inheritdoc
      */
-    public function generateString(string $string = '', array $placeholders = []): string {
+    public function generateString($string = '', $placeholders = []): string {
         $string = addslashes($string);
         if ($this->enableI18N) {
             // If there are placeholders, use them

@@ -4,7 +4,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $generator PHPKitchen\Domain\Generator\Domain\Generator */
+/* @var $generator PHPKitchen\Domain\Generator\Domain\ModelGenerator */
 /* @var $className string class name */
 /* @var $recordClassName string related record class name */
 /* @var $tableSchema yii\db\TableSchema */

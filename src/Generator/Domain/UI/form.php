@@ -1,10 +1,12 @@
 <?php
 
-namespace PHPKitchen\Domain\Generator\Domain;
+namespace PHPKitchen\Domain\Generator\Domain\UI;
+
+use PHPKitchen\Domain\Generator\Domain\ModelGenerator;
 
 /* @var $this \yii\web\View */
 /* @var $form \yii\widgets\ActiveForm */
-/* @var $generator Generator */
+/* @var $generator ModelGenerator */
 
 $asset = DomainAsset::register($this);
 
@@ -20,9 +22,9 @@ echo $form->field($generator, 'repositoryBaseClass');
 echo $form->field($generator, 'db');
 echo $form->field($generator, 'useTablePrefix')->checkbox();
 echo $form->field($generator, 'generateRelations')->dropDownList([
-    Generator::RELATIONS_NONE => 'No relations',
-    Generator::RELATIONS_ALL => 'All relations',
-    Generator::RELATIONS_ALL_INVERSE => 'All relations with inverse',
+    ModelGenerator::RELATIONS_NONE => 'No relations',
+    ModelGenerator::RELATIONS_ALL => 'All relations',
+    ModelGenerator::RELATIONS_ALL_INVERSE => 'All relations with inverse',
 ]);
 echo $form->field($generator, 'generateLabelsFromComments')->checkbox();
 echo $form->field($generator, 'enableI18N')->checkbox();

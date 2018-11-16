@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Generator\Domain;
+namespace PHPKitchen\Domain\Generator\Domain\UI;
 
 use yii\gii\GiiAsset;
 use yii\web\AssetBundle;
@@ -12,7 +12,7 @@ use yii\web\AssetBundle;
  * @author Dmitry Bukavin <djaconda@bitfocus.com>
  */
 class DomainAsset extends AssetBundle {
-    public $sourcePath = '@vendor/php-kitchen/yii2-domain/src/Generator/Domain/assets';
+    public $sourcePath = __DIR__ . '/assets';
     public $js = [
         'gii.js',
     ];

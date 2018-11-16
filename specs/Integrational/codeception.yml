@@ -1,0 +1,23 @@
+actor: Tester
+paths:
+    tests: Codeception
+    log: Codeception/_output
+    data: Codeception/Fixtures
+    support: Codeception/_support
+    envs: Codeception/_envs
+settings:
+    bootstrap: bootstrap.php
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+suites:
+    Unit:
+        path: Unit
+        actor: UnitTester
+        modules:
+            enabled:
+                - Asserts
+                - \Helper\Unit
+                - \PHPKitchen\CodeSpecs\Integration\Codeception\CodeSpecs
