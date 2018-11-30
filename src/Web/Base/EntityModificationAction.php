@@ -2,6 +2,7 @@
 
 namespace PHPKitchen\Domain\Web\Base;
 
+use PHPKitchen\Domain\Contracts\ResponseHttpStatus;
 use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use PHPKitchen\Domain\Web\Mixins\ModelSearching;
 use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
@@ -98,7 +99,15 @@ abstract class EntityModificationAction extends Action {
             $redirectUrl = $this->redirectUrl;
         }
 
-        return $this->controller->redirect($redirectUrl);
+        return $this->controller->redirect($redirectUrl, $this->getRequestStatusCore());
+    }
+
+    protected function getRequestStatusCore() {
+        if ($this->getServiceLocator()->request->isAjax) {
+            return ResponseHttpStatus::OK;
+        }
+
+        return ResponseHttpStatus::FOUND;
     }
 
     public function getModel() {

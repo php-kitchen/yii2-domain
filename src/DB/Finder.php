@@ -79,7 +79,8 @@ class Finder extends MagicObject {
         $query = $this->getQuery();
         if ($query->hasMethod($name)) {
             $result = call_user_func_array([$query, $name], $params);
-            if ($result == $query) {
+            $queryClassName = get_class($query);
+            if (is_object($result) && is_a($result, $queryClassName)) {
                 $result = $this;
             }
         } else {
