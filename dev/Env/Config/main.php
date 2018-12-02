@@ -19,6 +19,7 @@ $config = [
     'controllerNamespace' => 'PHPKitchen\\Domain\\Dev\\App\\Controllers',
     'layout' => '@views/layouts/main',
     'viewPath' => '@views',
+    'runtimePath' => '@app/Runtime',
     'components' => [
         'request' => [
             'cookieValidationKey' => 'r736478923yrbfu97278fb78',
@@ -66,12 +67,12 @@ $config['modules']['debug'] = [
 
 $config['bootstrap'][] = 'gii';
 $config['modules']['gii'] = [
-    'class' => 'yii\gii\Module',
+    'class' => \PHPKitchen\Domain\Generator\GiiModule::class,
     'generators' => [
-        \PHPKitchen\Domain\Generator\Domain\ModelGenerator::class,
+        'domain-model' => \PHPKitchen\Domain\Generator\Domain\ModelGenerator::class,
     ],
 ];
 
-\yii\helpers\ArrayHelper::merge($config, $local);
+$config = \yii\helpers\ArrayHelper::merge($config, $local);
 
 return $config;

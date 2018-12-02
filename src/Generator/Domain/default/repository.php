@@ -18,7 +18,6 @@ echo "<?php\n";
 namespace <?= $generator->ns ?>;
 
 use <?= ltrim($generator->repositoryBaseClass, '\\') ?>;
-use PHPKitchen\Domain\Data\EntitiesProvider;
 use PHPKitchen\Domain\DB\Finder;
 
 /**
@@ -28,6 +27,7 @@ use PHPKitchen\Domain\DB\Finder;
  * @method <?= $entityClassName ?> findOneWithPk($pk)
  * @method <?= $entityClassName ?>[] findAll()
  * @method <?= $entityClassName ?>[] each($batchSize = 100)
+* @method <?= $entityClassName ?> createNewEntity()
  * @method <?= $providerClassName ?> getEntitiesProvider()
 */
 class <?= $className ?> extends <?= $baseClassName ?> {

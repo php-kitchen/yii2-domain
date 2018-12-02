@@ -7,8 +7,10 @@ use PHPKitchen\Domain\DB\EntitiesRepository;
 use PHPKitchen\Domain\DB\Record;
 use PHPKitchen\Domain\DB\RecordQuery;
 use Yii;
+use yii\base\NotSupportedException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Schema;
 use yii\db\TableSchema;
 use yii\gii\CodeFile;
 use yii\helpers\Inflector;
@@ -17,7 +19,7 @@ use yii\helpers\VarDumper;
 Yii::$app->cache->flush();
 
 /**
- * Class Generator
+ * This generator will generate one or multiple domain models for the specified database table.
  *
  * @package PHPKitchen\Domain\Generator\Domain
  * @author Dmitry Bukavin <4o.djaconda@gmail.com>
@@ -25,7 +27,7 @@ Yii::$app->cache->flush();
 class ModelGenerator extends \yii\gii\generators\model\Generator {
     public $domainName;
     public $moduleName;
-    public $domainPath = '@runtime/domains';
+    public $domainPath = '@runtime/Domain/Model';
     public $recordBaseClass = Record::class;
     public $queryBaseClass = RecordQuery::class;
     public $entityBaseClass = Entity::class;
@@ -250,7 +252,7 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
 
             // record:
             $recordClassName = $this->generateRecordClassName();
-            $queryClassName = $this->generateQueryClassName();
+            $queryClassName = $this->generateRecordQueryClassName();
             $tableSchema = $db->getTableSchema($tableName);
             $params = [
                 'tableName' => $tableName,
@@ -266,16 +268,6 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
                 $this->render('record.php', $params)
             );
 
-            // query:
-            $params = [
-                'className' => $queryClassName,
-                'recordClassName' => $recordClassName,
-            ];
-            $files[] = new CodeFile(
-                Yii::getAlias($this->domainPath) . '/' . $queryClassName . '.php',
-                $this->render('query.php', $params)
-            );
-
             // entity:
             $entityClassName = $this->generateEntityClassName();
             $params = [
@@ -287,6 +279,16 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
             $files[] = new CodeFile(
                 Yii::getAlias($this->domainPath) . '/' . $entityClassName . '.php',
                 $this->render('entity.php', $params)
+            );
+
+            // query:
+            $params = [
+                'className' => $queryClassName,
+                'entityClassName' => $entityClassName,
+            ];
+            $files[] = new CodeFile(
+                Yii::getAlias($this->domainPath) . '/' . $queryClassName . '.php',
+                $this->render('query.php', $params)
             );
 
             // repository:
@@ -343,10 +345,24 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
     }
 
     protected function createDomainFolder(): void {
-        $this->domainPath = $this->domainPath . '/' . $this->domainName;
         $path = Yii::getAlias($this->domainPath);
-        mkdir($path);
-        chmod($path, 0755);
+        $folderPath = $path . '/' . $this->domainName;
+        if (!is_dir($folderPath)) {
+            $this->createFolder($path, $this->domainName);
+        }
+    }
+
+    protected function createFolder(string $path, string $name): void {
+        if (is_dir($path)) {
+            mkdir($path . '/' . $name, 0777, true);
+            chmod($path, 0777);
+        } else {
+            $path = explode('/', $path);
+            if (count($path) > 1) {
+                $name = array_pop($path);
+                $this->createFolder(implode('/', $path), $name);
+            }
+        }
     }
 
     protected function generateDomainName(string $tableName, bool $useSchemaName = null) {
@@ -391,7 +407,7 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
         return $this->domainName . 'Record';
     }
 
-    protected function generateQueryClassName($modelClassName): string {
+    protected function generateRecordQueryClassName(): string {
         return $this->domainName . 'Query';
     }
 
@@ -431,6 +447,108 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
         }
 
         return $labels;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function generateRules($table) {
+        $types = [];
+        $lengths = [];
+        foreach ($table->columns as $column) {
+            if ($column->autoIncrement) {
+                continue;
+            }
+            if (!$column->allowNull && $column->defaultValue === null) {
+                $types['required'][] = $column->name;
+            }
+            switch ($column->type) {
+                case Schema::TYPE_SMALLINT:
+                case Schema::TYPE_INTEGER:
+                case Schema::TYPE_BIGINT:
+                case Schema::TYPE_TINYINT:
+                    $types['integer'][] = $column->name;
+                    break;
+                case Schema::TYPE_BOOLEAN:
+                    $types['boolean'][] = $column->name;
+                    break;
+                case Schema::TYPE_FLOAT:
+                case Schema::TYPE_DOUBLE:
+                case Schema::TYPE_DECIMAL:
+                case Schema::TYPE_MONEY:
+                    $types['number'][] = $column->name;
+                    break;
+                case Schema::TYPE_DATE:
+                case Schema::TYPE_TIME:
+                case Schema::TYPE_DATETIME:
+                case Schema::TYPE_TIMESTAMP:
+                case Schema::TYPE_JSON:
+                    $types['safe'][] = $column->name;
+                    break;
+                default: // strings
+                    if ($column->size > 0) {
+                        $lengths[$column->size][] = $column->name;
+                    } else {
+                        $types['string'][] = $column->name;
+                    }
+            }
+        }
+        $rules = [];
+        $driverName = $this->getDbDriverName();
+        foreach ($types as $type => $columns) {
+            if ($driverName === 'pgsql' && $type === 'integer') {
+                $rules[] = "[['" . implode("', '", $columns) . "'], 'default', 'value' => null]";
+            }
+            $rules[] = "[['" . implode("', '", $columns) . "'], '$type']";
+        }
+        foreach ($lengths as $length => $columns) {
+            $rules[] = "[['" . implode("', '", $columns) . "'], 'string', 'max' => $length]";
+        }
+
+        $db = $this->getDbConnection();
+
+        // Unique indexes rules
+        try {
+            $uniqueIndexes = array_merge($db->getSchema()
+                                            ->findUniqueIndexes($table), [$table->primaryKey]);
+            $uniqueIndexes = array_unique($uniqueIndexes, SORT_REGULAR);
+            foreach ($uniqueIndexes as $uniqueColumns) {
+                // Avoid validating auto incremental columns
+                if (!$this->isColumnAutoIncremental($table, $uniqueColumns)) {
+                    $attributesCount = count($uniqueColumns);
+
+                    if ($attributesCount === 1) {
+                        $rules[] = "[['" . $uniqueColumns[0] . "'], 'unique']";
+                    } elseif ($attributesCount > 1) {
+                        $columnsList = implode("', '", $uniqueColumns);
+                        $rules[] = "[['$columnsList'], 'unique', 'targetAttribute' => ['$columnsList']]";
+                    }
+                }
+            }
+        } catch (NotSupportedException $e) {
+            // doesn't support unique indexes information...do nothing
+        }
+
+        // Exist rules for foreign keys
+        foreach ($table->foreignKeys as $refs) {
+            $refTable = $refs[0];
+            $refTableSchema = $db->getTableSchema($refTable);
+            if ($refTableSchema === null) {
+                // Foreign key could point to non-existing table: https://github.com/yiisoft/yii2-gii/issues/34
+                continue;
+            }
+            $refClassName = $this->generateClassName($refTable);
+            unset($refs[0]);
+            $attributes = implode("', '", array_keys($refs));
+            $targetAttributes = [];
+            foreach ($refs as $key => $value) {
+                $targetAttributes[] = "'$key' => '$value'";
+            }
+            $targetAttributes = implode(', ', $targetAttributes);
+            $rules[] = "[['$attributes'], 'exist', 'skipOnError' => true, 'targetClass' => $refClassName::class, 'targetAttribute' => [$targetAttributes]]";
+        }
+
+        return $rules;
     }
 
     /**
@@ -514,7 +632,7 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
             $viaLink = $this->generateRelationLink($firstKey);
             $relationName = $this->generateRelationName($relations, $table0Schema, key($secondKey), true);
             $relations[$table0Schema->fullName][$relationName] = [
-                "return \$this->hasMany($className1::className(), $link)
+                "return \$this->hasMany($className1::class, $link)
                 ->viaTable('" . $this->generateTableName($table->name) . "', $viaLink);",
                 $className1,
                 true,
@@ -559,6 +677,48 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
         }
 
         return $name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function generateClassName($tableName, $useSchemaName = null) {
+        if (isset($this->classNames[$tableName])) {
+            return $this->classNames[$tableName];
+        }
+
+        $schemaName = '';
+        $fullTableName = $tableName;
+        if (($pos = strrpos($tableName, '.')) !== false) {
+            if (($useSchemaName === null && $this->useSchemaName) || $useSchemaName) {
+                $schemaName = substr($tableName, 0, $pos) . '_';
+            }
+            $tableName = substr($tableName, $pos + 1);
+        }
+
+        $db = $this->getDbConnection();
+        $patterns = [];
+        $patterns[] = "/^{$db->tablePrefix}(.*?)$/";
+        $patterns[] = "/^(.*?){$db->tablePrefix}$/";
+        if (strpos($this->tableName, '*') !== false) {
+            $pattern = $this->tableName;
+            if (($pos = strrpos($pattern, '.')) !== false) {
+                $pattern = substr($pattern, $pos + 1);
+            }
+            $patterns[] = '/^' . str_replace('*', '(\w+)', $pattern) . '$/';
+        }
+        $className = $tableName;
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $tableName, $matches)) {
+                $className = $matches[1];
+                break;
+            }
+        }
+
+        $name = Inflector::singularize(Inflector::id2camel($schemaName . $className, '_'));
+        $name .= 'Record';
+
+        return $this->classNames[$fullTableName] = $name;
     }
 
     /**

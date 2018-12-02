@@ -31,7 +31,8 @@ use <?= ltrim($generator->entityBaseClass, '\\') ?>;
 <?php if (!empty($relations)): ?>
  *
 <?php foreach ($relations as $name => $relation): ?>
- * @property <?= $relation[1] . ($relation[2] ? '[]' : '') . ' $' . lcfirst($name) . "\n" ?>
+        <?php $relationClassName = str_replace('Record', 'Entity', $relation[1]) ?>
+        * @property <?= $relationClassName . ($relation[2] ? '[]' : '') . ' $' . lcfirst($name) . "\n" ?>
 <?php endforeach; ?>
 <?php endif; ?>
  *
