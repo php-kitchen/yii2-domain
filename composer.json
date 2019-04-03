@@ -28,8 +28,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
+        "codeception/codeception": "^2.3",
         "php-kitchen/code-specs": "^4.0",
-        "satooshi/php-coveralls": "^1.0"
+        "satooshi/php-coveralls": "^1.0",
+        "yiisoft/yii2-gii": "^2.0",
+        "yiisoft/yii2-debug": "^2.0"
     },
     "suggest": {
         "yii2tech/ar-softdelete": "Needed to support 'Recoverable' functionality."
@@ -41,7 +44,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PHPKitchen\\Domain\\Specs\\": "specs"
+            "PHPKitchen\\Domain\\Specs\\": "specs",
+            "PHPKitchen\\Domain\\Dev\\": "dev"
         }
     }
 }

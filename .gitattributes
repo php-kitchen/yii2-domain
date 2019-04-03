@@ -1,3 +1,4 @@
+/dev export-ignore
 /doc export-ignore
 /tests export-ignore
 /.coveralls.yml export-ignore

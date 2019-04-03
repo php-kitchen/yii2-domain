@@ -1,0 +1,32 @@
+# This is a "htaccess" template which can be used as a default server configuration file.
+
+<Files ~ "(\.(inc|module|pl|sh|sql|theme|engine|xtmpl|svn-base|mysql|pgsql)|CVS|Entries|Repositories|Root|.svn|.cvsignore|text-base|prop-base|props|wcprops|entries|format|scripts|database|.git|.gitignore)$">
+        Order deny,allow
+        Deny from all
+</Files>
+<Files ~ "(((test|ii).php)|Vagrantfile|__.htaccess|allakr.csr|allakr.key)$">
+	Order deny,allow
+	Deny from all
+</Files>
+<Files ~ "assets/*/*\.(php|php3?|phtml)$">
+	Order deny,allow
+	Deny from all
+</Files>
+
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(.+)$ index.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteRule ^(test)$ test.php [L]
