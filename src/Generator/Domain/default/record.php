@@ -20,7 +20,6 @@ $baseClassName = substr($generator->recordBaseClass, strrpos($generator->recordB
 
 namespace <?= $generator->ns ?>;
 
-use Yii;
 use <?= ltrim($generator->recordBaseClass, '\\') ?>;
 
 /**
@@ -75,10 +74,7 @@ class <?= $className ?> extends <?= $baseClassName ?> {
     }
 <?php foreach ($relations as $name => $relation): ?>
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function get<?= $name ?>() {
+    public function get<?= $name ?>(): <?= str_replace('Record', 'Query', $relation[1]) ?> {
         <?= $relation[0] . "\n" ?>
     }
 <?php endforeach; ?>
@@ -87,7 +83,7 @@ class <?= $className ?> extends <?= $baseClassName ?> {
      * @inheritdoc
      * @return <?= $queryClassName ?> the active query used by this AR class.
      */
-    public static function find() {
+    public static function find(): <?= $queryClassName ?> {
         return static::createFinder(<?= $queryClassName ?>::class);
     }
 }

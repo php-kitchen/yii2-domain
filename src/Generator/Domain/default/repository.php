@@ -27,7 +27,7 @@ use PHPKitchen\Domain\DB\Finder;
  * @method <?= $entityClassName ?> findOneWithPk($pk)
  * @method <?= $entityClassName ?>[] findAll()
  * @method <?= $entityClassName ?>[] each($batchSize = 100)
-* @method <?= $entityClassName ?> createNewEntity()
+ * @method <?= $entityClassName ?> createNewEntity()
  * @method <?= $providerClassName ?> getEntitiesProvider()
 */
 class <?= $className ?> extends <?= $baseClassName ?> {

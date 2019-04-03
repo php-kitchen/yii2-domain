@@ -134,7 +134,7 @@ class ModelGenerator extends \yii\gii\generators\model\Generator {
                 'message' => 'Only word characters, and optionally spaces, an asterisk and/or a dot are allowed.',
             ],
             [['db'], 'validateDb'],
-            [['ns'], 'validateNamespace'],
+            //[['ns'], 'validateNamespace'],
             [['tableName'], 'validateTableName'],
             [['domainName', 'moduleName'], 'validateDomainOrModuleName', 'skipOnEmpty' => false],
             [['recordBaseClass'], 'validateClass', 'params' => ['extends' => ActiveRecord::class]],

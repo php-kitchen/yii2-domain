@@ -18,15 +18,15 @@ use <?= ltrim($generator->queryBaseClass, '\\') ?>;
 use yii\db\BatchQueryResult;
 
 /**
-* This is the query class for [[<?= $entityClassName ?>]].
-*
-* @method <?= $entityClassName ?>|array|null one($db = null)
-* @method <?= $entityClassName ?>[]|array all($db = null)
-* @method <?= $entityClassName ?>[]|BatchQueryResult batch($batchSize = 100, $db = null)
-* @method <?= $entityClassName ?>|BatchQueryResult each($batchSize = 100, $db = null)
-* @method <?= $entityClassName ?>|null oneWithPk($pk)
-*
-* @see <?= $entityClassName . "\n" ?>
+ * This is the query class for [[<?= $entityClassName ?>]].
+ *
+ * @method <?= $entityClassName ?>|array|null one($db = null)
+ * @method <?= $entityClassName ?>[]|array all($db = null)
+ * @method <?= $entityClassName ?>[]|BatchQueryResult batch($batchSize = 100, $db = null)
+ * @method <?= $entityClassName ?>|BatchQueryResult each($batchSize = 100, $db = null)
+ * @method <?= $entityClassName ?>|null oneWithPk($pk)
+ *
+ * @see <?= $entityClassName . "\n" ?>
  */
 class <?= $className ?> extends <?= $baseClassName ?> {
 }
