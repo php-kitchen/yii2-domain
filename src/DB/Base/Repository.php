@@ -84,7 +84,8 @@ abstract class Repository extends Component implements Contracts\Repository {
             $result = $this->saveEntityInternal($entity, $runValidation, $attributes);
             $result ? $this->commitTransaction() : null;
         } catch (\Exception $e) {
-            $result = false;
+            $this->rollbackTransaction();
+            throw $e;
         }
         if (!$result) {
             $this->rollbackTransaction();
