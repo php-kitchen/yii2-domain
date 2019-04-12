@@ -197,16 +197,14 @@ abstract class Repository extends Component implements Contracts\Repository {
     /**
      * @return array
      */
-    public function getErrors(): array
-    {
+    public function getErrors() {
         return $this->errors;
     }
 
     /**
      * @param array $errors
      */
-    public function setErrors(array $errors): void
-    {
+    public function setErrors(array $errors) {
         $this->errors = $errors;
     }
 
@@ -215,16 +213,14 @@ abstract class Repository extends Component implements Contracts\Repository {
      *
      * @param $error
      */
-    public function addError($error)
-    {
+    public function addError($error) {
         $this->errors[] = $error;
     }
 
     /**
      * Clears errors
      */
-    public function clearErrors()
-    {
+    public function clearErrors() {
         $this->setErrors([]);
     }
 
