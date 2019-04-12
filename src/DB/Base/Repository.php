@@ -26,6 +26,14 @@ use yii\base\InvalidConfigException;
 abstract class Repository extends Component implements Contracts\Repository {
     use TransactionAccess;
     /**
+     * @var array Stores errors which could occur during save process
+     */
+    public $errors = [];
+    /**
+     * @var int indicates whether to throw exception or handle it
+     */
+    public $throwExceptions = false;
+    /**
      * @var bool indicates whether to use DB transaction or not.
      */
     public $useTransactions = true;
@@ -71,24 +79,31 @@ abstract class Repository extends Component implements Contracts\Repository {
     //region ----------------------- ENTITY MANIPULATION METHODS ------------------------
 
     public function validateAndSave(Contracts\DomainEntity $entity, $attributes = null) {
+        $this->clearErrors();
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = true, $attributes) : $this->saveEntityInternal($entity, $runValidation = true, $attributes);
     }
 
     public function saveWithoutValidation(Contracts\DomainEntity $entity, $attributes = null) {
+        $this->clearErrors();
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = false, $attributes) : $this->saveEntityInternal($entity, $runValidation = false, $attributes);
     }
 
     protected function saveEntityUsingTransaction(Contracts\DomainEntity $entity, $runValidation, $attributes) {
         $this->beginTransaction();
+        $exception = null;
         try {
             $result = $this->saveEntityInternal($entity, $runValidation, $attributes);
             $result ? $this->commitTransaction() : null;
         } catch (\Exception $e) {
-            $this->rollbackTransaction();
-            throw $e;
+            $result = false;
+            $exception = $e;
+            $this->addError($e->getMessage());
         }
         if (!$result) {
             $this->rollbackTransaction();
+        }
+        if ($exception && $this->throwExceptions) {
+            throw $e;
         }
 
         return $result;
@@ -178,6 +193,40 @@ abstract class Repository extends Component implements Contracts\Repository {
     //endregion
 
     //region ----------------------- GETTERS/SETTERS ------------------------------------
+
+    /**
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(array $errors): void
+    {
+        $this->errors = $errors;
+    }
+
+    /**
+     * Adds error to the errors array
+     *
+     * @param $error
+     */
+    public function addError($error)
+    {
+        $this->errors[] = $error;
+    }
+
+    /**
+     * Clears errors
+     */
+    public function clearErrors()
+    {
+        $this->setErrors([]);
+    }
 
     public function getDefaultQueryClassName() {
         return $this->_defaultQueryClassName;
