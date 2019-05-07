@@ -47,12 +47,11 @@ trait ModelSearching {
      * The order of the primary key values should follow that returned by the `primaryKey()` method
      * of the model.
      *
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return mixed
      * @throws InvalidConfigException on invalid configuration
      *
+     * @throws NotFoundHttpException if the model cannot be found
      * @deprecated use {@link findEntityByIdentifierOrFail} instead
-     *
-     * @return mixed
      */
     protected function findModelByPk($entityPrimaryKey) {
         if ($this->searchBy !== null) {
@@ -79,20 +78,24 @@ trait ModelSearching {
      * The order of the primary key values should follow that returned by the `primaryKey()` method
      * of the model.
      *
-     * @throws InvalidConfigException on invalid configuration
-     *
      * @return mixed
+     * @throws InvalidConfigException on invalid configuration
+     * @throws NotFoundHttpException on invalid configuration
      */
     protected function findEntityByIdentifierOrFail($identifier) {
         if ($this->searchBy !== null) {
-            $model = call_user_func($this->searchBy, $identifier, $this);
+            $entity = call_user_func($this->searchBy, $identifier, $this);
         } elseif ($this->repository) {
-            $model = $this->findEntityByPK($identifier);
+            $entity = $this->findEntityByPK($identifier);
         } else {
             throw new InvalidConfigException('Either "' . static::class . '::searchBy" or "' . static::class . '::repository" must be set.');
         }
 
-        return $model;
+        if (!$entity) {
+            throw new NotFoundHttpException('Entity doest not exist');
+        }
+
+        return $entity;
     }
 
     protected function findEntityByPK($primaryKey) {

@@ -23,7 +23,7 @@ class EntitiesRepository extends Base\Repository {
      * if you need custom mapper. But be aware - data mapper is internal class and it is strongly advised to not
      * touch this property.
      */
-    public $dataMapperClassName = domain\Base\DataMapper::class;
+    public $dataMapperClassName = Domain\Base\DataMapper::class;
     /**
      * @var string indicates what finder to use. By default equal following template "{model name}Finder" where model name is equal to
      * the repository class name without "Repository" suffix.
@@ -43,11 +43,14 @@ class EntitiesRepository extends Base\Repository {
     //region ---------------------- ENTITY MANIPULATION METHODS -------------------
 
     /**
-     * @override
+     * @param Contracts\DomainEntity $entity
+     * @param bool $runValidation
+     * @param array $attributes
      *
-     * @param domain\Base\Entity $entity
+     * @return bool
+     * @throws UnableToSaveEntityException
      */
-    protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityInternal(Contracts\DomainEntity $entity, bool $runValidation, ?array $attributes): bool {
         $isEntityNew = $entity->isNew();
         $dataSource = $entity->getDataMapper()->getDataSource();
 
@@ -68,12 +71,7 @@ class EntitiesRepository extends Base\Repository {
         return $result;
     }
 
-    /**
-     * @param domain\Base\Entity $entity
-     *
-     * @return bool result.
-     */
-    public function delete(Contracts\DomainEntity $entity) {
+    public function delete(Contracts\DomainEntity $entity): bool {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
             $result = $entity->getDataMapper()->getDataSource()->deleteRecord();
         } else {
@@ -86,23 +84,13 @@ class EntitiesRepository extends Base\Repository {
         return $result;
     }
 
-    /**
-     * @param domain\Base\Entity $entity
-     *
-     * @return bool result.
-     */
-    public function validate(Contracts\DomainEntity $entity) {
+    public function validate(Contracts\DomainEntity $entity): bool {
         $dataSource = $entity->getDataMapper()->getDataSource();
 
         return $dataSource->validate();
     }
 
-    /**
-     * @param domain\Base\Entity $entity
-     *
-     * @return bool result
-     */
-    public function refresh(Contracts\DomainEntity $entity) {
+    public function refresh(Contracts\DomainEntity $entity): bool {
         $dataSource = $entity->getDataMapper()->getDataSource();
 
         return $dataSource->refresh();
@@ -174,7 +162,6 @@ class EntitiesRepository extends Base\Repository {
     //endregion
 
     //region ----------------------- INSTANTIATION METHODS ------------------------
-
     public function createNewEntity() {
         $container = $this->container;
 
@@ -199,7 +186,6 @@ class EntitiesRepository extends Base\Repository {
     //endregion
 
     //region ----------------------- SEARCH METHODS -------------------------------
-
     /**
      * @return Finder|RecordQuery
      */
@@ -216,7 +202,6 @@ class EntitiesRepository extends Base\Repository {
     //endregion
 
     //region ----------------------- GETTERS/SETTERS ------------------------------
-
     protected function getFinderClassName() {
         if (null === $this->_finderClassName) {
             $this->_finderClassName = $this->buildModelElementClassName('Finder', $this->defaultFinderClassName);
@@ -225,15 +210,15 @@ class EntitiesRepository extends Base\Repository {
         return $this->_finderClassName;
     }
 
-    public function setFinderClassName($finderClassName) {
+    public function setFinderClassName($finderClassName): void {
         $this->_finderClassName = $finderClassName;
     }
 
-    public function getDefaultFinderClassName() {
+    public function getDefaultFinderClassName(): string {
         return $this->_defaultFinderClassName;
     }
 
-    public function setDefaultFinderClassName($defaultFinderClass) {
+    public function setDefaultFinderClassName($defaultFinderClass): void {
         if (!class_exists($defaultFinderClass) && !interface_exists($defaultFinderClass)) {
             throw new InvalidConfigException('Default finder class should be an existing class or interface!');
         }

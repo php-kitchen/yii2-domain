@@ -23,15 +23,27 @@ class ModelEvent extends Event {
         parent::__construct($config);
     }
 
-    public function isValid() {
+    public function isValid(): bool {
         return $this->_valid;
     }
 
-    public function fail() {
-        $this->_valid = false;
+    public function failAndMarkHandled(): void {
+        $this->fail()->markHandled();
     }
 
-    public function getEntity() {
+    public function fail(): self {
+        $this->_valid = false;
+
+        return $this;
+    }
+
+    public function markHandled(): self {
+        $this->handled = true;
+
+        return $this;
+    }
+
+    public function getEntity(): DomainEntity {
         return $this->_entity;
     }
 }

@@ -6,6 +6,7 @@ use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;
 use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
+use PHPKitchen\Domain\Base\Entity;
 use PHPKitchen\Domain\Contracts\DomainEntity;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -17,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property \PHPKitchen\Domain\Contracts\EntityController|\yii\web\Controller $controller
  * @property \PHPKitchen\Domain\DB\EntitiesRepository $repository
  * @property \PHPKitchen\Domain\Data\EntitiesProvider $dataProvider
- * @property \PHPKitchen\Domain\Base\Entity $entity
+ * @property Entity $entity
  *
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -26,7 +27,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     use ContainerAccess;
     use ServiceLocatorAccess;
     /**
-     * @var \PHPKitchen\Domain\Base\Entity
+     * @var Entity
      */
     private $_entity;
     /**
@@ -46,7 +47,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      */
     private $_controller;
 
-    public function convertToEntity() {
+    public function convertToEntity(): Entity {
         $defaultAttributes = $this->prepareDefaultEntityAttributes();
         $newAttributes = $this->convertToEntityAttributes();
         $entity = $this->getEntity();
@@ -60,7 +61,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      *
      * @return array default entity attributes
      */
-    protected function prepareDefaultEntityAttributes() {
+    protected function prepareDefaultEntityAttributes(): array {
         return [];
     }
 
@@ -69,7 +70,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      *
      * @return array entity attributes.
      */
-    public function convertToEntityAttributes() {
+    public function convertToEntityAttributes(): array {
         $entityAttributesMap = $this->getEntityAttributesMap();
         if (empty($entityAttributesMap)) {
             return $this->getAttributes();
@@ -94,7 +95,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      *
      * @return bool
      */
-    public function loadAttributesFromEntity() {
+    public function loadAttributesFromEntity(): bool {
         $attributes = $this->convertEntityToSelfAttributes();
 
         return $this->load($attributes, '');
@@ -105,7 +106,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
      *
      * @return array
      */
-    protected function convertEntityToSelfAttributes() {
+    protected function convertEntityToSelfAttributes(): array {
         $entity = $this->getEntity();
         $attributes = [];
         foreach ($this->getEntityAttributesMap() as $modelAttribute => $formValue) {
@@ -117,7 +118,18 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         return $attributes;
     }
 
-    protected function getEntityAttributesMap() {
+    /**
+     * Returns the name of entity attribute mapped to specified form field
+     *
+     * @param string $formAttributeName
+     *
+     * @return string
+     */
+    public function getEntityAttributeMappedToFieldName(string $formAttributeName): string {
+        return array_flip($this->getEntityAttributesMap())[$formAttributeName];
+    }
+
+    protected function getEntityAttributesMap(): array {
         if (null === $this->_entityAttributesMap) {
             $selfAttributeNames = $this->attributes();
             $this->_entityAttributesMap = array_combine($selfAttributeNames, $selfAttributeNames);
@@ -126,12 +138,11 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
         return $this->_entityAttributesMap;
     }
 
-    public function setEntityAttributesMap(array $entityAttributesMap) {
+    public function setEntityAttributesMap(array $entityAttributesMap): void {
         $this->_entityAttributesMap = $entityAttributesMap;
     }
 
     //region -------------------- GETTERS/SETTERS --------------------
-
     public function getEntity() {
         return $this->_entity;
     }

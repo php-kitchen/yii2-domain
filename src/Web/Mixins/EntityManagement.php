@@ -24,7 +24,7 @@ trait EntityManagement {
      * @var \PHPKitchen\Domain\DB\EntitiesRepository
      */
     private $_repository;
-
+    
     public function findEntityByPk($pk) {
         $entity = $this->getRepository()->find()->oneWithPk($pk);
         if (null === $entity) {

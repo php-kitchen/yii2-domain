@@ -5,7 +5,7 @@ namespace PHPKitchen\Domain\Web\Actions;
 use PHPKitchen\Domain\Web\Base\EntityModificationAction;
 
 /**
- * Represents
+ * Represents entity creation process.
  *
  * @package PHPKitchen\Domain\Web\Actions
  * @author Dmitry Kolodko <prowwid@gmail.com>

@@ -11,6 +11,7 @@ use PHPKitchen\Domain\Contracts\EntityDataSource;
 use PHPKitchen\Domain\Contracts\LoggerAware;
 use PHPKitchen\Domain\Mixins\LoggerAccess;
 use PHPKitchen\Domain\Mixins\StaticSelfAccess;
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
 
@@ -33,6 +34,10 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
      * @var array attribute values that were changed after inser or update
      */
     private $_changedAttributes = [];
+    /**
+     * @var EntitiesRepository[] repositories of related entities
+     */
+    private $relatedRepositories = [];
 
     public function init() {
         parent::init();
@@ -130,9 +135,9 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
      * $customer->save();
      * ```
      *
-     * @param boolean $runValidation whether to perform validation (calling [[validate()]])
      * before saving the record. Defaults to `true`. If the validation fails, the record
      * will not be saved to the database and this method will return `false`.
+     *
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
      *
@@ -161,9 +166,9 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
      * $customer->save();
      * ```
      *
-     * @param boolean $runValidation whether to perform validation (calling [[validate()]])
      * before saving the record. Defaults to `true`. If the validation fails, the record
      * will not be saved to the database and this method will return `false`.
+     *
      * @param array $attributeNames list of attribute names that need to be saved. Defaults to null,
      * meaning all attributes that are loaded from DB will be saved.
      *
@@ -210,5 +215,45 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
 
     protected function initChangedAttributes(AfterSaveEvent $event) {
         $this->setChangedAttributes($event->changedAttributes);
+    }
+
+    /**
+     * Creates a query instance for `has-one` or `has-many` relation.
+     *
+     * @param string $class the class name of the related record.
+     * @param array $link the primary-foreign key constraint.
+     * @param bool $multiple whether this query represents a relation to more than one record.
+     *
+     * @return ActiveQueryInterface the relational query object.
+     */
+    protected function createRelationQuery($class, $link, $multiple) {
+        $repository = $this->getRepositoryClassNameForRecord($class);
+        if (null === $repository) {
+            return parent::createRelationQuery($class, $link, $multiple);
+        }
+
+        $query = $repository->find()->getQuery();
+
+        $query->primaryModel = $this;
+        $query->link = $link;
+        $query->multiple = $multiple;
+
+        return $query;
+    }
+
+    protected function getRepositoryClassNameForRecord($recordClass): ?EntitiesRepository {
+        return $this->relatedRepositories[$recordClass] ?? $this->initRepositoryClassName($recordClass);
+    }
+
+    protected function initRepositoryClassName($recordClass): ?EntitiesRepository {
+        $repositoryClass = false !== strpos($recordClass, 'Record') ? str_replace('Record', 'Repository', $recordClass) : null;
+        $container = $this->container;
+        try {
+            $repository = $repositoryClass ? $container->create($repositoryClass) : null;
+        } catch (\Exception $e) {
+            $repository = null;
+        }
+
+        return $this->relatedRepositories[$recordClass] = $repository;
     }
 }

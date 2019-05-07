@@ -22,15 +22,15 @@ interface Repository {
     const EVENT_BEFORE_DELETE = 'beforeDelete';
     const EVENT_AFTER_DELETE = 'afterDelete';
 
-    public function validateAndSave(DomainEntity $entity, $attributes = null);
+    public function validateAndSave(DomainEntity $entity, ?array $attributes = null);
 
-    public function saveWithoutValidation(DomainEntity $entity, $attributes = null);
+    public function saveWithoutValidation(DomainEntity $entity, ?array $attributes = null);
 
-    public function delete(DomainEntity $entity);
+    public function delete(DomainEntity $entity): bool;
 
-    public function validate(DomainEntity $entity);
+    public function validate(DomainEntity $entity): bool;
 
-    public function refresh(DomainEntity $entity);
+    public function refresh(DomainEntity $entity): bool;
 
     public function findOneWithPk($pk);
 
