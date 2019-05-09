@@ -8,7 +8,6 @@ use PHPKitchen\Domain\Contracts;
 use PHPKitchen\Domain\Data\EntitiesProvider;
 use PHPKitchen\Domain\Mixins\TransactionAccess;
 use yii\base\InvalidConfigException;
-use yii\db\Exception;
 
 /**
  * Represents base DB repository.
@@ -96,7 +95,6 @@ abstract class Repository extends Component implements Contracts\Repository {
         $exception = null;
         try {
             $result = $this->saveEntityInternal($entity, $runValidation, $attributes);
-            throw new Exception('test');
             $result ? $this->commitTransaction() : null;
         } catch (\Exception $e) {
             $result = false;

@@ -227,8 +227,8 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
      * @return ActiveQueryInterface the relational query object.
      */
     protected function createRelationQuery($class, $link, $multiple) {
-        $repository = $this->getRepositoryClassNameForRecord($class);
-        if (null === $repository) {
+        $repository = $this->getRelatedRepository($byRecordClass = $class);
+        if (!$repository) {
             return parent::createRelationQuery($class, $link, $multiple);
         }
 
@@ -241,19 +241,25 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
         return $query;
     }
 
-    protected function getRepositoryClassNameForRecord($recordClass): ?EntitiesRepository {
-        return $this->relatedRepositories[$recordClass] ?? $this->initRepositoryClassName($recordClass);
+    /**
+     * @param string $byRecordClass
+     *
+     * @return false|EntitiesRepository
+     */
+    protected function getRelatedRepository(string $byRecordClass) {
+        return $this->relatedRepositories[$byRecordClass] ?? $this->initRelatedRepository($byRecordClass);
     }
 
-    protected function initRepositoryClassName($recordClass): ?EntitiesRepository {
-        $repositoryClass = false !== strpos($recordClass, 'Record') ? str_replace('Record', 'Repository', $recordClass) : null;
+    protected function initRelatedRepository(string $byRecordClass) {
+        $repositoryClass = false !== strpos($byRecordClass, 'Record') ? str_replace('Record', 'Repository', $byRecordClass) : null;
         $container = $this->container;
         try {
-            $repository = $repositoryClass ? $container->create($repositoryClass) : null;
+            $repository = $repositoryClass ? $container->create($repositoryClass) : false;
         } catch (\Exception $e) {
-            $repository = null;
+            $repository = false;
         }
+        $this->relatedRepositories[$byRecordClass] = $repository;
 
-        return $this->relatedRepositories[$recordClass] = $repository;
+        return $this->relatedRepositories[$byRecordClass];
     }
 }

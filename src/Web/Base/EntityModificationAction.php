@@ -29,7 +29,6 @@ abstract class EntityModificationAction extends Action {
      */
     protected $_model;
 
-
     abstract protected function initModel();
 
     protected function loadModelAndSaveOrPrintView() {
