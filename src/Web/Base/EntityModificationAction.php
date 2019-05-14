@@ -21,6 +21,10 @@ abstract class EntityModificationAction extends Action {
     public $validationFailedFlashMessage = 'Please correct errors.';
     public $successFlashMessage = 'Changes successfully saved.';
     /**
+     * @var int indicates whether to throw exception or handle it
+     */
+    public $throwExceptions = false;
+    /**
      * @var \PHPKitchen\Domain\Web\Base\ViewModel;
      */
     protected $_model;
@@ -73,12 +77,16 @@ abstract class EntityModificationAction extends Action {
     }
 
     protected function tryToSaveEntity() {
-        $controller = $this->controller;
-        $entity = $this->getModel()->convertToEntity();
+        $model = $this->getModel();
+        $entity = $model->convertToEntity();
         try {
-            $savedSuccessfully = $controller->repository->validateAndSave($entity);
+            $savedSuccessfully = $this->controller->repository->validateAndSave($entity);
+            $model->loadAttributesFromEntity();
         } catch (UnableToSaveEntityException $e) {
             $savedSuccessfully = false;
+            if ($this->throwExceptions) {
+                throw $e;
+            }
         }
         if ($savedSuccessfully) {
             $this->addSuccessFlash($this->successFlashMessage);

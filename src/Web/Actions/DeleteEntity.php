@@ -4,6 +4,7 @@ namespace PHPKitchen\Domain\Web\Actions;
 
 use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
 use PHPKitchen\Domain\Web\Base\Action;
+use PHPKitchen\Domain\Web\Mixins\ModelSearching;
 
 /**
  * Represents
@@ -12,6 +13,7 @@ use PHPKitchen\Domain\Web\Base\Action;
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
 class DeleteEntity extends Action {
+    use ModelSearching;
     public $failToDeleteErrorFlashMessage = 'Unable to delete entity';
     public $successfulDeleteFlashMessage = 'Entity successfully deleted';
     public $redirectUrl;
@@ -20,9 +22,14 @@ class DeleteEntity extends Action {
         $this->setViewFileIfNotSetTo('list');
     }
 
+    /**
+     * @param int $id
+     *
+     * @return \yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function run($id) {
-        $controller = $this->controller;
-        $entity = $controller->findEntityByPk($id);
+        $entity = $this->findEntityByIdentifierOrFail($id);
         $this->tryToDeleteEntity($entity);
 
         return $this->redirectToNextPage();

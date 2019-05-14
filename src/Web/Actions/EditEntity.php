@@ -5,7 +5,7 @@ namespace PHPKitchen\Domain\Web\Actions;
 use PHPKitchen\Domain\Web\Base\EntityModificationAction;
 
 /**
- * Represents
+ * Represents entity modify process.
  *
  * @package PHPKitchen\Domain\Web\Actions
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -24,7 +24,8 @@ class EditEntity extends EntityModificationAction {
     }
 
     protected function initModel() {
-        $this->_model = $this->findModelByPk($this->entityId);
+        $entity = $this->findEntityByIdentifierOrFail($this->entityId);
+        $this->_model = $this->createViewModel($entity);
         $this->_model->loadAttributesFromEntity();
     }
 }

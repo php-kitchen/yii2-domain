@@ -46,12 +46,12 @@ abstract class Repository extends Component implements Contracts\Repository {
      * @var string class name of an event that being triggered on each important action. Change it in {@link init()} method
      * if you need custom event.
      */
-    public $modelEventClassName = domain\Base\ModelEvent::class;
+    public $modelEventClassName = Domain\Base\ModelEvent::class;
     /**
      * @var string records query class name. This class being used if no query specified in morel directory. Change it
      * in {@link init()} method if you need custom default query.
      */
-    private $_defaultQueryClassName = domain\DB\RecordQuery::class;
+    private $_defaultQueryClassName = Domain\DB\RecordQuery::class;
     private $_className;
     /**
      * @var string indicates what entity to use. By default equal following template "{model name}Entity" where model name is equal to
@@ -70,25 +70,27 @@ abstract class Repository extends Component implements Contracts\Repository {
     private $_recordClassName;
 
     /**
-     * @return domain\DB\Finder|domain\DB\RecordQuery
+     * @return Domain\DB\Finder|Domain\DB\RecordQuery
      */
     abstract public function find();
 
-    abstract protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes);
+    abstract protected function saveEntityInternal(Contracts\DomainEntity $entity, bool $runValidation, ?array $attributes): bool;
 
     //region ----------------------- ENTITY MANIPULATION METHODS ------------------------
 
-    public function validateAndSave(Contracts\DomainEntity $entity, $attributes = null) {
+    public function validateAndSave(Contracts\DomainEntity $entity, ?array $attributes = null) {
         $this->clearErrors();
+
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = true, $attributes) : $this->saveEntityInternal($entity, $runValidation = true, $attributes);
     }
 
-    public function saveWithoutValidation(Contracts\DomainEntity $entity, $attributes = null) {
+    public function saveWithoutValidation(Contracts\DomainEntity $entity, ?array $attributes = null) {
         $this->clearErrors();
+
         return $this->useTransactions ? $this->saveEntityUsingTransaction($entity, $runValidation = false, $attributes) : $this->saveEntityInternal($entity, $runValidation = false, $attributes);
     }
 
-    protected function saveEntityUsingTransaction(Contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityUsingTransaction(Contracts\DomainEntity $entity, bool $runValidation, ?array $attributes) {
         $this->beginTransaction();
         $exception = null;
         try {
@@ -160,28 +162,32 @@ abstract class Repository extends Component implements Contracts\Repository {
     /**
      * @param mixed $pk primary key of the entity
      *
-     * @return domain\DB\Entity
+     * @return Domain\Base\Entity
      */
     public function findOneWithPk($pk) {
         return $this->find()->oneWithPk($pk);
     }
 
     /**
-     * @return domain\DB\Entity[]
+     * @return Domain\Base\Entity[]
      */
     public function findAll() {
         return $this->find()->all();
     }
 
     /**
-     * @return domain\DB\Entity[]
+     * @param int $batchSize
+     *
+     * @return Domain\Base\Entity[]
      */
     public function each($batchSize = 100) {
         return $this->find()->each($batchSize);
     }
 
     /**
-     * @return domain\DB\Entity[][]
+     * @param int $batchSize
+     *
+     * @return Domain\Base\Entity[][]
      */
     public function getBatchIterator($batchSize = 100) {
         return $this->find()->each($batchSize);
@@ -197,14 +203,14 @@ abstract class Repository extends Component implements Contracts\Repository {
     /**
      * @return array
      */
-    public function getErrors() {
+    public function getErrors(): array {
         return $this->errors;
     }
 
     /**
      * @param array $errors
      */
-    public function setErrors(array $errors) {
+    public function setErrors(array $errors): void {
         $this->errors = $errors;
     }
 
@@ -213,14 +219,14 @@ abstract class Repository extends Component implements Contracts\Repository {
      *
      * @param $error
      */
-    public function addError($error) {
+    public function addError($error): void {
         $this->errors[] = $error;
     }
 
     /**
      * Clears errors
      */
-    public function clearErrors() {
+    public function clearErrors(): void {
         $this->setErrors([]);
     }
 

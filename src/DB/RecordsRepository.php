@@ -13,7 +13,7 @@ use PHPKitchen\Domain\Contracts;
  */
 class RecordsRepository extends Base\Repository {
     public function __construct($config = []) {
-        $this->entitiesProviderClassName = domain\Data\RecordsProvider::class;
+        $this->entitiesProviderClassName = Domain\Data\RecordsProvider::class;
         parent::__construct($config);
     }
 
@@ -27,7 +27,7 @@ class RecordsRepository extends Base\Repository {
      * @return bool result.
      * @throws Domain\Exceptions\UnableToSaveEntityException
      */
-    protected function saveEntityInternal(Contracts\DomainEntity $entity, $runValidation, $attributes) {
+    protected function saveEntityInternal(Contracts\DomainEntity $entity, bool $runValidation, ?array $attributes): bool {
         $isEntityNew = $entity->isNew();
         if ($this->triggerModelEvent($isEntityNew ? self::EVENT_BEFORE_ADD : self::EVENT_BEFORE_UPDATE, $entity) && $this->triggerModelEvent(self::EVENT_BEFORE_SAVE, $entity)) {
             $result = $runValidation ? $entity->validateAndSave($attributes) : $entity->saveWithoutValidation($attributes);
@@ -51,7 +51,7 @@ class RecordsRepository extends Base\Repository {
      *
      * @return bool result.
      */
-    public function delete(Contracts\DomainEntity $entity) {
+    public function delete(Contracts\DomainEntity $entity): bool {
         if ($this->triggerModelEvent(self::EVENT_BEFORE_DELETE, $entity)) {
             $result = $entity->deleteRecord();
         } else {
@@ -69,7 +69,7 @@ class RecordsRepository extends Base\Repository {
      *
      * @return bool result.
      */
-    public function validate(Contracts\DomainEntity $entity) {
+    public function validate(Contracts\DomainEntity $entity): bool {
         return $entity->validate();
     }
 

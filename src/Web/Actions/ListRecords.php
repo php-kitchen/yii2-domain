@@ -7,7 +7,7 @@ use PHPKitchen\Domain\Web\Base\ListingModel;
 use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
 
 /**
- * Represents
+ * Represents the showing list of entities
  *
  * @package PHPKitchen\Domain\Web
  * @author Dmitry Kolodko <prowwid@gmail.com>

@@ -24,6 +24,12 @@ class RecoverEntity extends Action {
         $this->setViewFileIfNotSetTo('list');
     }
 
+    /**
+     * @param int|null $id
+     *
+     * @return \yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function run($id = null) {
         $ids = ($id) ? [$id] : $this->serviceLocator->request->post($this->recoveredListFieldName, []);
 
@@ -70,6 +76,6 @@ class RecoverEntity extends Action {
             $redirectUrl = $this->redirectUrl;
         }
 
-        return $this->controller->redirect($redirectUrl);
+        return $this->controller->redirect($redirectUrl, $statusCode = 200);
     }
 }
