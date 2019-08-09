@@ -164,7 +164,7 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     }
 
     public function getRepository() {
-        return $this->controller->repository;
+        return $this->controller->action->repository;
     }
     //endregion
 }
