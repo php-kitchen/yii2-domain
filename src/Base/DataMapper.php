@@ -57,6 +57,12 @@ class DataMapper extends Component {
         return $property;
     }
 
+    public function refresh(): bool {
+        $this->clearRelatedEntities();
+
+        return $this->getDataSource()->refresh();
+    }
+
     protected function getPropertyFromDataSource($propertyName) {
         $property = $this->canGet($propertyName) ? $this->dataSource->$propertyName : null;
 
@@ -107,6 +113,10 @@ class DataMapper extends Component {
         }
 
         return $repository;
+    }
+
+    protected function clearRelatedEntities(): void {
+        $this->relatedEntities = [];
     }
 
     public function set($name, $value) {
