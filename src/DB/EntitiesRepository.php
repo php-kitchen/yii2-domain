@@ -91,9 +91,7 @@ class EntitiesRepository extends Base\Repository {
     }
 
     public function refresh(Contracts\DomainEntity $entity): bool {
-        $dataSource = $entity->getDataMapper()->getDataSource();
-
-        return $dataSource->refresh();
+        return $entity->getDataMapper()->refresh();
     }
     //endregion
 
