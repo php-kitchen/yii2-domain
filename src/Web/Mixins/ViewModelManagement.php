@@ -25,7 +25,7 @@ trait ViewModelManagement {
     public $scenario = ViewModel::SCENARIO_DEFAULT;
 
     protected function createNewModel() {
-        $entity = $this->controller->getRepository()->createNewEntity();
+        $entity = $this->getRepository()->createNewEntity();
 
         return $this->createViewModel($entity);
     }

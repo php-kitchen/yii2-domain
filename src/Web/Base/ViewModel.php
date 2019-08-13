@@ -8,6 +8,7 @@ use PHPKitchen\DI\Mixins\ContainerAccess;
 use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
 use PHPKitchen\Domain\Base\Entity;
 use PHPKitchen\Domain\Contracts\DomainEntity;
+use PHPKitchen\Domain\Web\Contracts\RepositoryAware;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -164,6 +165,10 @@ class ViewModel extends Model implements ContainerAware, ServiceLocatorAware {
     }
 
     public function getRepository() {
+        if ($this->controller->action instanceof RepositoryAware) {
+            return $this->controller->action->repository;
+        }
+
         return $this->controller->repository;
     }
     //endregion

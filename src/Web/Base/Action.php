@@ -7,6 +7,7 @@ use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;
 use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
 use PHPKitchen\Domain\DB\EntitiesRepository;
+use PHPKitchen\Domain\Web\Contracts\RepositoryAware;
 use yii\base\InvalidArgumentException;
 use yii\helpers\Inflector;
 
@@ -21,7 +22,7 @@ use yii\helpers\Inflector;
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerAware {
+class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerAware , RepositoryAware {
     use ServiceLocatorAccess;
     use ContainerAccess;
     /**

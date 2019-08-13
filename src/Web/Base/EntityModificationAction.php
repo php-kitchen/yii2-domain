@@ -80,8 +80,8 @@ abstract class EntityModificationAction extends Action {
         $model = $this->getModel();
         $entity = $model->convertToEntity();
         try {
-            $savedSuccessfully = $this->controller->repository->validateAndSave($entity);
-            $this->controller->repository->refresh($entity);
+            $savedSuccessfully = $this->getRepository()->validateAndSave($entity);
+            $this->getRepository()->refresh($entity);
             $model->loadAttributesFromEntity();
         } catch (UnableToSaveEntityException $e) {
             $savedSuccessfully = false;

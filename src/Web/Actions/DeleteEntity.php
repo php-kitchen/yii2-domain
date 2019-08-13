@@ -36,9 +36,8 @@ class DeleteEntity extends Action {
     }
 
     protected function tryToDeleteEntity($entity) {
-        $controller = $this->controller;
         try {
-            $savedSuccessfully = $controller->repository->delete($entity);
+            $savedSuccessfully = $this->getRepository()->delete($entity);
         } catch (UnableToSaveEntityException $e) {
             $savedSuccessfully = false;
         }
