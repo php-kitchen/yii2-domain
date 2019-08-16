@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Web\Base;
+namespace PHPKitchen\Domain\Web\Base\Actions;
 
 use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;

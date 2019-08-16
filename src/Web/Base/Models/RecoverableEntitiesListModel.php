@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPKitchen\Domain\Web\Base;
+namespace PHPKitchen\Domain\Web\Base\Models;
 
 use PHPKitchen\Domain\Data\EntitiesProvider;
 
