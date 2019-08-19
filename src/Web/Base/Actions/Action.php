@@ -6,25 +6,34 @@ use PHPKitchen\DI\Contracts\ContainerAware;
 use PHPKitchen\DI\Contracts\ServiceLocatorAware;
 use PHPKitchen\DI\Mixins\ContainerAccess;
 use PHPKitchen\DI\Mixins\ServiceLocatorAccess;
-use PHPKitchen\Domain\DB\EntitiesRepository;
+
+use PHPKitchen\Domain\Contracts\ResponseHttpStatus;
+use PHPKitchen\Domain\Web\Base\Mixins\ResponseManagement;
+use PHPKitchen\Domain\Web\Base\Mixins\RepositoryAccess;
+use PHPKitchen\Domain\Web\Base\Mixins\SessionMessagesManagement;
 use PHPKitchen\Domain\Web\Contracts\RepositoryAware;
-use yii\base\InvalidArgumentException;
+
 use yii\helpers\Inflector;
 
 /**
- * Represents
+ * Represents a base class for all controller actions that utilize Yii2Domain features.
  *
+ * Own properties:
+ * @property int $requestStatusCore
+ *
+ * Base properties:
  * @property \PHPKitchen\Domain\Contracts\EntityCrudController|\yii\web\Controller $controller
  * @property \yii\web\Request $request
- * @property \yii\web\Session $session
- * @property \PHPKitchen\Domain\DB\EntitiesRepository $repository
  *
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
  */
-class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerAware , RepositoryAware {
+class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerAware, RepositoryAware {
     use ServiceLocatorAccess;
     use ContainerAccess;
+    use RepositoryAccess;
+    use SessionMessagesManagement;
+    use ResponseManagement;
     /**
      * @var string name of the view, which should be rendered
      */
@@ -33,11 +42,15 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      * @var callable callback that prepares params for a view. Use it to extend default view params list.
      */
     public $prepareViewParams;
-    public $useFlashMessages = true;
-    public $successFlashMessageKey = 'success';
-    public $errorFlashMessageKey = 'error';
-    private $_repository;
-
+    /**
+     * @var bool defines whether an action can be rendered or it just process request without printing any HTML and should
+     * redirect to a next page using {@link redirectUrl}.
+     */
+    public $printable = true;
+    /**
+     * @var string default action to redirect using {@link redirectToNextPage}
+     */
+    protected $defaultRedirectUrlAction = 'index';
     /**
      * Checks whether action with specified ID exists in owner controller.
      *
@@ -45,24 +58,13 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      *
      * @return boolean whether action exists or not.
      */
-    protected function isActionExistsInController($id) {
+    protected function isActionExistsInController($id): bool {
         $inlineActionMethodName = 'action' . Inflector::camelize($id);
-        if (method_exists($this->controller, $inlineActionMethodName)) {
-            return true;
-        }
-        if (array_key_exists($id, $this->controller->actions())) {
+        if ($this->controller->hasMethod($inlineActionMethodName) || array_key_exists($id, $this->controller->actions())) {
             return true;
         }
 
         return false;
-    }
-
-    public function addErrorFlash($message) {
-        $this->setFlash([$this->errorFlashMessageKey => $message]);
-    }
-
-    public function addSuccessFlash($message) {
-        $this->setFlash([$this->successFlashMessageKey => $message]);
     }
 
     protected function setViewFileIfNotSetTo($file) {
@@ -70,53 +72,65 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     }
 
     /**
-     * Sets a flash message.
+     * Prints page view file defined in {@link viewFile}.
+     * Params being passed to view from {@link getDefaultViewParams}
      *
-     * @param string|array|null $message flash message(s) to be set.
-     * If plain string is passed, it will be used as a message with the key 'success'.
-     * You may specify multiple messages as an array, if element name is not integer, it will be used as a key,
-     * otherwise 'success' will be used as key.
-     * If empty value passed, no flash will be set.
-     * Particular message value can be a PHP callback, which should return actual message. Such callback, should
-     * have following signature:
-     *
-     * ```php
-     * function (array $params) {
-     *     // return string
-     * }
-     * ```
-     *
-     * @param array $params extra params for the message parsing in format: key => value.
+     * @return string page content
      */
-    public function setFlash($message, $params = []) {
-        if (!$this->useFlashMessages || empty($message)) {
-            return;
-        }
-        $session = $this->serviceLocator->session;
-        foreach ((array)$message as $key => $value) {
-            if (is_scalar($value)) {
-                $value = preg_replace_callback("/{(\\w+)}/", function ($matches) use ($params) {
-                    $paramName = $matches[1];
-
-                    return isset($params[$paramName]) ? $params[$paramName] : $paramName;
-                }, $value);
-            } else {
-                $value = call_user_func($value, $params);
-            }
-            if (is_int($key)) {
-                $session->setFlash($this->successFlashMessageKey, $value);
-            } else {
-                $session->setFlash($key, $value);
-            }
-        }
+    protected function printView() {
+        return $this->printable ? $this->renderViewFile([]) : $this->redirectToNextPage();
     }
 
-    protected function renderViewFile($params) {
+    protected function renderViewFile($params = []) {
+        $viewParams = array_merge($this->getRequiredViewParams(), $this->getDefaultViewParams());
+        $viewParams = array_merge($viewParams, $params);
         if (is_callable($this->prepareViewParams)) {
-            $params = call_user_func($this->prepareViewParams, $params, $this);
+            $params = call_user_func($this->prepareViewParams, $viewParams, $this);
         }
 
         return $this->controller->render($this->viewFile, $params);
+    }
+
+    /**
+     * Override this method to set params that should be passed to a view file.
+     *
+     * @return array view params
+     */
+    protected function getDefaultViewParams(): array {
+        return [];
+    }
+
+    /**
+     * Override this method to set required static params that should be passed to a view file.
+     *
+     * @return array view params
+     */
+    protected function getRequiredViewParams(): array {
+        return [];
+    }
+
+    /**
+     * Defines default redirect URL.
+     *
+     * If you need to change redirect action, set {@link defaultRedirectUrlAction} at action init.
+     *
+     * Override this method if you need to define custom format of URL.
+     *
+     * @return array url definition;
+     */
+    protected function prepareDefaultRedirectUrl() {
+        return [$this->defaultRedirectUrlAction];
+    }
+
+    /**
+     * Prepares params for a redirect URL callback set to {@link redirectUrl}
+     *
+     * Override this method if you need to define custom params.
+     *
+     * @return array url definition;
+     */
+    protected function prepareRedirectUrlCallbackParams(): array {
+        return  [$this];
     }
 
     /**
@@ -126,39 +140,11 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
         return $this->serviceLocator->request;
     }
 
-    /**
-     * @return \yii\web\Session
-     */
-    protected function getSession() {
-        return $this->serviceLocator->session;
-    }
-
-    public function getRepository(): EntitiesRepository {
-        if (null === $this->_repository) {
-            // fallback to support old approach with defining repositories in controllers
-            $this->_repository = $this->controller->repository ?? null;
+    protected function getRequestStatusCore(): int {
+        if ($this->request->isAjax) {
+            return ResponseHttpStatus::OK;
         }
 
-        return $this->_repository;
-    }
-
-    public function setRepository($repository): void {
-        if ($this->isObjectValidRepository($repository)) {
-            $this->_repository = $repository;
-        } else {
-            $this->createAndSetRepositoryFromDefinition($repository);
-        }
-    }
-
-    protected function createAndSetRepositoryFromDefinition($definition): void {
-        $repository = $this->container->create($definition);
-        if (!$this->isObjectValidRepository($repository)) {
-            throw new InvalidArgumentException('Repository should be an instance of ' . EntitiesRepository::class);
-        }
-        $this->_repository = $repository;
-    }
-
-    protected function isObjectValidRepository($object) {
-        return is_object($object) && $object instanceof EntitiesRepository;
+        return ResponseHttpStatus::FOUND;
     }
 }

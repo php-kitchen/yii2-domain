@@ -4,11 +4,14 @@ namespace PHPKitchen\Domain\Web\Base\Actions;
 
 use PHPKitchen\Domain\Contracts\ResponseHttpStatus;
 use PHPKitchen\Domain\Exceptions\UnableToSaveEntityException;
+use PHPKitchen\Domain\Web\Base\Mixins\ResponseManagement;
+use PHPKitchen\Domain\Web\Base\Mixins\EntityActionHooks;
+use PHPKitchen\Domain\Web\Base\Mixins\SessionMessagesManagement;
 use PHPKitchen\Domain\Web\Mixins\ModelSearching;
 use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
 
 /**
- * Represents
+ * Represents a base class for all actions that modify entity.
  *
  * @package PHPKitchen\Domain\Web\Base
  * @author Dmitry Kolodko <prowwid@gmail.com>
@@ -16,10 +19,9 @@ use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
 abstract class EntityModificationAction extends Action {
     use ViewModelManagement;
     use ModelSearching;
-    public $redirectUrl;
-    public $failToSaveErrorFlashMessage = 'Unable to save entity';
-    public $validationFailedFlashMessage = 'Please correct errors.';
-    public $successFlashMessage = 'Changes successfully saved.';
+    use ResponseManagement;
+    use SessionMessagesManagement;
+    use EntityActionHooks;
     /**
      * @var int indicates whether to throw exception or handle it
      */
@@ -28,6 +30,12 @@ abstract class EntityModificationAction extends Action {
      * @var \PHPKitchen\Domain\Web\Base\ViewModel;
      */
     protected $_model;
+
+    public function __construct($id, $controller, $config = []) {
+        $this->defaultRedirectUrlAction = 'edit';
+
+        parent::__construct($id, $controller, $config);
+    }
 
     abstract protected function initModel();
 
@@ -47,10 +55,6 @@ abstract class EntityModificationAction extends Action {
             : $this->handleFailedOperation();
     }
 
-    protected function printView() {
-        return $this->renderViewFile(['model' => $this->getModel()]);
-    }
-
     protected function validateModelAndTryToSaveEntity() {
         if ($this->getModel()->validate()) {
             $result = $this->tryToSaveEntity();
@@ -59,21 +63,6 @@ abstract class EntityModificationAction extends Action {
         }
 
         return $result;
-    }
-
-    protected function handleSuccessfulOperation() {
-        $this->addSuccessFlash($this->successFlashMessage);
-        if ($this->redirectUrl !== false) {
-            return $this->redirectToNextPage();
-        }
-
-        return $this->renderViewFile(['model' => $this->getModel()]);
-    }
-
-    protected function handleFailedOperation() {
-        $this->addErrorFlash($this->validationFailedFlashMessage);
-
-        return $this->printView();
     }
 
     protected function tryToSaveEntity() {
@@ -90,6 +79,7 @@ abstract class EntityModificationAction extends Action {
             }
         }
         if ($savedSuccessfully) {
+            // @TODO seems like duplicates handleSuccessfulOperation - need to investigate
             $this->addSuccessFlash($this->successFlashMessage);
         } else {
             $this->addErrorFlash($this->failToSaveErrorFlashMessage);
@@ -98,25 +88,32 @@ abstract class EntityModificationAction extends Action {
         return $savedSuccessfully;
     }
 
-    protected function redirectToNextPage() {
+    /**
+     * Defines default redirect URL.
+     *
+     * If you need to change redirect action, set {@link defaultRedirectUrlAction} at action init.
+     *
+     * Override this method if you need to define custom format of URL.
+     *
+     * @return array url definition;
+     */
+    protected function prepareDefaultRedirectUrl() {
         $entity = $this->getModel()->convertToEntity();
-        if (null === $this->redirectUrl) {
-            $redirectUrl = ['edit', 'id' => $entity->id];
-        } elseif (is_callable($this->redirectUrl)) {
-            $redirectUrl = call_user_func($this->redirectUrl, $entity, $this);
-        } else {
-            $redirectUrl = $this->redirectUrl;
-        }
 
-        return $this->controller->redirect($redirectUrl, $this->getRequestStatusCore());
+        return [$this->defaultRedirectUrlAction, 'id' => $entity->id];
     }
 
-    protected function getRequestStatusCore() {
-        if ($this->getServiceLocator()->request->isAjax) {
-            return ResponseHttpStatus::OK;
-        }
+    /**
+     * Prepares params for a redirect URL callback set to {@link redirectUrl}
+     *
+     * Override this method if you need to define custom params.
+     *
+     * @return array url definition;
+     */
+    protected function prepareRedirectUrlCallbackParams(): array {
+        $entity = $this->getModel()->convertToEntity();
 
-        return ResponseHttpStatus::FOUND;
+        return [$entity, $this];
     }
 
     public function getModel() {
@@ -125,5 +122,14 @@ abstract class EntityModificationAction extends Action {
         }
 
         return $this->_model;
+    }
+
+    /**
+     * @override
+     */
+    protected function getRequiredViewParams(): array {
+        return [
+            'model' => $this->getModel(),
+        ];
     }
 }

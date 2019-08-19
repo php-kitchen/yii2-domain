@@ -6,7 +6,10 @@ use PHPKitchen\Domain\Contracts\Repository;
 use PHPKitchen\Domain\DB\EntitiesRepository;
 
 /**
- * Defines interfaces of classes aware of repository
+ * Represent classes aware of repository
+ *
+ * Own properties:
+ * @property \PHPKitchen\Domain\DB\EntitiesRepository $repository
  *
  * @package PHPKitchen\Domain\Web\Contracts
  * @author Vladimir Siritsa <vladimir.siritsa@bitfocus.com>
