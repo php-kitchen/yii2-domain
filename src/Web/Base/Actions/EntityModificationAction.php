@@ -104,16 +104,13 @@ abstract class EntityModificationAction extends Action {
     }
 
     /**
-     * Prepares params for a redirect URL callback set to {@link redirectUrl}
-     *
-     * Override this method if you need to define custom params.
-     *
-     * @return array url definition;
+     * @override base implementation for BC compatibility.
+     * @TODO remove it in the next major release
      */
-    protected function prepareRedirectUrlCallbackParams(): array {
+    protected function callRedirectUrlCallback(): array {
         $entity = $this->getModel()->convertToEntity();
 
-        return [$entity, $this];
+        return call_user_func($this->redirectUrl, $entity, $this);
     }
 
     public function getModel() {
@@ -127,9 +124,10 @@ abstract class EntityModificationAction extends Action {
     /**
      * @override
      */
-    protected function getRequiredViewParams(): array {
-        return [
-            'model' => $this->getModel(),
-        ];
+    protected function prepareViewContext(): array {
+        $context = $this->prepareViewContext();
+        $context['model'] = $this->getModel();
+
+        return $context;
     }
 }

@@ -6,11 +6,15 @@ namespace PHPKitchen\Domain\Web\Base\Mixins;
  * Represent mixin that adds support for redirecting response to an another page.
  *
  * Parent properties:
+ *
  * @property \PHPKitchen\Domain\Contracts\EntityCrudController|\yii\web\Controller $controller
  *
  * @package PHPKitchen\Domain\Web\Base\Mixins
  */
 trait ResponseManagement {
+    /**
+     * @var string|array|callable a url to redirect to a next page.
+     */
     public $redirectUrl;
 
     /**
@@ -19,12 +23,6 @@ trait ResponseManagement {
      * @return mixed URL to redirect
      */
     abstract protected function prepareDefaultRedirectUrl();
-    /**
-     * Implement this method to define params being passed to callback set into {@link redirectUrl}.
-     *
-     * @return mixed URL to redirect
-     */
-    abstract protected function prepareRedirectUrlCallbackParams(): array;
 
     /**
      * Redirects to a next page based on URL defined at {@link redirectUrl} or defined by {@link redirectToNextPage}.
@@ -35,8 +33,7 @@ trait ResponseManagement {
         if (null === $this->redirectUrl) {
             $redirectUrl = $this->prepareDefaultRedirectUrl();
         } elseif (is_callable($this->redirectUrl)) {
-            $callbackParams = $this->prepareRedirectUrlCallbackParams();
-            $redirectUrl = call_user_func($this->redirectUrl, ...$callbackParams);
+            $redirectUrl = $this->callRedirectUrlCallback();
         } else {
             $redirectUrl = $this->redirectUrl;
         }
@@ -44,4 +41,7 @@ trait ResponseManagement {
         return $this->controller->redirect($redirectUrl, $this->getRequestStatusCore());
     }
 
+    protected function callRedirectUrlCallback() {
+        return call_user_func($this->redirectUrl, $this);
+    }
 }

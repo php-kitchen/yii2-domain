@@ -19,6 +19,7 @@ use yii\helpers\Inflector;
  * Represents a base class for all controller actions that utilize Yii2Domain features.
  *
  * Own properties:
+ *
  * @property int $requestStatusCore
  *
  * Base properties:
@@ -51,6 +52,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      * @var string default action to redirect using {@link redirectToNextPage}
      */
     protected $defaultRedirectUrlAction = 'index';
+
     /**
      * Checks whether action with specified ID exists in owner controller.
      *
@@ -60,11 +62,8 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      */
     protected function isActionExistsInController($id): bool {
         $inlineActionMethodName = 'action' . Inflector::camelize($id);
-        if ($this->controller->hasMethod($inlineActionMethodName) || array_key_exists($id, $this->controller->actions())) {
-            return true;
-        }
 
-        return false;
+        return $this->controller->hasMethod($inlineActionMethodName) || array_key_exists($id, $this->controller->actions());
     }
 
     protected function setViewFileIfNotSetTo($file) {
@@ -72,40 +71,123 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     }
 
     /**
-     * Prints page view file defined in {@link viewFile}.
-     * Params being passed to view from {@link getDefaultViewParams}
+     * Prints page view file defined at {@link viewFile}.
+     * Params being passed to view from {@link prepareViewContext} and {@link getDefaultViewParams}
      *
-     * @return string page content
+     * @return string the rendering result.
      */
     protected function printView() {
         return $this->printable ? $this->renderViewFile([]) : $this->redirectToNextPage();
     }
 
+    /**
+     * Renders a view defined at {@link viewFile} and applies layout if available.
+     *
+     *
+     * @param array $params the parameters (name-value pairs) that should be made available in the view.
+     * Params are extended by {@link prepareViewContext} and {@link getDefaultViewParams}
+     *
+     * @return string the rendering result.
+     */
     protected function renderViewFile($params = []) {
-        $viewParams = array_merge($this->getRequiredViewParams(), $this->getDefaultViewParams());
+        return $this->controller->render($this->viewFile, $this->prepareParamsForViewFile($params));
+    }
+
+    /**
+     * Renders a view defined at {@link viewFile} without applying layout.
+     * It will inject into the rendering result JS/CSS scripts and files which are registered with
+     * the view.
+     *
+     * @param array $params the parameters (name-value pairs) that should be made available in the view.
+     * Params are extended by {@link prepareViewContext} and {@link getDefaultViewParams}
+     *
+     * @return string the rendering result.
+     */
+    protected function renderViewFileForAjax($params = []) {
+        return $this->controller->renderAjax($this->viewFile, $this->prepareParamsForViewFile($params));
+    }
+
+    /**
+     * Prepares params for {@link viewFile} extending them wit the ones defined by  {@link prepareViewContext}
+     * and {@link getDefaultViewParams}.
+     *
+     * @param $params name-value pairs
+     *
+     * @return array parameters (name-value pairs)
+     */
+    protected function prepareParamsForViewFile($params): array {
+        $viewParams = array_merge($this->prepareViewContext(), $this->getDefaultViewParams());
         $viewParams = array_merge($viewParams, $params);
         if (is_callable($this->prepareViewParams)) {
             $params = call_user_func($this->prepareViewParams, $viewParams, $this);
         }
 
-        return $this->controller->render($this->viewFile, $params);
+        return $params;
     }
 
     /**
-     * Override this method to set params that should be passed to a view file.
+     * Renders a view file.
      *
-     * @return array view params
+     * @param array $params the parameters (name-value pairs) that should be made available in the view.
+     * Params are extended by {@link prepareViewContext}.
+     *
+     * @return string the rendering result.
+     */
+    protected function renderFile($params = []) {
+        $params = array_merge($this->prepareViewContext(), $params);
+
+        return $this->controller->renderFile($this->viewFile, $params);
+    }
+
+    /**
+     * Renders a file without applying layout.
+     *
+     * @param array $params the parameters (name-value pairs) that should be made available in the view.
+     * Params are extended by {@link prepareViewContext}.
+     *
+     * @return string the rendering result.
+     */
+    protected function renderPartial($params = []) {
+        $params = array_merge($this->prepareViewContext(), $params);
+
+        return $this->controller->renderPartial($this->viewFile, $params);
+    }
+
+    /**
+     * Renders a view in response to an AJAX request.
+     *
+     * This method is similar to {@link renderPartial} except that it will inject into
+     * the rendering result with JS/CSS scripts and files which are registered with the view.
+     * For this reason, you should use this method instead of {@link renderPartial} to render
+     * a view to respond to an AJAX request.
+     *
+     * @param array $params the parameters (name-value pairs) that should be made available in the view.
+     * Params are extended by {@link prepareViewContext}.
+     *
+     * @return string the rendering result.
+     */
+    protected function renderAjax($params = []) {
+        $params = array_merge($this->prepareViewContext(), $params);
+
+        return $this->controller->renderAjax($this->viewFile, $params);
+    }
+
+    /**
+     * Override this method to set params that should be passed to a view file defined at {@link viewFile}.
+     *
+     * @return array of view params (name-value pairs).
      */
     protected function getDefaultViewParams(): array {
         return [];
     }
 
     /**
-     * Override this method to set required static params that should be passed to a view file.
+     * Override this method to set variables that will be passed to any file rendered by
+     * an action.
      *
-     * @return array view params
+     * @return array of view params (name-value pairs).
      */
-    protected function getRequiredViewParams(): array {
+    protected function prepareViewContext(): array {
         return [];
     }
 
@@ -120,17 +202,6 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
      */
     protected function prepareDefaultRedirectUrl() {
         return [$this->defaultRedirectUrlAction];
-    }
-
-    /**
-     * Prepares params for a redirect URL callback set to {@link redirectUrl}
-     *
-     * Override this method if you need to define custom params.
-     *
-     * @return array url definition;
-     */
-    protected function prepareRedirectUrlCallbackParams(): array {
-        return  [$this];
     }
 
     /**
