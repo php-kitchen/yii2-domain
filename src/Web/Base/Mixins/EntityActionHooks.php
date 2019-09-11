@@ -15,15 +15,12 @@ namespace PHPKitchen\Domain\Web\Base\Mixins;
  * Parent properties:
  * @property \PHPKitchen\Domain\Contracts\EntityCrudController|\yii\web\Controller $controller
  *
- * @see SessionMessagesManagement
- * @see ResponseManagement
+ * @uses SessionMessagesManagement
+ * @uses ResponseManagement
  *
  * @package PHPKitchen\Domain\Web\Base\Mixins
  */
 trait EntityActionHooks {
-    use SessionMessagesManagement;
-    use ResponseManagement;
-
     public $failToSaveErrorFlashMessage = 'Unable to save entity';
     public $validationFailedFlashMessage = 'Please correct errors.';
     public $successFlashMessage = 'Changes successfully saved.';

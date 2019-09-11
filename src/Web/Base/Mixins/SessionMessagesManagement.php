@@ -53,7 +53,7 @@ trait SessionMessagesManagement {
         if (!$this->useFlashMessages || empty($message)) {
             return;
         }
-        $session = $this->serviceLocator->session;
+        $session = $this->session;
         foreach ((array)$message as $key => $value) {
             if (is_scalar($value)) {
                 $value = preg_replace_callback("/{(\\w+)}/", function ($matches) use ($params) {

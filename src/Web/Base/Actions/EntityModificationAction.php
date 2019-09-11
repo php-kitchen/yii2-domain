@@ -19,8 +19,6 @@ use PHPKitchen\Domain\Web\Mixins\ViewModelManagement;
 abstract class EntityModificationAction extends Action {
     use ViewModelManagement;
     use ModelSearching;
-    use ResponseManagement;
-    use SessionMessagesManagement;
     use EntityActionHooks;
     /**
      * @var int indicates whether to throw exception or handle it
