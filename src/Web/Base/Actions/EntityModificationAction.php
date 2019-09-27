@@ -123,7 +123,7 @@ abstract class EntityModificationAction extends Action {
      * @override
      */
     protected function prepareViewContext(): array {
-        $context = $this->prepareViewContext();
+        $context = parent::prepareViewContext();
         $context['model'] = $this->getModel();
 
         return $context;
