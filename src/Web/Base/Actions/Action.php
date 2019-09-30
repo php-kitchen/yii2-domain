@@ -108,7 +108,7 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
     }
 
     /**
-     * Prepares params for {@link viewFile} extending them wit the ones defined by  {@link prepareViewContext}
+     * Prepares params for {@link viewFile} extending them wit the ones defined by {@link prepareViewContext}
      * and {@link getDefaultViewParams}.
      *
      * @param $params name-value pairs
@@ -119,10 +119,10 @@ class Action extends \yii\base\Action implements ServiceLocatorAware, ContainerA
         $viewParams = array_merge($this->prepareViewContext(), $this->getDefaultViewParams());
         $viewParams = array_merge($viewParams, $params);
         if (is_callable($this->prepareViewParams)) {
-            $params = call_user_func($this->prepareViewParams, $viewParams, $this);
+            $viewParams = call_user_func($this->prepareViewParams, $viewParams, $this);
         }
 
-        return $params;
+        return $viewParams;
     }
 
     /**
