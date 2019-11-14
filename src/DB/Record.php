@@ -232,13 +232,22 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
             return parent::createRelationQuery($class, $link, $multiple);
         }
 
-        $query = $repository->find()->getQuery();
+        $query = $this->getQueryFromRepository($repository);
 
         $query->primaryModel = $this;
         $query->link = $link;
         $query->multiple = $multiple;
 
         return $query;
+    }
+
+    /**
+     * @param EntitiesRepository $repository
+     *
+     * @return ActiveQueryInterface
+     */
+    protected function getQueryFromRepository($repository) {
+        return $repository->find()->getQuery();
     }
 
     /**
