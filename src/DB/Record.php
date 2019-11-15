@@ -242,6 +242,8 @@ class Record extends ActiveRecord implements Contracts\Record, ContainerAware, S
     }
 
     /**
+     * @deprecated this method should use only for domestic purposes
+     *
      * @param EntitiesRepository $repository
      *
      * @return ActiveQueryInterface
