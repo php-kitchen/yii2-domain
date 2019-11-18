@@ -152,8 +152,12 @@ class EntitiesRepository extends Base\Repository {
         return $dataSource->getChangedAttribute($name);
     }
 
-    public function wasAttributeChanged(Contracts\DomainEntity $entity, string $name): bool {
+    public function wasAttributeChanged(Contracts\DomainEntity $entity, string $name, bool $checkByValue = false): bool {
         $dataSource = $entity->getDataMapper()->getDataSource();
+
+        if ($checkByValue) {
+            return $this->getChangedAttribute($entity, $name) != $entity->{$name};
+        }
 
         return $dataSource->wasAttributeChanged($name);
     }
