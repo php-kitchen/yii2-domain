@@ -3,9 +3,9 @@
 </p>
 
 <p align="center">
-    <a href="https://travis-ci.org/php-kitchen/yii2-domain"><img src="https://travis-ci.org/php-kitchen/yii2-domain.svg?branch=master" alt="Build Status"></a>
+    <a href="https://app.buddy.works/php-kitchen/yii2-domain/pipelines"><img src="https://app.buddy.works/php-kitchen/yii2-domain/pipelines/pipeline/225818/badge.svg?token=b1a396bc03020a62450dcceeaf652de56c287593c5a899155bfcab4b65ce5641" alt="Build Status"></a>
     <a href="https://github.com/php-kitchen/code-specs"><img src="https://img.shields.io/badge/Tested_By-CodeSpecs-brightgreen.svg" alt="Tested By"></a>
-    <a href="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/?branch=master"><img src="https://scrutinizer-ci.com/g/php-kitchen/yii2-domain/badges/quality-score.png?b=master" alt="Code Quality"></a>
+    <a href="https://codeclimate.com/github/php-kitchen/yii2-domain/maintainability"><img src="https://api.codeclimate.com/v1/badges/0af02187488d0d2d70ad/maintainability" /></a>
     <a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/v/stable.svg" alt="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/d/monthly" alt="Monthly Downloads"></a>
     <a href="https://packagist.org/packages/php-kitchen/yii2-domain"><img src="https://poser.pugx.org/php-kitchen/yii2-domain/d/total.svg" alt="Total Downloads"></a>
