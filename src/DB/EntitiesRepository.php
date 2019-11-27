@@ -152,10 +152,35 @@ class EntitiesRepository extends Base\Repository {
         return $dataSource->getChangedAttribute($name);
     }
 
+    /**
+     * Method returns the result of checking whether the attribute was changed during
+     * the saving of the entity.
+     * Be aware! False positive possible because of Yii BaseActiveRecord::getDirtyAttributes()
+     * method compares values with type matching
+     *
+     * @param Contracts\DomainEntity $entity
+     * @param string $name
+     *
+     * @return bool
+     */
     public function wasAttributeChanged(Contracts\DomainEntity $entity, string $name): bool {
         $dataSource = $entity->getDataMapper()->getDataSource();
 
         return $dataSource->wasAttributeChanged($name);
+    }
+
+    /**
+     * Method returns the result of checking whether the attribute value was changed during
+     * the saving of the entity.
+     * Be aware! This method compare old value with new without type comparison.
+     *
+     * @param Contracts\DomainEntity $entity
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function wasAttributeValueChanged(Contracts\DomainEntity $entity, string $name): bool {
+        return $this->getChangedAttribute($entity, $name) != $entity->{$name};
     }
     //endregion
 

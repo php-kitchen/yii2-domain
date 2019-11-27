@@ -65,4 +65,6 @@ interface Repository {
     public function getChangedAttribute(DomainEntity $entity, string $name);
 
     public function wasAttributeChanged(DomainEntity $entity, string $name): bool;
+
+    public function wasAttributeValueChanged(DomainEntity $entity, string $name): bool;
 }
