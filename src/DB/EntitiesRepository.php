@@ -28,7 +28,7 @@ class EntitiesRepository extends Base\Repository {
      * @var string indicates what finder to use. By default equal following template "{model name}Finder" where model name is equal to
      * the repository class name without "Repository" suffix.
      */
-    private $_finderClassName;
+    protected $_finderClassName;
     /**
      * @var string entities finder class name. This class being used if no finder specified in morel directory. Change it
      * in {@link init()} method if you need custom default finder.
