@@ -20,7 +20,7 @@ abstract class CallableAction extends Action {
     private $_callable;
 
     protected function runCallable() {
-        call_user_func($this->callable, $this);
+        return call_user_func($this->callable, $this);
     }
 
     public function getCallable(): callable {
